@@ -10,7 +10,7 @@ baseurl:          /blog
 
 # Setup
 title:            PMML in Action
-tagline:          Practical solutions to PMML-related problems
+tagline:          Practical Solutions to Predictive Analytics Problems
 url:              http://openscoring.io
 
 author:
@@ -18,3 +18,8 @@ author:
   email:          villu.ruusmann@gmail.com
 
 paginate:         3
+
+pages_list:
+  About:          /about/
+  Archive:        /archive/
+  Feed:           /atom.xml
