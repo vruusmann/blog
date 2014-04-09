@@ -5,20 +5,16 @@ pygments:         true
 # Permalinks
 permalink:        pretty
 
+# GitHub project page
+baseurl:          /blog
+
 # Setup
-title:            Poole
-tagline:          The Jekyll Butler
-description:      Base theme for Jekyll themes by @mdo.
-url:              http://getpoole.com
+title:            PMML in Action
+tagline:          Practical solutions to PMML-related problems
+url:              http://openscoring.io
 
 author:
-  name:           Mark Otto
-  url:            https://twitter.com/mdo
+  name:           Villu Ruusmann
+  email:          villu.ruusmann@gmail.com
 
-paginate:         1
-
-# Custom vars
-version:          1.0.0
-
-github:
-  repo:           https://github.com/poole/poole
+paginate:         3
