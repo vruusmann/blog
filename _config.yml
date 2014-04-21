@@ -13,11 +13,13 @@ title:            PMML in Action
 tagline:          Practical Solutions to Predictive Analytics Problems
 url:              http://openscoring.io
 
+excerpt_separator: <!-- more -->
+
 author:
   name:           Villu Ruusmann
   email:          villu.ruusmann@gmail.com
 
-paginate:         3
+paginate:         1
 
 pages_list:
   About:          /about/
