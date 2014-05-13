@@ -5,7 +5,7 @@ title: "Testing PMML Applications"
 
 The [JPMML-Evaluator] (https://github.com/jpmml/jpmml-evaluator) library aims to provide high quality service to its users. The main module contains unit tests that ensure compliance with the PMML specification. Additionally, there are several support modules that contain integration tests that ensure interoperability with popular open-source PMML producer software such as [R/Rattle] (http://rattle.togaware.com/), [KNIME] (http://knime.com/) and [RapidMiner] (http://rapidminer.com/).
 
-However, there can never be too much testing. Application developers are encouraged to create and maintain custom integration test modules that replicate models and datasets from their production environments. Such integration tests lower the risk of change. They make it more secure to keep up with the latest version of the [JPMML-Evaluator] (https://github.com/jpmml/jpmml-evaluator) library (on average, released on a monthly basis) or the PMML producer software, or switch from one PMML producer software to another.
+However, there can never be too much testing. Application developers are encouraged to create and maintain custom integration test modules that replicate models and datasets from their production environments. Such integration tests lower the risk of change. They make it more secure to keep up with the latest version of the JPMML-Evaluator library (on average, released on a monthly basis) or the PMML producer software, or switch from one PMML producer software to another.
 
 The current blog post details a batch evaluation method for integration testing purposes. The heavy lifting is handled by the method `org.jpmml.evaluator.BatchUtil#difference(org.jpmml.evaluator.Batch, double, double)`. A test case, which is represented by the interface `org.jpmml.evaluator.Batch`, is a triplet of streaming resources:
 
@@ -13,7 +13,7 @@ The current blog post details a batch evaluation method for integration testing 
  * Input CSV. Contains active and group field(s) as specified by the `MiningSchema` element.
  * Output CSV. Contains target and output field(s) as specified by the `MiningSchema` and `Output` elements.
 
-The [JPMML-Evaluator] (https://github.com/jpmml/jpmml-evaluator) library packages and distributes test classes as a separate JAR file. It can be included into Apache Maven builds using the following dependency declaration:
+The JPMML-Evaluator library packages and distributes test classes as a separate JAR file. It can be included into Apache Maven builds using the following dependency declaration:
 {% highlight xml %}
 <dependency>
 	<groupId>org.jpmml</groupId>
