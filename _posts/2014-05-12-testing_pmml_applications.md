@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Testing PMML Applications"
+title: "Testing PMML applications"
 ---
 
 The [JPMML-Evaluator] (https://github.com/jpmml/jpmml-evaluator) library aims to provide high quality service to its users. The main module contains unit tests that ensure compliance with the PMML specification. Additionally, there are several support modules that contain integration tests that ensure interoperability with popular open-source PMML producer software such as [R/Rattle] (http://rattle.togaware.com/), [KNIME] (http://knime.com/) and [RapidMiner] (http://rapidminer.com/).
@@ -16,11 +16,11 @@ The current blog post details a batch evaluation method for integration testing 
 The JPMML-Evaluator library packages and distributes test classes as a separate JAR file. It can be included into Apache Maven builds using the following dependency declaration:
 {% highlight xml %}
 <dependency>
-	<groupId>org.jpmml</groupId>
-	<artifactId>pmml-evaluator</artifactId>
-	<version>${jpmml.version}</version>
-	<type>test-jar</type>
-	<scope>test</scope>
+  <groupId>org.jpmml</groupId>
+  <artifactId>pmml-evaluator</artifactId>
+  <version>${jpmml.version}</version>
+  <type>test-jar</type>
+  <scope>test</scope>
 </dependency>
 {% endhighlight %}
 
@@ -82,18 +82,18 @@ import org.junit.Test;
 
 public class ClassificationTest {
 
-	@Test
-	public void evaluateDecisionTreeIris() throws Exception {
-		// Abstract class ArchiveBatch can be instantiated as an anonymous inner class
-		Batch batch = new ArchiveBatch("DecisionTree", "Iris"){};
+  @Test
+  public void evaluateDecisionTreeIris() throws Exception {
+    // Abstract class ArchiveBatch can be instantiated as an anonymous inner class
+    Batch batch = new ArchiveBatch("DecisionTree", "Iris"){};
 
-		List<MapDifference<FieldName, ?>> differences = BatchUtil.difference(batch, 1.e-6, 1.e-6);
-		if(!differences.isEmpty()){
-			System.err.println(differences);
+    List<MapDifference<FieldName, ?>> differences = BatchUtil.difference(batch, 1.e-6, 1.e-6);
+    if(!differences.isEmpty()){
+      System.err.println(differences);
 
-			Assert.fail();
-		}
-	}
+      Assert.fail();
+    }
+  }
 }
 {% endhighlight %}
 

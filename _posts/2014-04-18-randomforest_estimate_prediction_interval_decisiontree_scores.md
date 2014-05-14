@@ -21,7 +21,7 @@ boston.predict = predict(boston.randomForest, newdata = Boston, predict.all = TR
 boston.predict$sd = apply(boston.predict$individual, 1, FUN = sd)
 
 drawErrorBars = function(x, y, sd, col){
-	arrows(x, y - sd, x, y + sd, length = 0.05, angle = 90, code = 3, col = col)
+  arrows(x, y - sd, x, y + sd, length = 0.05, angle = 90, code = 3, col = col)
 }
 
 plot(Boston$medv, boston.predict$aggregate, xlab = "medv", ylab = "Predicted medv")
@@ -45,27 +45,27 @@ The predicted field "medv" and the output field "Predicted\_medv" are identical 
 Consider the following input record:
 {% highlight json %}
 {
- "crim" : 0.00632,
- "zn" : 18,
- "indus" : 2.31,
- "chas" : 0,
- "nox" : 0.538,
- "rm" : 6.575,
- "age" : 65.2,
- "dis" : 4.09,
- "rad" : 1,
- "tax" : 296,
- "ptratio" : 15.3,
- "black" : 396.9,
- "lstat" : 4.98
+  "crim" : 0.00632,
+  "zn" : 18,
+  "indus" : 2.31,
+  "chas" : 0,
+  "nox" : 0.538,
+  "rm" : 6.575,
+  "age" : 65.2,
+  "dis" : 4.09,
+  "rad" : 1,
+  "tax" : 296,
+  "ptratio" : 15.3,
+  "black" : 396.9,
+  "lstat" : 4.98
 }
 {% endhighlight %}
 
 This input record evaluates to the following output record:
 {% highlight json %}
 {
- "medv" : 24.807583333333326,
- "Predicted_medv" : 24.807583333333326
+  "medv" : 24.807583333333326,
+  "Predicted_medv" : 24.807583333333326
 }
 {% endhighlight %}
 
@@ -74,8 +74,8 @@ The aggregation function can be deactivated by setting the `multipleModelMethod`
 The output record now becomes:
 {% highlight json %}
 {
- "medv" : [24.32, 23.0, 24.1, 26.15, 24.0, 16.5, 23.98, 23.95, 25.96, 30.6, 23.975, 23.7333333333333, 31.42, 23.64, 29.5333333333333, 23.94, 24.0, 24.0, 24.9, 24.45], 
- "Predicted_medv" : [24.32, 23.0, 24.1, 26.15, 24.0, 16.5, 23.98, 23.95, 25.96, 30.6, 23.975, 23.7333333333333, 31.42, 23.64, 29.5333333333333, 23.94, 24.0, 24.0, 24.9, 24.45]
+  "medv" : [24.32, 23.0, 24.1, 26.15, 24.0, 16.5, 23.98, 23.95, 25.96, 30.6, 23.975, 23.7333333333333, 31.42, 23.64, 29.5333333333333, 23.94, 24.0, 24.0, 24.9, 24.45], 
+  "Predicted_medv" : [24.32, 23.0, 24.1, 26.15, 24.0, 16.5, 23.98, 23.95, 25.96, 30.6, 23.975, 23.7333333333333, 31.42, 23.64, 29.5333333333333, 23.94, 24.0, 24.0, 24.9, 24.45]
 }
 {% endhighlight %}
 
@@ -96,7 +96,7 @@ FieldName medv = new FieldName("medv");
 // This unchecked cast is rather aggressive, but should be always good when dealing with regression-type models
 Collection<? extends Number> values = (Collection<? extends Number>)result.get(medv);
 for(Number value : values){
-	System.out.println(value);
+  System.out.println(value);
 }
 {% endhighlight %}
 
@@ -118,46 +118,46 @@ java -cp "server-executable-1.1-SNAPSHOT.jar;pmml-extension-1.1.3.jar" org.opens
 The `Output` element after enhancement:
 {% highlight xml %}
 <Output>
- <!-- Omitted field "Predicted_medv" -->
- <OutputField name="Mean_medv" feature="transformedValue">
-  <Apply function="org.jpmml.evaluator.functions.MeanFunction">
-   <FieldRef field="Predicted_medv"/>
-  </Apply>
- </OutputField>
- <OutputField name="SD_medv" feature="transformedValue">
-  <Apply function="org.jpmml.evaluator.functions.StandardDeviationFunction">
-   <FieldRef field="Predicted_medv"/>
-   <Constant dataType="boolean">true</Constant>
-  </Apply>
- </OutputField>
- <OutputField name="Conf95_medv_lower" feature="transformedValue">
-  <Apply function="-">
-   <FieldRef field="Mean_medv"/>
-   <Apply function="*">
-    <FieldRef field="SD_medv"/>
-    <Constant>2</Constant>
-   </Apply>
-  </Apply>
- </OutputField>
- <OutputField name="Conf95_medv_upper" feature="transformedValue">
-  <Apply function="+">
-   <FieldRef field="Mean_medv"/>
-   <Apply function="*">
-    <FieldRef field="SD_medv"/>
-    <Constant>2</Constant>
-   </Apply>
-  </Apply>
- </OutputField>
+  <!-- Omitted field "Predicted_medv" -->
+  <OutputField name="Mean_medv" feature="transformedValue">
+    <Apply function="org.jpmml.evaluator.functions.MeanFunction">
+      <FieldRef field="Predicted_medv"/>
+    </Apply>
+  </OutputField>
+  <OutputField name="SD_medv" feature="transformedValue">
+    <Apply function="org.jpmml.evaluator.functions.StandardDeviationFunction">
+      <FieldRef field="Predicted_medv"/>
+      <Constant dataType="boolean">true</Constant>
+    </Apply>
+  </OutputField>
+  <OutputField name="Conf95_medv_lower" feature="transformedValue">
+    <Apply function="-">
+      <FieldRef field="Mean_medv"/>
+      <Apply function="*">
+        <FieldRef field="SD_medv"/>
+        <Constant>2</Constant>
+      </Apply>
+    </Apply>
+  </OutputField>
+  <OutputField name="Conf95_medv_upper" feature="transformedValue">
+    <Apply function="+">
+      <FieldRef field="Mean_medv"/>
+      <Apply function="*">
+        <FieldRef field="SD_medv"/>
+        <Constant>2</Constant>
+      </Apply>
+    </Apply>
+  </OutputField>
 </Output>
 {% endhighlight %}
 
 The output record now becomes:
 {% highlight json %}
 {
- "Mean_medv" : 24.80758333333333,
- "SD_medv" : 3.1054891731232863,
- "Conf95_medv_lower" : 18.596604987086756,
- "Conf95_medv_upper" : 31.018561679579904
+  "Mean_medv" : 24.80758333333333,
+  "SD_medv" : 3.1054891731232863,
+  "Conf95_medv_lower" : 18.596604987086756,
+  "Conf95_medv_upper" : 31.018561679579904
 }
 {% endhighlight %}
 
@@ -166,26 +166,26 @@ The output record now becomes:
 The `Output` element after enhancement:
 {% highlight xml %}
 <Output>
- <!-- Omitted field "Predicted_medv" -->
- <OutputField name="Quantile5_medv" feature="transformedValue">
-  <Apply function="org.jpmml.evaluator.functions.PercentileFunction">
-   <FieldRef field="Predicted_medv"/>
-   <Constant>5</Constant>
-  </Apply>
- </OutputField>
- <OutputField name="Quantile95_medv" feature="transformedValue">
-  <Apply function="org.jpmml.evaluator.functions.PercentileFunction">
-   <FieldRef field="Predicted_medv"/>
-   <Constant>95</Constant>
-  </Apply>
- </OutputField>
+  <!-- Omitted field "Predicted_medv" -->
+  <OutputField name="Quantile5_medv" feature="transformedValue">
+    <Apply function="org.jpmml.evaluator.functions.PercentileFunction">
+      <FieldRef field="Predicted_medv"/>
+      <Constant>5</Constant>
+    </Apply>
+  </OutputField>
+  <OutputField name="Quantile95_medv" feature="transformedValue">
+    <Apply function="org.jpmml.evaluator.functions.PercentileFunction">
+      <FieldRef field="Predicted_medv"/>
+      <Constant>95</Constant>
+    </Apply>
+  </OutputField>
 </Output>
 {% endhighlight %}
 
 The output record now becomes:
 {% highlight json %}
 {
- "Quantile5_medv" : 16.825,
- "Quantile95_medv" : 31.379
+  "Quantile5_medv" : 16.825,
+  "Quantile95_medv" : 31.379
 }
 {% endhighlight %}

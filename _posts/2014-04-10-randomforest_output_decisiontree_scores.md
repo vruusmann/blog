@@ -26,21 +26,21 @@ The `Output` element contains four `OutputField` elements. The first output fiel
 Consider the following input record:
 {% highlight json %}
 {
- "Sepal.Length" : 5.1,
- "Sepal.Width" : 3.5,
- "Petal.Length" : 1.4,
- "Petal.Width" : 0.2
+  "Sepal.Length" : 5.1,
+  "Sepal.Width" : 3.5,
+  "Petal.Length" : 1.4,
+  "Petal.Width" : 0.2
 }
 {% endhighlight %}
 
 This input record evaluates the following output record:
 {% highlight json %}
 {
- "Species" : "setosa",
- "Predicted_Species" : "setosa",
- "Probability_setosa" : 0.8,
- "Probability_versicolor" : 0.2,
- "Probability_virginica" : 0.0
+  "Species" : "setosa",
+  "Predicted_Species" : "setosa",
+  "Probability_setosa" : 0.8,
+  "Probability_versicolor" : 0.2,
+  "Probability_virginica" : 0.0
 }
 {% endhighlight %}
 
@@ -51,23 +51,23 @@ The "debugging" work starts by declaring an `OutputField` element for every `Seg
 The `Output` element after the first enhancement round:
 {% highlight xml %}
 <Output>
- <!-- Omitted fields "Predicted_Species", "Probability_setosa", "Probability_versicolor" and "Probability_virginica" -->
- <OutputField name="tree_1" segmentId="1" feature="predictedValue"/>
- <OutputField name="tree_2" segmentId="2" feature="predictedValue"/>
- <OutputField name="tree_3" segmentId="3" feature="predictedValue"/>
- <OutputField name="tree_4" segmentId="4" feature="predictedValue"/>
- <OutputField name="tree_5" segmentId="5" feature="predictedValue"/>
+  <!-- Omitted fields "Predicted_Species", "Probability_setosa", "Probability_versicolor" and "Probability_virginica" -->
+  <OutputField name="tree_1" segmentId="1" feature="predictedValue"/>
+  <OutputField name="tree_2" segmentId="2" feature="predictedValue"/>
+  <OutputField name="tree_3" segmentId="3" feature="predictedValue"/>
+  <OutputField name="tree_4" segmentId="4" feature="predictedValue"/>
+  <OutputField name="tree_5" segmentId="5" feature="predictedValue"/>
 </Output>
 {% endhighlight %}
 
 The output record now becomes:
 {% highlight json %}
 {
- "tree_1" : "setosa",
- "tree_2" : "setosa",
- "tree_3" : "setosa",
- "tree_4" : "versicolor",
- "tree_5" : "setosa"
+  "tree_1" : "setosa",
+  "tree_2" : "setosa",
+  "tree_3" : "setosa",
+  "tree_4" : "versicolor",
+  "tree_5" : "setosa"
 }
 {% endhighlight %}
 
@@ -80,21 +80,21 @@ By modifying the `feature` attribute of the `OutputField` element it is possible
 The `Output` element after the second enhancement round:
 {% highlight xml %}
 <Output>
- <!-- Omitted fields "Predicted_Species", "Probability_setosa", "Probability_versicolor", "Probability_virginica", "tree_1", "tree_2", "tree_3", "tree_4" and "tree_5" -->
- <OutputField name="tree_4-nodeId" segmentId="4" targetField="Species" feature="entityId"/>
- <OutputField name="tree_4-Probability_setosa" segmentId="4" targetField="Species" feature="probability" value="setosa"/>
- <OutputField name="tree_4-Probability_versicolor" segmentId="4" targetField="Species" feature="probability" value="versicolor"/>
- <OutputField name="tree_4-Probability_virginica" segmentId="4" targetField="Species" feature="probability" value="virginica"/>
+  <!-- Omitted fields "Predicted_Species", "Probability_setosa", "Probability_versicolor", "Probability_virginica", "tree_1", "tree_2", "tree_3", "tree_4" and "tree_5" -->
+  <OutputField name="tree_4-nodeId" segmentId="4" targetField="Species" feature="entityId"/>
+  <OutputField name="tree_4-Probability_setosa" segmentId="4" targetField="Species" feature="probability" value="setosa"/>
+  <OutputField name="tree_4-Probability_versicolor" segmentId="4" targetField="Species" feature="probability" value="versicolor"/>
+  <OutputField name="tree_4-Probability_virginica" segmentId="4" targetField="Species" feature="probability" value="virginica"/>
 </Output>
 {% endhighlight %}
 
 The output record now becomes:
 {% highlight json %}
 {
- "tree_4-nodeId" : "2",
- "tree_4-Probability_setosa" : 0.0,
- "tree_4-Probability_versicolor" : 0.0,
- "tree_4-Probability_virginica" : 0.0
+  "tree_4-nodeId" : "2",
+  "tree_4-Probability_setosa" : 0.0,
+  "tree_4-Probability_versicolor" : 0.0,
+  "tree_4-Probability_virginica" : 0.0
 }
 {% endhighlight %}
 
