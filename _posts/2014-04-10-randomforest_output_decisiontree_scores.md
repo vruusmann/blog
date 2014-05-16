@@ -75,7 +75,7 @@ The dissenter is the fourth decision tree. It stands out from the rest because i
 
 Furher inspection of the random forest model reveals that the initial "flattening" idea has failed. There are four `Node` elements for "setosa", one for "versicolor" and five for "virginica". Therefore, this random forest model is unable to make successful predictions about the "versicolor" class, because the fourth decision tree will be always out-voted by two or more other decision trees.
 
-By modifying the `feature` attribute of the `OutputField` element it is possible to get additional details about the specified member model. A member model may return one or more target fields. The selection of a target field is handled using the `targetField` attribute of the `OutputField` element. This attribute is required according to the PMML specification if there are two or more target fields. However, it is advisable to make it explicit even if there is only one target field.
+By modifying the `feature` attribute of the `OutputField` element it is possible to get additional details about the specified member model. A member model may return one or more target fields. The selection of a target field is handled using the `targetField` attribute of the `OutputField` element. This attribute is required according to the PMML specification if there are two or more target fields. However, it is recommended to make it explicit even if there is only one target field.
 
 The `Output` element after the second enhancement round:
 {% highlight xml %}

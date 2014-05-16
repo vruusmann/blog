@@ -87,7 +87,7 @@ When the custom application code is implemented in Java, then it is possible to 
 
 The PMML specification leaves the representation of complex field values open. The JPMML-Evaluator library represents list-valued field values using standard Java Collections Framework classes.
 
-The following Java code iterates over all 20 values of the field "medv":
+The following Java source code iterates over all 20 values of the field "medv":
 {% highlight java %}
 public void printMedvValues(Map<FieldName, ?> result){
   FieldName medv = new FieldName("medv");
@@ -102,13 +102,13 @@ public void printMedvValues(Map<FieldName, ?> result){
 
 ### Java-backed user-defined functions ###
 
-Any class that implements interface `org.jpmml.evaluator.Function` qualifies as a user-defined function. It is recommended to extend an abstract class `org.jpmml.evaluator.functions.AbstractFunction` that provides utility methods for checking the number and data type of arguments, converting the result to proper data type etc.
+Any class that implements the interface `org.jpmml.evaluator.Function` qualifies as a user-defined function. It is recommended to extend the abstract class `org.jpmml.evaluator.functions.AbstractFunction` that provides utility methods for checking the number and data type of arguments, converting the result to proper data type etc.
 
 Function invocation is handled by the `Apply` element. The `name` attribute identifies the function. PMML [built-in functions] (http://www.dmg.org/v4-2/BuiltinFunctions.html) employ simple text tokens as identifiers (e.g. arithmetic functions "+", "-", "*" and "/"). Java-backed user-defined functions should employ fully-qualified names of the function classes as identifiers (e.g. "com.mycompany.myproject.functions.SomeFunction"). This convention allows for very efficient mapping from function names to actual implementing classes. The JPMML-Evaluator library can dynamically locate and load Java-backed user-defined functions from JAR files that are part of the application classpath.
 
-The JPMML-Evaluator library includes module "pmml-extension" that provides common user-defined functions [mean] (http://en.wikipedia.org/wiki/Mean) (class `org.jpmml.evaluator.functions.MeanFunction`), [standard deviation] (http://en.wikipedia.org/wiki/Standard_deviation) (class `org.jpmml.evaluator.functions.StandardDeviationFunction`) and [percentile] (http://en.wikipedia.org/wiki/Percentile) (class `org.jpmml.evaluator.functions.PercentileFunction`). Effectively, these user-defined function classes act as thin wrappers around the respective univariate statistic classes of the Apache [Commons Math] (http://commons.apache.org/proper/commons-math/) library. The latest ready to use module JAR file can be obtained from the [Maven Central repository] (http://repo1.maven.org/maven2/org/jpmml/pmml-extension/) (groupId `org.jpmml` and artifactId `pmml-extension`).
+The JPMML-Evaluator library includes the module "pmml-extension" that provides common user-defined functions [mean] (http://en.wikipedia.org/wiki/Mean) (class `org.jpmml.evaluator.functions.MeanFunction`), [standard deviation] (http://en.wikipedia.org/wiki/Standard_deviation) (class `org.jpmml.evaluator.functions.StandardDeviationFunction`) and [percentile] (http://en.wikipedia.org/wiki/Percentile) (class `org.jpmml.evaluator.functions.PercentileFunction`). Effectively, these user-defined function classes act as thin wrappers around the respective univariate statistic classes of the Apache [Commons Math] (http://commons.apache.org/proper/commons-math/) library. The latest ready to use module JAR file can be obtained from the [Maven Central repository] (http://repo1.maven.org/maven2/org/jpmml/pmml-extension/) (groupId `org.jpmml` and artifactId `pmml-extension`).
 
-User-defined functions can be deployed by appending their JAR files (together with third-party dependency JAR files, if any) to the class path of the PMML consumer software. For example, the following command (Windows syntax) starts the [Openscoring REST web service] (https://github.com/jpmml/openscoring) and extends its "vocabulary of functions" with user-defined functions from module "pmml-extension":
+User-defined functions can be deployed by appending their JAR files (together with third-party dependency JAR files, if any) to the classpath of the PMML consumer software. For example, the following command (Windows syntax) starts the [Openscoring REST web service] (https://github.com/jpmml/openscoring) and extends its "vocabulary of functions" with user-defined functions from the module "pmml-extension":
 {% highlight bash %}
 java -cp "server-executable-1.1-SNAPSHOT.jar;pmml-extension-1.1.3.jar" org.openscoring.server.Main
 {% endhighlight %}

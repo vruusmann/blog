@@ -7,7 +7,7 @@ The [JPMML-Evaluator] (https://github.com/jpmml/jpmml-evaluator) library aims to
 
 However, there can never be too much testing. Application developers are encouraged to create and maintain custom integration test modules that replicate models and datasets from their production environments. Such integration tests lower the risk of change. They make it more secure to keep up with the latest version of the JPMML-Evaluator library (on average, released on a monthly basis) or the PMML producer software, or switch from one PMML producer software to another.
 
-The current blog post details a batch evaluation method for integration testing purposes. The heavy lifting is handled by the method `org.jpmml.evaluator.BatchUtil#difference(org.jpmml.evaluator.Batch, double, double)`. A test case, which is represented by the interface `org.jpmml.evaluator.Batch`, is a triplet of streaming resources:
+The current blog post details a batch evaluation method for integration testing purposes. The heavy lifting is handled by the method `org.jpmml.evaluator.BatchUtil#difference(Batch, double, double)`. A test case, which is represented by the interface `org.jpmml.evaluator.Batch`, is a triplet of streaming resources:
 
  * PMML.
  * Input CSV. Contains active and group field(s) as specified by the `MiningSchema` element.
@@ -28,7 +28,7 @@ Under the hood, the batch utility class loads data records from the input CSV re
 
 CSV resources must have column identifiers (i.e. the header row), because the mapping between PMML fields and CSV data table columns is by name. In contrast, CSV resources must not have row identifiers, because the mapping between input and output CSV data table rows is by position. The field delimiter character is the comma. Missing field values are indicated by string constants "NA" or "N/A" (without quotes).
 
-Class `org.jpmml.evaluator.ArchiveBatch` loads resources from the current Java Archive (JAR) file. A batch job is defined by a model identifier and a dataset identifier. These identifiers determine the locations of associated resources ("conventions over configuration"):
+The class `org.jpmml.evaluator.ArchiveBatch` loads resources from the current Java Archive (JAR) file. A batch job is defined by a model identifier and a dataset identifier. These identifiers determine the locations of associated resources ("conventions over configuration"):
 
  * PMML. `/pmml/<model identifier><dataset identifier>.pmml`
  * Input CSV. `/csv/<dataset identifier>.csv`
