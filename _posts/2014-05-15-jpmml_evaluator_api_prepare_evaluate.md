@@ -2,6 +2,7 @@
 layout: post
 title: "JPMML-Evaluator: Preparing arguments for evaluation"
 excerpt: "A Primer of Java PMML Evaluator API"
+author: vruusmann
 ---
 
 The central piece of the [JPMML-Evaluator] (https://github.com/jpmml/jpmml-evaluator) library is the interface `org.jpmml.evaluator.Evaluator`, which declares two methods `#prepare(FieldName, Object)` and `#evaluate(Map<FieldName, ?>)`. This API dates back to earliest versions (i.e. 1.0.2) and is still going strong.

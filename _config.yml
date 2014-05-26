@@ -15,10 +15,6 @@ url:              http://openscoring.io
 
 excerpt_separator: <!-- more -->
 
-author:
-  name:           Villu Ruusmann
-  email:          villu.ruusmann@gmail.com
-
 paginate:         10
 
 pages_list:

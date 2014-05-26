@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Random forest intelligence. Part 1: Outputting member decision tree scores"
+author: vruusmann
 ---
 
 A random forest model is a collection of decision tree models. The final prediction is computed by applying an aggregation function over member predictions. For classification- and clustering-type random forest models, this is typically a majority voting scheme, where the most frequent class label becomes the winner. For regression-type random forest models, this is typically the arithmetic mean. 

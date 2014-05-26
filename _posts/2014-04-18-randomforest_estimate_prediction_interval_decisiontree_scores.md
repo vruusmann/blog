@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Random forest intelligence. Part 2: Estimating the prediction interval based on member decision tree scores"
+author: vruusmann
 ---
 
 **Disclaimer**: ["prediction interval"] (http://en.wikipedia.org/wiki/Prediction_interval) is a well-defined concept in statistical inference. This blog post does not aim at such level of rigor. Here, "prediction interval" is more or less understood as "confidence interval of a prediction".
