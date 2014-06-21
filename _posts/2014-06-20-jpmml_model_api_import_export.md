@@ -63,13 +63,15 @@ The conversion from any PMML schema version 3.X or 4.X document to an PMML schem
 
 {% highlight java %}
 public PMML readPMML(InputStream is) throws Exception {
-  Source source = ImportFilter.apply(new InputSource(is));
+  ImportFilter filter = new ImportFilter(XMLReaderFactory.createXMLReader());
 
-  return JAXBUtil.unmarshalPMML(source);
+  SAXSource filteredSource = new SAXSource(filter, new InputSource(is));
+
+  return JAXBUtil.unmarshalPMML(filteredSource);
 }
 {% endhighlight %}
 
-The conversion in the opposite direction is implemented by class `org.jpmml.model.ExportFilter`. The simple API for XML (SAX) does not provide convenient means for applying XML filters to results. A reasonable workaround is to perform an XSL identity transformation on the initial result:
+The conversion in the opposite direction is implemented by class `org.jpmml.model.ExportFilter`. Java's simple API for XML (SAX) does not provide means for applying XML filters to results. In theory, it should be possible to perform XML filtering on a result obtained from the PMML marshaller using a generic XSL identity transformation. In practice, however, it fails to update the XML namespace declaration for an unknown reason. The following Java source code performs a SAX-specific transformation:
 
 {% highlight java %}
 public void writePMML(PMML pmml, Version version, OutputStream os) throws Exception {
@@ -79,15 +81,15 @@ public void writePMML(PMML pmml, Version version, OutputStream os) throws Except
     throw new IllegalArgumentException("The class model object is not compatible with PMML schema version " + version);
   }
 
-  TransformerFactory transformerFactory = TransformerFactory.newInstance();
+  SAXTransformerFactory transformerFactory = (SAXTransformerFactory)SAXTransformerFactory.newInstance();
 
-  Transformer transformer = transformerFactory.newTransformer();
-  transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+  TransformerHandler transformerHandler = transformerFactory.newTransformerHandler();
+  transformerHandler.setResult(new StreamResult(os));
 
-  Source source = ExportFilter.apply(toInputSource(pmml), version);
-  Result result = new StreamResult(os);
+  ExportFilter filter = new ExportFilter(XMLReaderFactory.createXMLReader(), version);
+  filter.setContentHandler(transformerHandler);
 
-  transformer.transform(source, result);
+  filter.parse(toInputSource(pmml));
 }
 
 private InputSource toInputSource(PMML pmml) throws Exception {
