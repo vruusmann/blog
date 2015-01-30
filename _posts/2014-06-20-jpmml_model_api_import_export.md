@@ -102,3 +102,5 @@ private InputSource toInputSource(PMML pmml) throws Exception {
   return new InputSource(is);
 }
 {% endhighlight %}
+
+**Update**: Starting from JPMML-Model version 1.1.12, class `org.jpmml.model.SchemaInspector` has been relocated and renamed to `org.jpmml.model.visitors.VersionInspector`.
