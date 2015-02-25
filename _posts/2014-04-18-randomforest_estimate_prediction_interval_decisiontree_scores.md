@@ -111,7 +111,7 @@ The JPMML-Evaluator library includes the module "pmml-extension" that provides c
 
 User-defined functions can be deployed by appending their JAR files (together with third-party dependency JAR files, if any) to the classpath of the PMML consumer software. For example, the following command (Windows syntax) starts the [Openscoring REST web service] (https://github.com/jpmml/openscoring) and extends its "vocabulary of functions" with user-defined functions from the module "pmml-extension":
 {% highlight bash %}
-java -cp "server-executable-1.1-SNAPSHOT.jar;pmml-extension-1.1.3.jar" org.openscoring.server.Main
+$ java -cp "server-executable-1.1-SNAPSHOT.jar;pmml-extension-1.1.3.jar" org.openscoring.server.Main
 {% endhighlight %}
 
 ##### Option 1: Normal distribution #####

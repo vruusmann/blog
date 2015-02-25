@@ -44,19 +44,19 @@ The following example assumes that the Java application is packaged into an exec
 
 Executing the application:
 {% highlight bash %}
-java -jar myapplication.jar
+$ java -jar myapplication.jar
 {% endhighlight %}
 
 JPMML agent is loaded into the JVM using the `-javaagent` option. It takes an optional boolean argument `transform`, which indicates if the field `locator` should be deleted (true) or not (false):
 
 Executing the application with the JPMML agent in "non-transforming mode":
 {% highlight bash %}
-java -javaagent:pmml-agent-1.1.14.jar -jar myapplication.jar
+$ java -javaagent:pmml-agent-1.1.14.jar -jar myapplication.jar
 {% endhighlight %}
 
 Executing the application with the JPMML agent in "transforming mode":
 {% highlight bash %}
-java -javaagent:pmml-agent-1.1.14.jar=transform=true -cp javassist-3.19.0-GA.jar:myapplication.jar com.mycompany.myapplication.Main
+$ java -javaagent:pmml-agent-1.1.14.jar=transform=true -cp javassist-3.19.0-GA.jar:myapplication.jar com.mycompany.myapplication.Main
 {% endhighlight %}
 
 If the JAR file `myapplication.jar` does not contain Javassist classes, then they need to be added to the application classpath by other means. The JVM ignores the `-cp` option when the `-jar` option is set. Therefore, in the last command, the application classpath is crafted manually by "prepending" the Javassist JAR file to the application JAR file, and the name of the main class is spelled out in full.
