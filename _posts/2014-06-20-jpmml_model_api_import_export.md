@@ -10,9 +10,9 @@ The [JPMML-Model] (https://github.com/jpmml/jpmml-model) library provides a clas
 
 The class model is generated after an XML Schema Definition (XSD) file. This XSD file is based on the latest PMML schema version 4.2 XSD file, which has been edited to restore all the features that have been removed in PMML schema versions 3.0 through 4.1. The class model is enhanced using the following version annotation classes:
 
- * `org.jpmml.schema.Added`. Marks a feature that has been added in the specified version.
- * `org.jpmml.schema.Deprecated` (not to be confused with Java's `java.lang.Deprecated`). Marks a feature that has been deprecated in the specified version.
- * `org.jpmml.schema.Removed`. Marks a feature that has been removed in the specified version.
+* `org.jpmml.schema.Added`. Marks a feature that has been added in the specified version.
+* `org.jpmml.schema.Deprecated` (not to be confused with Java's `java.lang.Deprecated`). Marks a feature that has been deprecated in the specified version.
+* `org.jpmml.schema.Removed`. Marks a feature that has been removed in the specified version.
 
 When dealing with version annotations then it is worth stressing over that the `@Added` includes the value, whereas `@Deprecated` and `@Removed` exclude it. For example, the class model defines the `ruleFeature` attribute of the `OutputField` element as follows:
 
@@ -51,9 +51,9 @@ public boolean isCompatible(PMMLObject object, Version version){
 
 The conversion of PMML documents includes the following activities:
 
- * Updating the XML namespace declaration.
- * Updating the `version` attribute of the `PMML` element.
- * Updating the name of renamed elements and attributes.
+* Updating the XML namespace declaration.
+* Updating the `version` attribute of the `PMML` element.
+* Updating the name of renamed elements and attributes.
 
 These activities can be implemented using XML filtering. More complicated activities (e.g. replacing a deprecated feature with an up-to-date feature) should be handled in Java application code. The JPMML-Model library is expected to provide a collection of such programmatic converters in the future.
 

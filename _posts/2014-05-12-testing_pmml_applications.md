@@ -10,9 +10,9 @@ However, there can never be too much testing. Application developers are encoura
 
 The current blog post details a batch evaluation method for integration testing purposes. The heavy lifting is handled by the method `org.jpmml.evaluator.BatchUtil#difference(Batch, double, double)`. A test case, which is represented by the interface `org.jpmml.evaluator.Batch`, is a triplet of streaming resources:
 
- * PMML.
- * Input CSV. Contains active and group field(s) as specified by the `MiningSchema` element.
- * Output CSV. Contains target and output field(s) as specified by the `MiningSchema` and `Output` elements.
+* PMML.
+* Input CSV. Contains active and group field(s) as specified by the `MiningSchema` element.
+* Output CSV. Contains target and output field(s) as specified by the `MiningSchema` and `Output` elements.
 
 The JPMML-Evaluator library packages and distributes test classes as a separate JAR file. It can be included into Apache Maven builds using the following dependency declaration:
 
@@ -32,9 +32,9 @@ CSV resources must have column identifiers (i.e. the header row), because the ma
 
 The class `org.jpmml.evaluator.ArchiveBatch` loads resources from the current Java Archive (JAR) file. A batch job is defined by a model identifier and a dataset identifier. These identifiers determine the locations of associated resources ("conventions over configuration"):
 
- * PMML. `/pmml/<model identifier><dataset identifier>.pmml`
- * Input CSV. `/csv/<dataset identifier>.csv`
- * Output CSV. `/csv/<model identifier><dataset identifier>.csv`
+* PMML. `/pmml/<model identifier><dataset identifier>.pmml`
+* Input CSV. `/csv/<dataset identifier>.csv`
+* Output CSV. `/csv/<model identifier><dataset identifier>.csv`
 
 The following R script creates a decision tree model for the ["iris" dataset] (http://archive.ics.uci.edu/ml/datasets/Iris). The model identifier is "DecisionTree" and the dataset identifier is "Iris". All file paths are prefixed with `src/test/resources`, which is the root directory for test resources in Apache Maven builds.
 
