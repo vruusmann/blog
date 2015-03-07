@@ -1,22 +1,22 @@
 # Dependencies
-markdown:         redcarpet
-pygments:         true
+markdown: redcarpet
+pygments: true
 
 # Permalinks
-permalink:        pretty
+permalink: pretty
 
 # GitHub project page
-baseurl:          /blog
+baseurl: /blog
 
 # Setup
-title:            PMML Cookbook
-tagline:          Practical Solutions to Predictive Analytics Problems
-url:              http://openscoring.io
+title: PMML Cookbook
+tagline: Practical Solutions to Predictive Analytics Problems
+url: http://openscoring.io
 
 excerpt_separator: <!-- more -->
 
-paginate:         10
+paginate: 10
 
 pages_list:
-  About:          /about/
-  Feed:           /atom.xml
+  About: /about/
+  Feed: /atom.xml

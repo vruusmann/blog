@@ -57,7 +57,7 @@ iris.prob = predict(iris.rpart, newdata = iris, type = "prob")
 
 # Generate output CSV
 # The data table must contain one column for the target field "Species" and four columns for output fields "Predicted_Species", "Probability_setosa", "Probability_versicolor" and "Probability_virginica"
-irisOutput = data.frame(iris.class, iris.class, iris.prob) 
+irisOutput = data.frame(iris.class, iris.class, iris.prob)
 names(irisOutput) = c("Species", "Predicted_Species", "Probability_setosa", "Probability_versicolor", "Probability_virginica")
 write.table(irisOutput, file = "src/test/resources/csv/DecisionTreeIris.csv", col.names = TRUE, row.names = FALSE, sep = ",", quote = FALSE)
 {% endhighlight %}

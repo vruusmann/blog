@@ -11,7 +11,7 @@ The current blog post aims to clarify the relationship between those two methods
 
  * Conversion of values from the Java type system to the PMML type system. PMML has a two-tier type system, where the first level relates to data type (enumeration `org.dmg.pmml.DataType`) and the second level relates to operational type (enumeration `org.dmg.pmml.OpType`). For example, a Java string could either become a categorical PMML string or an ordinal PMML string, which exhibit different behavior in comparison operations.
  * Validation of values as specified by the `DataField` element.
- * Treatment of invalid, outlier and missing values as specified by the `MiningField` element. 
+ * Treatment of invalid, outlier and missing values as specified by the `MiningField` element.
 
 The JPMML-Evaluator library represents PMML values using subclasses of the class `org.jpmml.evaluator.FieldValue` (beware, the [JPMML-Model] (https://github.com/jpmml/jpmml-model) library contains a class with the same simple name `org.dmg.pmml.FieldValue`). Most model types operate on single-valued field values. However, there are some model types such as [association rules model] (http://www.dmg.org/v4-2/AssociationRules.html) and [sequence rules model] (http://www.dmg.org/v4-2/Sequence.html) that operate on collection-valued field values. Application developers are advised to employ the utility class `org.jpmml.evaluator.FieldValueUtil` whenever there is a need to create new or refine existing (e.g. change data or operational type) field values.
 
@@ -25,9 +25,9 @@ public Map<FieldName, ?> prepareEagerlyAndEvaluate(Evaluator evaluator, Map<Stri
 
   List<FieldName> activeFields = evaluator.getActiveFields();
   for(FieldName activeField : activeFields){
-    // The key type of the user arguments map is java.lang.String. 
+    // The key type of the user arguments map is java.lang.String.
     // A FieldName can be "unwrapped" to a String using FieldName#getValue().
-    Object userValue = userArguments.get(activeField.getValue()); 
+    Object userValue = userArguments.get(activeField.getValue());
 
     // The value type of the user arguments map is unknown.
     // An Object is converted to a String using Object#toString().
