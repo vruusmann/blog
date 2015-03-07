@@ -58,14 +58,16 @@ The unmarshalling of a PMML class model object is the first step in any PMML con
 The main change between versions 1.0 and 1.1 of the private API is that the utility class `org.dmg.pmml.IOUtil` has been superseded by another utility class `org.jpmml.model.JAXBUtil`. As the name suggests, this class only deals with the Java Architecture for XML Binding (JAXB) side of things. The activities related to converting PMML documents between different PMML schema versions were extracted to special purpose Simple API for XML (SAX) filter classes.
 
 Unmarshalling a PMML class model object using the version 1.0 of the private API:
-{% highlight java %}
+
+``` java
 public PMML readPMML(InputStream is) throws Exception {
   return IOUtil.unmarshal(is);
 }
-{% endhighlight %}
+```
 
 Doing the same using the version 1.1 of the private API:
-{% highlight java %}
+
+``` java
 public PMML readPMML(InputStream is) throws Exception {
   InputSource source = new InputSource(is);
 
@@ -74,7 +76,7 @@ public PMML readPMML(InputStream is) throws Exception {
 
   return JAXBUtil.unmarshalPMML(filteredSource);
 }
-{% endhighlight %}
+```
 
 For more information about the import and export capabilities of the JPMML-Model library, please refer to the blog post about [converting PMML documents between different schema versions] ({{ site.baseurl }}{% post_url 2014-06-20-jpmml_model_api_import_export %}).
 
@@ -91,18 +93,20 @@ This refactoring can be offset by updating the affected method invocation expres
 The annotation class `org.jpmml.schema.Schema` was split into annotation classes `org.jpmml.schema.Added` and `org.jpmml.schema.Removed`.
 
 Declaring PMML schema version information using the version 1.0 of the private API:
-{% highlight java %}
+
+``` java
 @Schema (
   min = Version.PMML_4_1
 )
 protected Boolean scorable;
-{% endhighlight %}
+```
 
 Doing the same using the version 1.1 of the private API:
-{% highlight java %}
+
+``` java
 @Added(Version.PMML_4_1)
 protected Boolean scorable;
-{% endhighlight %}
+```
 
 ### Changes between JPMML-Evaluator 1.1.0 and 1.1.1 ###
 
@@ -111,7 +115,8 @@ The nested interface `org.jpmml.evaluator.FunctionUtil$Function` was moved to a 
 The working set of PMML built-in functions and Java user-defined functions (UDF) is managed by the singleton class `org.jpmml.evaluator.FunctionRegistry`. An existing function can be looked up by its name using the method `#getFunction(String)`. A new function can be registered using the method `#putFunction(Function)`.
 
 Defining and registering a Java user-defined function using the version 1.0 of the private API:
-{% highlight java %}
+
+``` java
 FunctionUtil.Function echoFunction = new FunctionUtil.StringFunction(){
 
   @Override
@@ -121,10 +126,11 @@ FunctionUtil.Function echoFunction = new FunctionUtil.StringFunction(){
 };
 
 FunctionUtil.putFunction("echo", echoFunction);
-{% endhighlight %}
+```
 
 Doing the same using the version 1.1 of the private API:
-{% highlight java %}
+
+``` java
 Function echoFunction = new StringFunction("echo"){
 
   @Override
@@ -134,4 +140,4 @@ Function echoFunction = new StringFunction("echo"){
 };
 
 FunctionRegistry.putFunction(echoFunction);
-{% endhighlight %}
+```

@@ -16,17 +16,17 @@ The class model is generated after an XML Schema Definition (XSD) file. This XSD
 
 When dealing with version annotations then it is worth stressing over that the `@Added` includes the value, whereas `@Deprecated` and `@Removed` exclude it. For example, the class model defines the `ruleFeature` attribute of the `OutputField` element as follows:
 
-{% highlight java %}
+``` java
 @Added(Version.PMML_4_0)
 @Deprecated(Version.PMML_4_2)
 protected RuleFeatureType ruleFeature;
-{% endhighlight %}
+```
 
 This declaraton states that the `ruleFeature` attribute was added in PMML schema version 4.0 and deprecated in PMML schema version 4.2. In other words, it is a first-class feature in PMML schema version 4.0 and 4.1 documents. It can be used in PMML schema version 4.2 documents, but doing so is discouraged, because it has been superseded by another set of attributes. In any way, the `ruleFeature` attribute cannot be used in PMML schema version 3.2 and earlier documents. A validating PMML parser would report that as an error.
 
 The JPMML-Model library provides a visitor class `org.jpmml.model.SchemaInspector` that traverses a class model object and computes its supported version range. The upper and lower boundaries can be queried using methods `#getMinimum()` and `#getMaximum()`, respectively. The following Java source code checks if a class model object is compatible with the specified PMML schema version:
 
-{% highlight java %}
+``` java
 public boolean isCompatible(PMMLObject object, Version version){
   SchemaInspector inspector = new SchemaInspector();
 
@@ -47,7 +47,7 @@ public boolean isCompatible(PMMLObject object, Version version){
 
   return true;
 }
-{% endhighlight %}
+```
 
 The conversion of PMML documents includes the following activities:
 
@@ -61,7 +61,7 @@ The XML filtering allows for direct conversion between arbitrary PMML schema ver
 
 The conversion from any PMML schema version 3.X or 4.X document to an PMML schema version 4.2 document is implemented by class `org.jpmml.model.ImportFilter`. This filter should be applied to the source before feeding it to the PMML unmarshaller:
 
-{% highlight java %}
+``` java
 public PMML readPMML(InputStream is) throws Exception {
   ImportFilter filter = new ImportFilter(XMLReaderFactory.createXMLReader());
 
@@ -69,11 +69,11 @@ public PMML readPMML(InputStream is) throws Exception {
 
   return JAXBUtil.unmarshalPMML(filteredSource);
 }
-{% endhighlight %}
+```
 
 The conversion in the opposite direction is implemented by class `org.jpmml.model.ExportFilter`. Java's simple API for XML (SAX) does not provide means for applying XML filters to results. In theory, it should be possible to perform XML filtering on a result obtained from the PMML marshaller using a generic XSL identity transformation. In practice, however, it fails to update the XML namespace declaration for an unknown reason. The following Java source code performs a SAX-specific transformation:
 
-{% highlight java %}
+``` java
 public void writePMML(PMML pmml, Version version, OutputStream os) throws Exception {
 
   // Avoid producing invalid PMML documents
@@ -101,6 +101,6 @@ private InputSource toInputSource(PMML pmml) throws Exception {
 
   return new InputSource(is);
 }
-{% endhighlight %}
+```
 
 **Update**: Starting from JPMML-Model version 1.1.12, class `org.jpmml.model.SchemaInspector` has been relocated and renamed to `org.jpmml.model.visitors.VersionInspector`.

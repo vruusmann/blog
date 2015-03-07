@@ -7,7 +7,8 @@ author: vruusmann
 **Disclaimer**: ["prediction interval"] (http://en.wikipedia.org/wiki/Prediction_interval) is a well-defined concept in statistical inference. This blog post does not aim at such level of rigor. Here, "prediction interval" is more or less understood as "confidence interval of a prediction".
 
 The exercise starts with training a regression-type random forest model for the ["Boston" dataset] (http://www.cs.toronto.edu/~delve/data/boston/bostonDetail.html). The newly trained random forest model is then used for prediction. It is specifically ordered to keep the predictions of all member decision tree models available for in-depth investigation (`predict.all = TRUE`). The scatter plot of experimental "medv" versus predicted "medv" indicates good statistical fit (see the figure below), but is otherwise rather uninformative. This figure changes dramatically for the better when data points are overlaid with error bars that represent one standard deviation of uncertainty. Due to the large number of data point some filtering is necessary. First, the yellow subset contains data points whose standard deviation is greater than 3 units and less than or equal to 5 units (total 80 observations). Second, the red subset contains data points whose standard deviation is greater than 5 units (total 30 observations).
-{% highlight r %}
+
+``` r
 library("pmml")
 library("randomForest")
 
@@ -32,7 +33,7 @@ drawErrorBars(Boston$medv[yellowFilter], boston.predict$aggregate[yellowFilter],
 
 redFilter = (boston.predict$sd > 5)
 drawErrorBars(Boston$medv[redFilter], boston.predict$aggregate[redFilter], boston.predict$sd[redFilter], "red")
-{% endhighlight %}
+```
 
 Elevated standard deviation values indicate considerable variability among member decision tree scores. Higher variability is associated with less typical data points (i.e. prospective statistical outliers). First and foremost, the distribution of data points along the "medv" axis is rather uneven. Typical Boston properties fall into "medv" range from 15 to 25. They can be easily and reliably evaluated after their peers. It is interesting to note that all red error bars correspond to overestimation errors. More exclusive Boston properties fall into "medv" range 30 (35) and above. They are likely to possess distinguishing features, which makes it much more difficult to collect a representative set of peers for evaluation purposes. The majority of data points must be overlaid with yellow error bars. Again, it is interesting to note that red error bars correspond to underestimation errors. Boston properties that have "medv" value of 50.0 are known to represent a special case (censored values).
 ![medv vs. Predicted medv] ({{ site.baseurl }}/assets/RandomForestBoston.svg)
@@ -44,7 +45,8 @@ The ["pmml" package] (http://cran.r-project.org/web/packages/pmml/index.html) fo
 The predicted field "medv" and the output field "Predicted\_medv" are identical from the PMML client application point of view. However, they are functionally different from the PMML consumer software point of view. The difference is related to the [scope of fields] (http://www.dmg.org/v4-2/FieldScope.html). Namely, it appears to be the case that predicted fields are not visible under the `Output` element. A predicted field can only be made visible by duplicating it as an output field. The PMML specification does not explicitly state a need for such "workaround", but it can be implied from the accompanying PMML examples.
 
 Consider the following input record:
-{% highlight json %}
+
+``` json
 {
   "crim" : 0.00632,
   "zn" : 18,
@@ -60,25 +62,27 @@ Consider the following input record:
   "black" : 396.9,
   "lstat" : 4.98
 }
-{% endhighlight %}
+```
 
 This input record evaluates to the following output record:
-{% highlight json %}
+
+``` json
 {
   "medv" : 24.807583333333326,
   "Predicted_medv" : 24.807583333333326
 }
-{% endhighlight %}
+```
 
 The aggregation function can be deactivated by setting the `multipleModelMethod` attribute of the `Segmentation` element to "selectAll". It must be remembered that this approach only works with simple aggregation functions such as "average" and "majorityVote" where all member decision trees have equal weight (i.e. 1). The "selectAll" aggregation function produces a list of member decision tree scores. The data type of scores depends on the type of the random forest model. For classification- and clustering-type models this is typically `string`. For regression-type models this is typically `double`.
 
 The output record now becomes:
-{% highlight json %}
+
+``` json
 {
   "medv" : [24.32, 23.0, 24.1, 26.15, 24.0, 16.5, 23.98, 23.95, 25.96, 30.6, 23.975, 23.7333333333333, 31.42, 23.64, 29.5333333333333, 23.94, 24.0, 24.0, 24.9, 24.45],
   "Predicted_medv" : [24.32, 23.0, 24.1, 26.15, 24.0, 16.5, 23.98, 23.95, 25.96, 30.6, 23.975, 23.7333333333333, 31.42, 23.64, 29.5333333333333, 23.94, 24.0, 24.0, 24.9, 24.45]
 }
-{% endhighlight %}
+```
 
 ### Client application ###
 
@@ -89,7 +93,8 @@ When the custom application code is implemented in Java, then it is possible to 
 The PMML specification leaves the representation of complex field values open. The JPMML-Evaluator library represents list-valued field values using standard Java Collections Framework classes.
 
 The following Java source code iterates over all 20 values of the field "medv":
-{% highlight java %}
+
+``` java
 public void printMedvValues(Map<FieldName, ?> result){
   FieldName medv = new FieldName("medv");
 
@@ -99,7 +104,7 @@ public void printMedvValues(Map<FieldName, ?> result){
     System.out.println(value);
   }
 }
-{% endhighlight %}
+```
 
 ### Java-backed user-defined functions ###
 
@@ -110,14 +115,16 @@ Function invocation is handled by the `Apply` element. The `name` attribute iden
 The JPMML-Evaluator library includes the module "pmml-extension" that provides common user-defined functions [mean] (http://en.wikipedia.org/wiki/Mean) (class `org.jpmml.evaluator.functions.MeanFunction`), [standard deviation] (http://en.wikipedia.org/wiki/Standard_deviation) (class `org.jpmml.evaluator.functions.StandardDeviationFunction`) and [percentile] (http://en.wikipedia.org/wiki/Percentile) (class `org.jpmml.evaluator.functions.PercentileFunction`). Effectively, these user-defined function classes act as thin wrappers around the respective univariate statistic classes of the Apache [Commons Math] (http://commons.apache.org/proper/commons-math/) library. The latest ready to use module JAR file can be obtained from the [Maven Central repository] (http://repo1.maven.org/maven2/org/jpmml/pmml-extension/) (groupId `org.jpmml` and artifactId `pmml-extension`).
 
 User-defined functions can be deployed by appending their JAR files (together with third-party dependency JAR files, if any) to the classpath of the PMML consumer software. For example, the following command (Windows syntax) starts the [Openscoring REST web service] (https://github.com/jpmml/openscoring) and extends its "vocabulary of functions" with user-defined functions from the module "pmml-extension":
-{% highlight bash %}
+
+```
 $ java -cp "server-executable-1.1-SNAPSHOT.jar;pmml-extension-1.1.3.jar" org.openscoring.server.Main
-{% endhighlight %}
+```
 
 ##### Option 1: Normal distribution #####
 
 The `Output` element after enhancement:
-{% highlight xml %}
+
+``` xml
 <Output>
   <!-- Omitted field "Predicted_medv" -->
   <OutputField name="Mean_medv" feature="transformedValue">
@@ -150,22 +157,24 @@ The `Output` element after enhancement:
     </Apply>
   </OutputField>
 </Output>
-{% endhighlight %}
+```
 
 The output record now becomes:
-{% highlight json %}
+
+``` json
 {
   "Mean_medv" : 24.80758333333333,
   "SD_medv" : 3.1054891731232863,
   "Conf95_medv_lower" : 18.596604987086756,
   "Conf95_medv_upper" : 31.018561679579904
 }
-{% endhighlight %}
+```
 
 ##### Option 2: Non-normal distribution #####
 
 The `Output` element after enhancement:
-{% highlight xml %}
+
+``` xml
 <Output>
   <!-- Omitted field "Predicted_medv" -->
   <OutputField name="Quantile5_medv" feature="transformedValue">
@@ -181,12 +190,13 @@ The `Output` element after enhancement:
     </Apply>
   </OutputField>
 </Output>
-{% endhighlight %}
+```
 
 The output record now becomes:
-{% highlight json %}
+
+``` json
 {
   "Quantile5_medv" : 16.825,
   "Quantile95_medv" : 31.379
 }
-{% endhighlight %}
+```

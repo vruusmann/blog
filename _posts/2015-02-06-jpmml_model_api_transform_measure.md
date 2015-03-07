@@ -12,7 +12,7 @@ The [JPMML-Model] (https://github.com/jpmml/jpmml-model) library provides a clas
 
 Application developers can access SAX Locator information using the interface `org.dmg.pmml.HasLocator`.
 
-{% highlight java %}
+``` java
 public Locator getLocator(Object object){
 
   if(object instanceof HasLocator){
@@ -23,7 +23,7 @@ public Locator getLocator(Object object){
 
   return null;
 }
-{% endhighlight %}
+```
 
 The method `HasLocator#getLocator()` returns an instance of `org.xml.sax.Locator` when the PMML document was unmarshalled from a SAX source or a SAX-backed DOM source. It returns a `null` reference when the PMML document was unmarshalled from other types of sources, or created manually.
 
@@ -43,21 +43,24 @@ JPMML agent is part of the JPMML-Model library project. JPMML agent depends on t
 The following example assumes that the Java application is packaged into an executable JAR file `myapplication.jar` and the name of the main class is `com.mycompany.myapplication.Main`.
 
 Executing the application:
-{% highlight bash %}
+
+```
 $ java -jar myapplication.jar
-{% endhighlight %}
+```
 
 JPMML agent is loaded into the JVM using the `-javaagent` option. It takes an optional boolean argument `transform`, which indicates if the field `locator` should be deleted (true) or not (false):
 
 Executing the application with the JPMML agent in "non-transforming mode":
-{% highlight bash %}
+
+```
 $ java -javaagent:pmml-agent-1.1.14.jar -jar myapplication.jar
-{% endhighlight %}
+```
 
 Executing the application with the JPMML agent in "transforming mode":
-{% highlight bash %}
+
+```
 $ java -javaagent:pmml-agent-1.1.14.jar=transform=true -cp javassist-3.19.0-GA.jar:myapplication.jar com.mycompany.myapplication.Main
-{% endhighlight %}
+```
 
 If the JAR file `myapplication.jar` does not contain Javassist classes, then they need to be added to the application classpath by other means. The JVM ignores the `-cp` option when the `-jar` option is set. Therefore, in the last command, the application classpath is crafted manually by "prepending" the Javassist JAR file to the application JAR file, and the name of the main class is spelled out in full.
 
@@ -67,7 +70,7 @@ Transformation is performed by the class `org.jpmml.agent.PMMLObjectTransformer`
 
 Java source code representation of the class `PMMLObject` before transformation:
 
-{% highlight java %}
+``` java
 package org.dmg.pmml;
 
 import java.io.Serializable;
@@ -93,11 +96,11 @@ public class PMMLObject implements HasLocator, Serializable {
     this.locator = locator;
   }
 }
-{% endhighlight %}
+```
 
 The same after transformation:
 
-{% highlight java %}
+``` java
 package org.dmg.pmml;
 
 import java.io.Serializable;
@@ -114,7 +117,7 @@ public class PMMLObject implements HasLocator, Serializable {
   public void setLocator(Locator locator){
   }
 }
-{% endhighlight %}
+```
 
 This transformation should be completely safe and undetectable from the Java application perspective.
 
@@ -130,7 +133,7 @@ The decision to implement yet another memory measurement tool (as opposed to reu
 
 Java source code of a simple application that outputs basic information about a class model object:
 
-{% highlight java %}
+``` java
 public class Main {
 
   static
@@ -155,12 +158,13 @@ public class Main {
     System.out.println("The size of the object graph: " + size + " bytes");
   }
 }
-{% endhighlight %}
+```
 
 Memory measurements are performed on the already familiar PMML document ["RandomForestIris.pmml"] ({{ site.baseurl }}/assets/pmml/RandomForestIris.pmml).
 
 The results in "non-transforming mode":
-{% highlight bash %}
+
+```
 $ java -version
 java version "1.8.0_31"
 Java(TM) SE Runtime Environment (build 1.8.0_31-b13)
@@ -169,13 +173,14 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.31-b07, mixed mode)
 $ java -javaagent:pmml-model-1.1.14.jar -cp javassist-3.19.0-GA.jar:example.jar Main RandomForestIris.pmml
 The number of distinct objects in the object graph: 373
 The size of the object graph: 13680 bytes
-{% endhighlight %}
+```
 
 The results in "transforming mode":
-{% highlight bash %}
+
+```
 $ java -javaagent:pmml-model-1.1.14.jar=transform=true -cp javassist-3.19.0-GA.jar:example.jar Main RandomForestIris.pmml
 The number of distinct objects in the object graph: 271
 The size of the object graph: 9920 bytes
-{% endhighlight %}
+```
 
 All the differences between these two object graphs are solely attributable to the omission of SAX Locator information. It can be seen that instances of `org.xml.sax.Locator` make up (373 - 271) / 373 = 27.3% of distinct objects and (13680 - 9920) / 13680 = 27.5% of memory consumption.

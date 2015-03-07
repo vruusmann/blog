@@ -34,7 +34,7 @@ The external execution workflow contains three steps:
 
 The data about iris flowers is separated into two tables based on their "origin". First, the table `iris` contains experimentally determined data. It is populated with 150 data records from the example file `/tmp/input.csv`. Second, the table `iris_decisiontree` contains predicted data:
 
-{% highlight sql %}
+``` sql
 CREATE TABLE iris (
   Id serial PRIMARY KEY,
   Sepal_Length double precision,
@@ -53,7 +53,7 @@ CREATE TABLE iris_decisiontree (
   Probability_versicolor double precision,
   Probability_virginica double precision
 );
-{% endhighlight %}
+```
 
 This separation makes it straightforward to "scale" the application from one predictive model to many predictive models. For example, if it becomes necessary to deploy an alternative model `RandomForestIris`, then these predicted data will be stored in another table `iris_randomforest`. A random forest model is a collection of decision tree models. The results take longer to compute, but should be more accurate.
 
@@ -61,9 +61,9 @@ This separation makes it straightforward to "scale" the application from one pre
 
 The table `iris` is (periodically-) monitored for data records that do not have a counterpart in the table `iris_decisiontree`. All such unclassified data records are exported to a CSV document `/tmp/iris_request.csv` using the `COPY .. TO` command:
 
-{% highlight sql %}
+``` sql
 COPY (SELECT iris.Id AS "Id", iris.Sepal_Length AS "Sepal_Length", iris.Sepal_Width AS "Sepal_Width", iris.Petal_Length AS "Petal_Length", iris.Petal_Width AS "Petal_Width" FROM iris LEFT JOIN iris_decisiontree ON iris.Id = iris_decisiontree.Id WHERE iris_decisiontree.Predicted_Species IS NULL) TO '/tmp/iris_request.csv' WITH CSV DELIMITER ',' HEADER;
-{% endhighlight %}
+```
 
 The CSV document must conform to the following rules:
 
@@ -81,7 +81,7 @@ Database engines typically do not advertise HTTP client functionality as their c
 
 Activating the PL/sh extension and creating two shell-backed SQL functions `evaluate_iris()` and `clean_iris()`:
 
-{% highlight sql %}
+``` sql
 CREATE EXTENSION plsh;
 
 -- uploads file `/tmp/iris_request.csv` to the Openscoring web service and downloads the result into file `/tmp/iris_response.csv`.
@@ -96,13 +96,13 @@ CREATE FUNCTION clean_iris() RETURNS void AS '
 rm /tmp/iris_request.csv
 rm /tmp/iris_response.csv
 ' LANGUAGE plsh;
-{% endhighlight %}
+```
 
 SQL end users can then perform model evaluation by calling the `evaluate_iris()` function:
 
-{% highlight sql %}
+``` sql
 SELECT evaluate_iris();
-{% endhighlight %}
+```
 
 ### Import of model result data
 
@@ -110,7 +110,7 @@ Class labels and associated probabilities are imported from the file `/tmp/iris_
 
 The CSV document contains the row identifier column ("Id") and six field columns. However, the target table `iris_decisiontree` contains only four field columns. PostgreSQL database does not support copying only a subset of columns. Therefore, it becomes necessary to implement the import of classification results as a two step process. First, all field columns are copied to a temporary table `iris_decisiontree_temp`. Later, four field columns ("Predicted\_Species", "Probability\_setosa", "Probability\_versicolor" and "Probability\_virginica") are copied over to the target table `iris_decisiontree`, whereas two field columns ("Species" and "Node\_Id") are left behind.
 
-{% highlight sql %}
+``` sql
 CREATE TEMPORARY TABLE iris_decisiontree_temp (
   Id integer,
   Species varchar,
@@ -128,12 +128,12 @@ INSERT INTO iris_decisiontree(Id, Predicted_Species, Probability_setosa, Probabi
 DROP TABLE iris_decisiontree_temp;
 
 SELECT clean_iris();
-{% endhighlight %}
+```
 
 ### Making use of classification results
 
 Displaying all iris flowers where the experimentally determined species (column `iris.Species`) and the predicted species (column `iris_decisiontree.Predicted_Species`) are not equal:
 
-{% highlight sql %}
+``` sql
 SELECT iris.Id, iris.Species, iris_decisiontree.Predicted_Species, iris_decisiontree.Probability_setosa, iris_decisiontree.Probability_versicolor, iris_decisiontree.Probability_virginica FROM iris LEFT JOIN iris_decisiontree ON iris.Id = iris_decisiontree.Id WHERE iris.Species != iris_decisiontree.Predicted_Species;
-{% endhighlight %}
+```

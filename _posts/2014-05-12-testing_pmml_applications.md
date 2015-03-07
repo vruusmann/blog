@@ -15,7 +15,8 @@ The current blog post details a batch evaluation method for integration testing 
  * Output CSV. Contains target and output field(s) as specified by the `MiningSchema` and `Output` elements.
 
 The JPMML-Evaluator library packages and distributes test classes as a separate JAR file. It can be included into Apache Maven builds using the following dependency declaration:
-{% highlight xml %}
+
+``` xml
 <dependency>
   <groupId>org.jpmml</groupId>
   <artifactId>pmml-evaluator</artifactId>
@@ -23,7 +24,7 @@ The JPMML-Evaluator library packages and distributes test classes as a separate 
   <type>test-jar</type>
   <scope>test</scope>
 </dependency>
-{% endhighlight %}
+```
 
 Under the hood, the batch utility class loads data records from the input CSV resource, evaluates them using the PMML resource and compares the resulting "actual output" data records against the "expected output" data records that were loaded from the output CSV resource. The method returns a list of differences between actual and expected output data records. A test is considered to be successful when the list of differences is empty.
 
@@ -36,7 +37,8 @@ The class `org.jpmml.evaluator.ArchiveBatch` loads resources from the current Ja
  * Output CSV. `/csv/<model identifier><dataset identifier>.csv`
 
 The following R script creates a decision tree model for the ["iris" dataset] (http://archive.ics.uci.edu/ml/datasets/Iris). The model identifier is "DecisionTree" and the dataset identifier is "Iris". All file paths are prefixed with `src/test/resources`, which is the root directory for test resources in Apache Maven builds.
-{% highlight r %}
+
+``` r
 library("pmml")
 library("rpart")
 
@@ -60,12 +62,13 @@ iris.prob = predict(iris.rpart, newdata = iris, type = "prob")
 irisOutput = data.frame(iris.class, iris.class, iris.prob)
 names(irisOutput) = c("Species", "Predicted_Species", "Probability_setosa", "Probability_versicolor", "Probability_virginica")
 write.table(irisOutput, file = "src/test/resources/csv/DecisionTreeIris.csv", col.names = TRUE, row.names = FALSE, sep = ",", quote = FALSE)
-{% endhighlight %}
+```
 
 The generated decision tree model "DecisionTreeIris.pmml" contains a single target field and four output fields. The first output field "Predicted\_Species" is simply a copy of the target field, whereas the remaining three output fields "Probability\_setosa", "Probability\_versicolor" and "Probability\_virginica" give the probabilities for each target category. A thorough test handler will want to check all five fields (a not so thorough test handler could comment out or remove the `Output` element and check only the target field). The method `predict.rpart` of the ["rpart" package] (http://cran.r-project.org/web/packages/rpart/index.html) is executed twice in order to compile the necessary data table. The first execution (`type = "class"`) predicts class labels. The second execution (`type = "prob"`) computes the associated probabilities.
 
 The following Java source code runs this batch job using the [JUnit framework] (http://junit.org/):
-{% highlight java %}
+
+``` java
 package org.jpmml.example;
 
 import java.util.List;
@@ -96,13 +99,14 @@ public class ClassificationTest {
     }
   }
 }
-{% endhighlight %}
+```
 
 The batch utility class performs value comparisons according to the [model verification] (http://www.dmg.org/v4-2/ModelVerification.html) principles. In brief, categorical and ordinal field values must match exactly, whereas continuous field values must fall within the acceptable range. The range checking algorithm is implemented in another utility class `org.jpmml.evaluator.VerificationUtil`. It is controlled by two parameters `precision` and `zeroThreshold`. The acceptable range is defined relative to the expected value. The actual value is acceptable if it satisfies the condition: `(expected value * (1 - precision)) <= actual value <= (expected value * (1 + precision))`. This approach becomes numerically unstable when the expected value is zero or very close to it. In such case the acceptable range is defined in absolute terms. The condition becomes: `-1 * zeroThreshold <= actual value <= zeroThreshold`.
 
 The above Java source code specifies both parameters as 1.e-6 (that is, one part per million or 0.000001, respectively). This batch job can be broken for demonstration purposes by changing the value of the "Probability\_setosa" field of the first expected output record from "1" to "0.9999989". The failure message is the following:
-{% highlight text %}
+
+```
 [not equal: value differences={Probability_setosa=(0.9999989, 1.0)}]
-{% endhighlight %}
+```
 
 The example Apache Maven project ["DecisionTreeIris.zip"] ({{ site.baseurl }}/assets/zip/DecisionTreeIris.zip) is a good starting point for developing custom integration test modules.

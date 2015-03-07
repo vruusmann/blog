@@ -19,7 +19,7 @@ The JPMML-Evaluator library represents PMML values using subclasses of the class
 
 The classical approach is to create a new argument map, and populate it with prepared field values one by one:
 
-{% highlight java %}
+``` java
 public Map<FieldName, ?> prepareEagerlyAndEvaluate(Evaluator evaluator, Map<String, ?> userArguments){
   Map<FieldName, FieldValue> pmmlArguments = new LinkedHashMap<FieldName, FieldValue>();
 
@@ -39,7 +39,7 @@ public Map<FieldName, ?> prepareEagerlyAndEvaluate(Evaluator evaluator, Map<Stri
 
   return evaluator.evaluate(pmmlArguments);
 }
-{% endhighlight %}
+```
 
 This approach is the most versatile one. The variable `userArguments` could be any map-like data structure, including a query interface that fetches data interactively (e.g. prompts the end user). The application developer has full control over handling data preparation errors.
 
@@ -51,11 +51,11 @@ The method `Evaluator#prepare(FieldName, Object)` only deals with single-valued 
 
 The modern approach is to dispatch user arguments as they are:
 
-{% highlight java %}
+``` java
 public Map<FieldName, ?> prepareLazilyAndEvaluate(Evaluator evaluator, Map<FieldName, String> userArguments){
   return evaluator.evaluate(userArguments);
 }
-{% endhighlight %}
+```
 
 This approach is the most concise one. Essentially, the interaction with the JPMML-Evaluator library is reduced to a single line of code, which greatly simplifies application maintenance. The downside is less control over data preparation errors. The invocation of the method `Evaluator#evaluate(Map<FieldName, ?>)` fails when the first problematic field value is encountered. In other words, the whole data record is invalidated, not just some field(s).
 
@@ -67,7 +67,7 @@ The JPMML-Evaluator library does not make any guarantees exactly when and where 
 
 The following Java source code approximates the lazy loading logic inside the class `org.jpmml.evaluator.EvaluationContext`:
 
-{% highlight java %}
+``` java
 private FieldValue getFieldValue(Evaluator evaluator, Map<FieldName, ?> arguments, FieldName field){
   Object value = arguments.get(field);
 
@@ -78,13 +78,13 @@ private FieldValue getFieldValue(Evaluator evaluator, Map<FieldName, ?> argument
 
   return evaluator.prepare(field, value);
 }
-{% endhighlight %}
+```
 
 ## Option 3: Manual preparation ##
 
 The lazy loading logic provides a "loophole", which makes it possible to circumvent data preparation altogether when `FieldValue` instances are created manually:
 
-{% highlight java %}
+``` java
 public Map<FieldName, ?> prepareManuallyAndEvaluate(Evaluator evaluator, Map<FieldName, Double> userArguments){
   Map<FieldName, FieldValue> pmmlArguments = new LinkedHashMap<FieldName, FieldValue>();
 
@@ -99,6 +99,6 @@ public Map<FieldName, ?> prepareManuallyAndEvaluate(Evaluator evaluator, Map<Fie
 
   return evaluator.evaluate(pmmlArguments);
 }
-{% endhighlight %}
+```
 
 This approach assumes that the application code takes full responsibility for data preparation. The replacement of "interpreted" PMML data preparation logic with "native" application code should improve execution speeds (moreover, the majority of PMML producer software appear to be generating no-op `DataField` and `MiningField` elements anyway). This approach is relatively more advantageous in situations where the data record contains a large number of fields, which are updated only partially (e.g. ten fields out of one hundred fields) between subsequent runs.

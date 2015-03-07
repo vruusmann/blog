@@ -38,7 +38,7 @@ This blog post is about introducing the [`r2pmml` package] (https://github.com/j
 
 The exercise starts with training a classification-type random forest model for the "audit" dataset. All the data preparation work has been isolated to a separate R script ["audit.R"] ({{ site.baseurl }}/assets/R/audit.R).
 
-{% highlight r %}
+``` r
 source("audit.R")
 
 measure = function(fun){
@@ -71,7 +71,7 @@ library("r2pmml")
 
 measure(function(){ r2pmml(audit.rf, "/tmp/audit-r2pmml.pmml") })
 measure(function(){ r2pmml(audit.rf, "/tmp/audit-r2pmml.pmml") })
-{% endhighlight %}
+```
 
 The summary of the training run:
 
@@ -91,21 +91,21 @@ The summary of the training run:
 
 Typical usage:
 
-{% highlight r %}
+``` r
 library("pmml")
 
 audit.pmml = pmml(audit.rf)
 saveXML(audit.pmml, "/tmp/audit-pmml.pmml")
-{% endhighlight %}
+```
 
 This package defines a conversion function `pmml.<model_type>` for every supported model type. However, in most cases, it is recommended to invoke the S3 generic function `pmml` instead. This function determines the type of the argument model object, and automatically selects the most appropriate conversion function.
 
 When the S3 generic function `pmml` is invoked using an unsupported model object, then the following error message is printed:
 
-{% highlight text %}
+```
 Error in UseMethod("pmml") :
   no applicable method for 'pmml' applied to an object of class "RandomForest"
-{% endhighlight %}
+```
 
 The conversion produces an `XMLNode` object, which is a Document Object Model (DOM) representation of the PMML document. This object can be saved to a file using the function `saveXML`.
 
@@ -117,11 +117,11 @@ Second, DOM is a low-level API, which is unsuitable for working with specific XM
 
 Typical usage:
 
-{% highlight r %}
+``` r
 library("r2pmml")
 
 r2pmml(audit.rf, "/tmp/audit-r2pmml.pmml")
-{% endhighlight %}
+```
 
 The package defines a sole conversion function `r2pmml`, which is a thin wrapper around the Java converter application class `org.jpmml.converter.Main`. Behind the scenes, this function performs the following operations:
 
@@ -159,57 +159,57 @@ Here, the installation and configuration is played out on a blank GNU/Linux syst
 
 This package depends on [curl] (http://curl.haxx.se/) and [protobuf] (https://developers.google.com/protocol-buffers/) system libraries. It is worth mentioning that if the package is built from its source form (default behavior on *NIX systems), then all the required system libraries must be present both in their standard (no suffix) and development flavors (identified by the "-dev" or "-devel" suffix).
 
-{% highlight bash %}
+```
 $ yum install curl curl-devel
 $ yum install protobuf protobuf-devel
-{% endhighlight %}
+```
 
 After that, the `RProtoBuf` package can be installed as usual:
 
-{% highlight r %}
+``` r
 install.packages("RProtoBuf")
-{% endhighlight %}
+```
 
 If the system is missing the curl development library `curl-devel`, then the installation fails with the following error message:
 
-{% highlight r %}
+```
 checking for curl-config... no
 Cannot find curl-config
 ERROR: configuration failed for package ‘RCurl’
 ERROR: dependency ‘RCurl’ is not available for package ‘RProtoBuf’
-{% endhighlight %}
+```
 
 If the system is missing the protobuf development library `protobuf-devel`, then the installation fails with the following error message:
 
-{% highlight r %}
+```
 configure: error: ERROR: ProtoBuf headers required; use '-Iincludedir' in CXXFLAGS for unusual locations.
 ERROR: configuration failed for package ‘RProtoBuf’
-{% endhighlight %}
+```
 
 The format of ProtoBuf messages is defined by the proto file `inst/proto/rexp.proto`. Currently, the JPMML-Conversion library uses the proto file that came with the RProtoBuf package version 0.4.2. As a word of caution, it will be useless to force the `r2pmml` package to depend on any RProtoBuf package version older than that, because this proto file underwent incompatible changes between versions 0.4.1 and 0.4.2. The Java converter application throws an instance of `com.google.protobuf.InvalidProtocolBufferException` when the contents of the ProtoBuf input file does not match the expected ProtoBuf message format.
 
 The version of a package can be verified using the function `packageVersion`:
 
-{% highlight r %}
+``` r
 packageVersion("RProtoBuf")
-{% endhighlight %}
+```
 
 ### rJava package
 
 This package depends on Java version 1.7.0 or newer.
 
-{% highlight bash %}
+```
 $ yum install java-1.7.0-openjdk
-{% endhighlight %}
+```
 
 The Java executable `java` must be available via system and/or user path. Everything should be good to go if the java version can be verified by launching the Java executable with the `-version` option:
 
-{% highlight bash %}
+```
 $ java -version
-{% endhighlight %}
+```
 
 After that, the `rJava` package can be installed as usual:
 
-{% highlight r %}
+``` r
 install.packages("rJava")
-{% endhighlight %}
+```
