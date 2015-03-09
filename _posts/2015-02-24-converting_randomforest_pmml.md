@@ -42,14 +42,14 @@ The exercise starts with training a classification-type random forest model for 
 source("audit.R")
 
 measure = function(fun){
-	begin.time = proc.time()
-	result = fun()
-	end.time = proc.time();
+  begin.time = proc.time()
+  result = fun()
+  end.time = proc.time();
 
-	diff = (end.time - begin.time)
-	print(paste("Operation completed in", round(diff[3] * 1000), "ms."))
+  diff = (end.time - begin.time)
+  print(paste("Operation completed in", round(diff[3] * 1000), "ms."))
 
-	return (result)
+  return (result)
 }
 
 audit = loadAuditData()
