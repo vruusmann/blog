@@ -6,7 +6,7 @@ author: vruusmann
 
 Java (programming language-) agent is a JVM service that is based on the [Java Instrumentation API] (http://docs.oracle.com/javase/7/docs/api/java/lang/instrument/package-summary.html). Java agents are loaded into the JVM and activated before any Java application code is loaded. Therefore, Java agents have the unique ability to monitor and/or control the complete life-cycle of Java applications. This is typically achieved by modifying the definitions of Java class files.
 
-### SAX Locator information
+### SAX Locator information ###
 
 The [JPMML-Model] (https://github.com/jpmml/jpmml-model) library provides a class model that is rooted at abstract class `org.dmg.pmml.PMMLObject`. This class declares a single field `locator`, whose responsibility is to hold SAX Locator information. Different JAXB runtimes are able to discover and initialize this field in a completely automated fashion, because it is marked with appropriate proprietary annotations (eg. `com.sun.xml.bind.annotation.XmlLocation` for [GlassFish Metro implementation] (https://jaxb.java.net/), `org.eclipse.persistence.oxm.annotations.XmlLocation` for [EclipseLink MOXy implementation] (https://eclipse.org/eclipselink/moxy.php)).
 
@@ -33,7 +33,7 @@ Conversely, SAX Locator information is absolutely irrelevant for PMML producers.
 
 This leads to the conclusion that, more often than not, it would be desirable to get rid of the field `locator` in a safe and easy manner. The main benefit of doing so is that it reduces the memory consumption by 25-30%. Given that RAM is cheap and plentiful nowadays, this optimization becomes economically rational to pursue when the application needs to deploy a large number of ensemble models (eg. Random Forest models) in parallel. The added benefit is that the unmarshalling time is reduced in the same proportion.
 
-### Activating the JPMML agent
+### Activating the JPMML agent ###
 
 JPMML agent is part of the JPMML-Model library project. JPMML agent depends on the [Javassist] (http://www.javassist.org) library for its Java class file transformation functionality. Both the JPMML agent JAR file and the Javassist JAR file can be downloaded from the Maven Central repository:
 
@@ -64,7 +64,7 @@ $ java -javaagent:pmml-agent-1.1.14.jar=transform=true -cp javassist-3.19.0-GA.j
 
 If the JAR file `myapplication.jar` does not contain Javassist classes, then they need to be added to the application classpath by other means. The JVM ignores the `-cp` option when the `-jar` option is set. Therefore, in the last command, the application classpath is crafted manually by "prepending" the Javassist JAR file to the application JAR file, and the name of the main class is spelled out in full.
 
-### Transformation
+### Transformation ###
 
 Transformation is performed by the class `org.jpmml.agent.PMMLObjectTransformer`. The current implementation is naive, because the SAX Locator information is omitted simply by deleting the field `locator`. A more sophisticated implementation could perform a series of "push down" refactorings, so that this field is preserved for subclasses that are associated with more error-prone PMML content.
 
@@ -121,7 +121,7 @@ public class PMMLObject implements HasLocator, Serializable {
 
 This transformation should be completely safe and undetectable from the Java application perspective.
 
-### Memory measurement
+### Memory measurement ###
 
 Memory measurement is performed by the class `org.jpmml.model.visitors.MemoryMeasurer` that traverses a class model object first by JPMML-Model Visitor API and then by Java Reflection API. This Visitor maintains a set of distinct objects that are reachable from the specified "root" object. The size of individual objects is approximated using the method `java.lang.instrument.Instrumentation#getObjectSize(Object)`. The total size of the class model object is calculated by summing the sizes of set members.
 
