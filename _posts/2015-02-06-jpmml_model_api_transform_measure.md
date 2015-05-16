@@ -128,7 +128,7 @@ Memory measurement is performed by the class `org.jpmml.model.visitors.MemoryMea
 The decision to implement yet another memory measurement tool (as opposed to reusing some existing tool, eg. [Java Agent for Memory Measurements] (https://github.com/jbellis/jamm)) is supported by specific traits of the JPMML-Model class model:
 
 * The traversal by JPMML-Model Visitor API is much faster than by Java Reflection API. Speed becomes critical when working with extremely large (several GB in size) ensemble models.
-* Proper handling of JPMML class model specific datatypes. For example, instances of `org.dmg.pmml.FieldName` are treated as `enum` constants when they are interned, and as regular objects when they are not interned.
+* Proper handling of PMML class model specific datatypes. For example, instances of `org.dmg.pmml.FieldName` are treated as `enum` constants when they are interned, and as regular objects when they are not interned.
 * Conservative definition of "reachability". For example, interned instances of `String` and shared instances of Java primitive wrapper classes are added to the set of distinct objects.
 
 Java source code of a simple application that outputs basic information about a class model object:
