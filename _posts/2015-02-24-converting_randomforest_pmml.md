@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Converting R's random forest (RF) models to PMML"
+title: "Converting R's random forest (RF) models to PMML documents"
 author: vruusmann
 ---
 
