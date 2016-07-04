@@ -63,7 +63,7 @@ ada_compact = ada(y ~ ., data = soldat, control = rpart.control(maxsurrogate = 0
 saveXML(pmml(ada_compact), "ada.pmml")
 ```
 
-If the re-training is not an option (eg. dealing with legacy or third-party models), then exactly the same effect can be achieved using the Visitor API. The `pmml-rattle` module of the [JPMML-Evaluator] (https://github.com/jpmml/jpmml-evaluator) library provides Visitor class `org.jpmml.rattle.PredicateTransformer`, which implements two elementary transformations. First, the "unwrap" transformation (recursively-) replaces surrogate-type `CompoundPredicate` elements with their first child predicate element. Second, the "simplify" transform replaces single-value [`SimpleSetPredicate` elements] (http://dmg.org/pmml/v4-2-1/TreeModel.html#xsdElement_SimpleSetPredicate) with `SimplePredicate` elements.
+If the re-training is not an option (eg. dealing with legacy or third-party models), then exactly the same effect can be achieved using the Visitor API. The `pmml-rattle` module of the [JPMML-Evaluator] (https://github.com/jpmml/jpmml-evaluator) library provides Visitor class `org.jpmml.rattle.PredicateTransformer`, which implements two elementary transformations. First, the "unwrap" transformation (recursively-) replaces surrogate-type `CompoundPredicate` elements with their first predicate child element. Second, the "simplify" transform replaces single-value [`SimpleSetPredicate` elements] (http://dmg.org/pmml/v4-2-1/TreeModel.html#xsdElement_SimpleSetPredicate) with `SimplePredicate` elements.
 
 Before transformation:
 
@@ -129,11 +129,11 @@ The relevance of an active field is proportional to the total number of `MiningF
 
 ##### Step 3/3: Purging ScoreDistribution elements #####
 
-The prediction of a `TreeModel` element is extracted from the winning `Node` element. For regression models, this is the value of the `score` attribute. For classification models, this is the class probability distribution as encoded by child `ScoreDistribution` elements.
+The prediction of a `TreeModel` element is extracted from the winning `Node` element. For regression models, this is the value of the `score` attribute. For classification models, this is the class probability distribution as encoded by `ScoreDistribution` child elements.
 
 It follows that AdaBoost PMML documents have no practical need for `ScoreDistribution` elements. The main argument against preserving existing elements is the drain on runtime resources. Grepping shows that `ScoreDistribution` elements outnumber `Node` elements two-to-one, which makes it the most numerous element type. This ratio keeps deteriorating when moving from binary-classification problems to multi-class classification problems.
 
-The `pmml-rattle` module of the JPMML-Evaluator library provides Visitor class `org.jpmml.rattle.ScoreDistributionCleaner`, which cleans `Node` elements by nullifying the value of the `recordCount` attribute and removing all child `ScoreDistribution` elements.
+The `pmml-rattle` module of the JPMML-Evaluator library provides Visitor class `org.jpmml.rattle.ScoreDistributionCleaner`, which cleans `Node` elements by nullifying the value of the `recordCount` attribute and removing all `ScoreDistribution` child elements.
 
 Before transformation:
 

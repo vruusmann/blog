@@ -16,7 +16,7 @@ The choice between these three approaches depends on various technical and organ
 
 ### Overview ###
 
-This blog post is about employing the [Openscoring web service] (https://github.com/jpmml/openscoring) from within PostgreSQL database.
+This blog post is about employing the [Openscoring REST web service] (https://github.com/jpmml/openscoring) from within PostgreSQL database.
 
 The exercise starts with installing and running the Openscoring web service at localhost:8080 and deploying the example model `DecisionTreeIris.pmml` as described in the README file of the project.
 

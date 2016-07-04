@@ -150,7 +150,7 @@ Just like the exception message suggests, the solution is to make the MathML cla
 
 A `javax.xml.bind.JAXBContext` instance can be created by calling the `JAXBContext#newInstance(Class...)` method with a list of XML registry classes as arguments. Currently, this list must include `org.dmg.pmml.ObjectFactory` and `org.w3c.math.ObjectFactory` classes.
 
-A custom `JAXBContext` instance passes complete type information to its "child" `javax.xml.bind.Marshaller` and `javax.xml.bind.Unmarshaller` instances. The marshalling and unmarshalling behaviour can be further modified by adjusting generic as well as implementation-specific configuration options. For example, setting the generic `jaxb.formatted.output` configuration option to `true` will indentate the XML document to make it more human friendly:
+A custom `JAXBContext` instance passes complete type information to its child `javax.xml.bind.Marshaller` and `javax.xml.bind.Unmarshaller` instances. The marshalling and unmarshalling behaviour can be further modified by adjusting generic as well as implementation-specific configuration options. For example, setting the generic `jaxb.formatted.output` configuration option to `true` will indentate the XML document to make it more human friendly:
 
 ``` java
 private static JAXBContext mixedContext = null;
