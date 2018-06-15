@@ -21,7 +21,7 @@ iris.randomForest = randomForest(Species ~ ., iris, ntree = 5, maxnodes = 2)
 saveXML(pmml(iris.randomForest), "RandomForestIris.pmml")
 ```
 
-The resulting PMML document ["RandomForestIris.pmml"] ({{ site.baseurl }}/assets/pmml/RandomForestIris.pmml) can be opened in a text editor for inspection. The core of the random forest model is the `Segmentation` element. It specifies the `multipleModelMethod` attribute as "majorityVote" and contains five `Segment` elements, one for each member decision tree. Individual `Segment` elements are identified by their `id` attribute. This attribute is optional according to the PMML specification. When the `id` attribute is missing, then the `Segment` element is identified by an implicit 1-based index.
+The resulting PMML document ["RandomForestIris.pmml"] ({{ site.baseurl }}/assets/pmml/RandomForestIris.pmml) can be opened for inspection in a text editor. The core of the random forest model is the `Segmentation` element. It specifies the `multipleModelMethod` attribute as "majorityVote" and contains five `Segment` elements, one for each member decision tree. Individual `Segment` elements are identified by their `id` attribute. This attribute is optional according to the PMML specification. When the `id` attribute is missing, then the `Segment` element is identified by an implicit 1-based index.
 
 The `Output` element contains four `OutputField` elements. The first output field "Predicted\_Species" is not that relevant as it simply generates a copy of the predicted value. The remaining three output fields "Probability\_setosa", "Probability\_versicolor" and "Probability\_virginica" compute the probabilities that the current input records belongs to the specified class.
 
@@ -50,7 +50,7 @@ This input record evaluates the following output record:
 
 Multiplying the computed probabilities with the number of decision trees gives back the frequency of class labels. It is easy to see that this input record scored 4 times as "setosa", one time as "versicolor" and zero times as "virginica". However, it is impossible to find out which decision tree model exactly was the dissenter (i.e. predicted "versicolor" instead of "setosa") and what was the associated probability. Admittedly, this information is rarely needed in the production stage, but it may be a critical factor during development and testing stages.
 
-The "debugging" work starts by declaring an `OutputField` element for every `Segment` element, and mapping the former to the latter using the `segmentId` attribute. When manipulating larger and more complex segmentation models on a regular basis then it will be probably worthwhile to develop custom tooling for this job. The [JPMML-Model] (https://github.com/jpmml/jpmml-model) library contains a command-line example application `org.jpmml.model.SegmentationOutputExample` for enhancing the `Output` element of segmentation models.
+The "debugging" work starts by declaring an `OutputField` element for every `Segment` element, and mapping the former to the latter using the `segmentId` attribute. When manipulating larger and more complex segmentation models on a regular basis then it will be probably worthwhile to develop custom tooling for this job. The [JPMML-Model] (https://github.com/jpmml/jpmml-model) library provides a command-line example application `org.jpmml.model.SegmentationOutputExample` for enhancing the `Output` element of segmentation models.
 
 The `Output` element after the first enhancement round:
 
