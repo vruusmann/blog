@@ -4,11 +4,11 @@ title: "JPMML-Model: Transforming and measuring the memory consumption of class 
 author: vruusmann
 ---
 
-Java (programming language-) agent is a JVM service that is based on the [Java Instrumentation API] (http://docs.oracle.com/javase/7/docs/api/java/lang/instrument/package-summary.html). Java agents are loaded into the JVM and activated before any Java application code is loaded. Therefore, Java agents have the unique ability to monitor and/or control the complete life-cycle of Java applications. This is typically achieved by modifying the definitions of Java class files.
+Java (programming language-) agent is a JVM service that is based on the [Java Instrumentation API](http://docs.oracle.com/javase/7/docs/api/java/lang/instrument/package-summary.html). Java agents are loaded into the JVM and activated before any Java application code is loaded. Therefore, Java agents have the unique ability to monitor and/or control the complete life-cycle of Java applications. This is typically achieved by modifying the definitions of Java class files.
 
 ### SAX Locator information ###
 
-The [JPMML-Model] (https://github.com/jpmml/jpmml-model) library provides a class model that is rooted at abstract class `org.dmg.pmml.PMMLObject`. This class declares a single field `locator`, whose responsibility is to hold SAX Locator information. Different JAXB runtimes are able to discover and initialize this field in a completely automated fashion, because it is marked with appropriate proprietary annotations (eg. `com.sun.xml.bind.annotation.XmlLocation` for [GlassFish Metro implementation] (https://jaxb.java.net/), `org.eclipse.persistence.oxm.annotations.XmlLocation` for [EclipseLink MOXy implementation] (https://eclipse.org/eclipselink/moxy.php)).
+The [JPMML-Model](https://github.com/jpmml/jpmml-model) library provides a class model that is rooted at abstract class `org.dmg.pmml.PMMLObject`. This class declares a single field `locator`, whose responsibility is to hold SAX Locator information. Different JAXB runtimes are able to discover and initialize this field in a completely automated fashion, because it is marked with appropriate proprietary annotations (eg. `com.sun.xml.bind.annotation.XmlLocation` for [GlassFish Metro implementation](https://jaxb.java.net/), `org.eclipse.persistence.oxm.annotations.XmlLocation` for [EclipseLink MOXy implementation](https://eclipse.org/eclipselink/moxy.php)).
 
 Application developers can access SAX Locator information using the interface `org.dmg.pmml.HasLocator`.
 
@@ -27,7 +27,7 @@ public Locator getLocator(Object object){
 
 The method `HasLocator#getLocator()` returns an instance of `org.xml.sax.Locator` when the PMML document was unmarshalled from a SAX source or a SAX-backed DOM source. It returns a `null` reference when the PMML document was unmarshalled from other types of sources, or created manually.
 
-SAX Locator information is relevant for PMML consumers, especially in model development and model testing stages. For example, the [JPMML-Evaluator] (https://github.com/jpmml/jpmml-evaluator) library uses it to point out the exact location of the problematic class model object in the source PMML document when throwing a subclass of `org.jpmml.manager.PMMLException`. However, if the quality assurance process is up to the challenge, then there should be no place for such debugging work in the final model deployment stage.
+SAX Locator information is relevant for PMML consumers, especially in model development and model testing stages. For example, the [JPMML-Evaluator](https://github.com/jpmml/jpmml-evaluator) library uses it to point out the exact location of the problematic class model object in the source PMML document when throwing a subclass of `org.jpmml.manager.PMMLException`. However, if the quality assurance process is up to the challenge, then there should be no place for such debugging work in the final model deployment stage.
 
 Conversely, SAX Locator information is absolutely irrelevant for PMML producers. For example, it cannot be used to order the JAXB runtime to format the PMML document in a specific way when marshalling.
 
@@ -35,10 +35,10 @@ This leads to the conclusion that, more often than not, it would be desirable to
 
 ### Activating the JPMML agent ###
 
-JPMML agent is part of the JPMML-Model library project. JPMML agent depends on the [Javassist] (http://www.javassist.org) library for its Java class file transformation functionality. Both the JPMML agent JAR file and the Javassist JAR file can be downloaded from the Maven Central repository:
+JPMML agent is part of the JPMML-Model library project. JPMML agent depends on the [Javassist](http://www.javassist.org) library for its Java class file transformation functionality. Both the JPMML agent JAR file and the Javassist JAR file can be downloaded from the Maven Central repository:
 
-* [Search for a JPMML agent JAR file] (http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.jpmml%22%20AND%20a%3A%22pmml-agent%22).
-* [Search for a Javassist JAR file] (http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.javassist%22%20AND%20a%3A%22javassist%22).
+* [Search for a JPMML agent JAR file](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.jpmml%22%20AND%20a%3A%22pmml-agent%22).
+* [Search for a Javassist JAR file](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.javassist%22%20AND%20a%3A%22javassist%22).
 
 The following example assumes that the Java application is packaged into an executable JAR file `myapplication.jar` and the name of the main class is `com.mycompany.myapplication.Main`.
 
@@ -125,7 +125,7 @@ This transformation should be completely safe and undetectable from the Java app
 
 Memory measurement is performed by the class `org.jpmml.model.visitors.MemoryMeasurer` that traverses a class model object first by JPMML-Model Visitor API and then by Java Reflection API. This Visitor maintains a set of distinct objects that are reachable from the specified "root" object. The size of individual objects is approximated using the method `java.lang.instrument.Instrumentation#getObjectSize(Object)`. The total size of the class model object is calculated by summing the sizes of set members.
 
-The decision to implement yet another memory measurement tool (as opposed to reusing some existing tool, eg. [Java Agent for Memory Measurements] (https://github.com/jbellis/jamm)) is supported by specific traits of the JPMML-Model class model:
+The decision to implement yet another memory measurement tool (as opposed to reusing some existing tool, eg. [Java Agent for Memory Measurements](https://github.com/jbellis/jamm)) is supported by specific traits of the JPMML-Model class model:
 
 * The traversal by JPMML-Model Visitor API is much faster than by Java Reflection API. Speed becomes critical when working with extremely large (several GB in size) ensemble models.
 * Proper handling of PMML class model specific datatypes. For example, instances of `org.dmg.pmml.FieldName` are treated as `enum` constants when they are interned, and as regular objects when they are not interned.
@@ -160,7 +160,7 @@ public class Main {
 }
 ```
 
-Memory measurements are performed on the already familiar PMML document ["RandomForestIris.pmml"] ({{ site.baseurl }}/assets/pmml/RandomForestIris.pmml).
+Memory measurements are performed on the already familiar PMML document ["RandomForestIris.pmml"]({{ site.baseurl }}/assets/pmml/RandomForestIris.pmml).
 
 The results in "non-transforming mode":
 

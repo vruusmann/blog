@@ -4,7 +4,7 @@ title: "Using Apache Spark ML pipeline models for real-time prediction: the Open
 author: vruusmann
 ---
 
-[Apache Spark] (http://spark.apache.org/) follows the batch data processing paradigm, which has its strengths and weaknesses.
+[Apache Spark](http://spark.apache.org/) follows the batch data processing paradigm, which has its strengths and weaknesses.
 On one hand, the batch processing is suitable for working with true Big Data datasets. Apache Spark splits the task into manageable-size batches and distributes the workfload across a cluster of machines.
 Apache Spark competitors such as R or Python cannot match that, because they typically require the task to fit into the RAM of a single machine.
 
@@ -15,14 +15,14 @@ This blog post is about demonstrating a workflow where Spark ML pipeline models 
 
 # Step 1: Exporting Spark ML pipeline models to PMML #
 
-The support for PMML was [introduced] (https://databricks.com/blog/2015/07/02/pmml-support-in-apache-spark-mllib.html) in Apache Spark MLlib version 1.4.0 in the form of a `org.apache.spark.mllib.pmml.PMMLExportable` trait. The invocation of the `PMMLExportable#toPMML()` method (or one of its overloaded variants) produces a PMML document withich contains the symbolic description of the fitted model object.
+The support for PMML was [introduced](https://databricks.com/blog/2015/07/02/pmml-support-in-apache-spark-mllib.html) in Apache Spark MLlib version 1.4.0 in the form of a `org.apache.spark.mllib.pmml.PMMLExportable` trait. The invocation of the `PMMLExportable#toPMML()` method (or one of its overloaded variants) produces a PMML document withich contains the symbolic description of the fitted model object.
 
 Unfortunately, this solution is not very relevant to Apache Spark ML.
 First, Spark ML is organized around the pipeline concept. A Spark ML pipeline can be regarded as a directed graph of data transformations and models. When exporting a model, then it will be necessary to include all the preceding stages to the dump.
 Second, Spark ML comes with rich metadata. The `DataFrame` representation of a dataset is associated with a static schema, which can be queried for column names, data types and more.
 Finally, Spark ML has replaced and/or abstracted away a great deal of Spark MLlib APIs. Newer versions of Spark ML have almost completely ceased to rely on Spark MLlib classes that implement the `PMMLExportable` trait.
 
-The [JPMML-SparkML] (https://github.com/jpmml/jpmml-sparkml) library is an independent effort to provide a fully-featured PMML exporter for Spark ML pipelines.
+The [JPMML-SparkML](https://github.com/jpmml/jpmml-sparkml) library is an independent effort to provide a fully-featured PMML exporter for Spark ML pipelines.
 
 The main interaction point is the `org.jpmml.sparkml.ConverterUtil#toPMML(StructType, PipelineModel)` utility method.
 The conversion engine initializes a PMML document based on the `StructType` argument, and fills it with relevant content by iterating over all the stages of the `PipelineModel` argument.
@@ -44,13 +44,13 @@ PMML pmml = ConverterUtil.toPMML(schema, pipelineModel);
 JAXBUtil.marshalPMML(pmml, new StreamResult(System.out));
 ```
 
-The JPMML-SparkML library depends on a newer version of the [JPMML-Model] (https://github.com/jpmml/jpmml-model) library than Spark MLlib, which introduces severe compile-time and run-time classpath conflicts. The solution is to employ [Maven Shade Plugin] (https://maven.apache.org/plugins/maven-shade-plugin/) and relocate the affected `org.dmg.pmml` and `org.jpmml.(agent|model|schema)` packages.
+The JPMML-SparkML library depends on a newer version of the [JPMML-Model](https://github.com/jpmml/jpmml-model) library than Spark MLlib, which introduces severe compile-time and run-time classpath conflicts. The solution is to employ [Maven Shade Plugin](https://maven.apache.org/plugins/maven-shade-plugin/) and relocate the affected `org.dmg.pmml` and `org.jpmml.(agent|model|schema)` packages.
 
-The [JPMML-SparkML-Bootstrap] (https://github.com/jpmml/jpmml-sparkml-bootstrap) project aims to provide a complete example about developing and packaging an JPMML-SparkML powered application.
+The [JPMML-SparkML-Bootstrap](https://github.com/jpmml/jpmml-sparkml-bootstrap) project aims to provide a complete example about developing and packaging an JPMML-SparkML powered application.
 
 The `org.jpmml.sparkml.bootstrap.Main` application class demonstrates a two-stage Spark ML pipeline. The first stage is a `RFormula` feature selector that selects columns from a CSV input file. The second stage is either a `DecisionTreeRegressor` or `DecisionTreeClassifier` estimator that finds the best approximation between the target column and active columns. The result is written to a PMML output file.
 
-The exercise starts with training a classification-type decision tree model for the ["wine quality" dataset] (https://archive.ics.uci.edu/ml/datasets/Wine+Quality):
+The exercise starts with training a classification-type decision tree model for the ["wine quality" dataset](https://archive.ics.uci.edu/ml/datasets/Wine+Quality):
 
 ```
 spark-submit \
@@ -69,7 +69,7 @@ The resulting `wine-color.pmml` file can be opened for inspection in a text edit
 A PMML document specifies a workflow for transforming an input data record to an output data record.
 The end user interacts with the entry and exit interfaces of the workflow, and can completely disregard its internals.
 
-The design and implementation of these two interfaces is PMML engine specific. The [JPMML-Evaluator] (https://github.com/jpmml/jpmml-evaluator) library is geared towards maximum automation. The entry interface exposes complete description of active fields. Similarly, the exit interface exposes complete description of the primary target field and secondary output fields. A capable end user agent can use this information to format input data record and parse output data records without any external help.
+The design and implementation of these two interfaces is PMML engine specific. The [JPMML-Evaluator](https://github.com/jpmml/jpmml-evaluator) library is geared towards maximum automation. The entry interface exposes complete description of active fields. Similarly, the exit interface exposes complete description of the primary target field and secondary output fields. A capable end user agent can use this information to format input data record and parse output data records without any external help.
 
 ### Input
 
@@ -230,32 +230,32 @@ The conversion engine takes notice of that and omits all the related data transf
 
 # Step 3: Importing PMML to Openscoring REST web service #
 
-[Openscoring] (https://github.com/jpmml/openscoring) provides a way to expose a predictive model as a REST web service.
-The primary design consideration is to make predictive models easily discoverable and usable (a variation of the [HATEOAS] (https://en.wikipedia.org/wiki/HATEOAS) theme) for human and machine agents alike. 
+[Openscoring](https://github.com/openscoring/openscoring) provides a way to expose a predictive model as a REST web service.
+The primary design consideration is to make predictive models easily discoverable and usable (a variation of the [HATEOAS](https://en.wikipedia.org/wiki/HATEOAS) theme) for human and machine agents alike. 
 The PMML representation is perfect fit thanks to the availability of rich descriptive metadata. Other representations can be plugged into the framework with the help of wrappers that satisfy the requested metadata query needs.
 
 Openscoring is minimalistic Java web application that conforms to Servlet and JAX-RS specifications.
 
-It can be built from the source checkout using [Apache Maven] (https://maven.apache.org/):
+It can be built from the source checkout using [Apache Maven](https://maven.apache.org/):
 
 ```
-git clone https://github.com/jpmml/openscoring.git
+git clone https://github.com/openscoring/openscoring.git
 ch openscoring
 mvn clean package
 ```
 
 Openscoring exists in two variants. First, the standalone command-line application variant `openscoring-server/target/server-executable-${version}.jar` is based on Jetty web server. Easy configuration and almost instant startup and shutdown times make it suitable for local development and testing use cases. The web application (WAR) variant `openscoring-webapp/target/openscoring-webapp-${version}.war` is more suitable for production use cases. It can be deployed on any standards-compliant Java web- or application container, and secured and scaled according to organization's preferences.
 
-Alternatively, release versions of the Openscoring WAR file can be downloaded from the [`org/openscoring/openscoring-webapp`] (http://central.maven.org/maven2/org/openscoring/openscoring-webapp/) section of the Maven Central repository.
+Alternatively, release versions of the Openscoring WAR file can be downloaded from the [`org/openscoring/openscoring-webapp`](http://central.maven.org/maven2/org/openscoring/openscoring-webapp/) section of the Maven Central repository.
 
-A demo instance of Openscoring can be launched by dropping its WAR file into the auto-deployment directory of a running [Apache Tomcat] (http://tomcat.apache.org/) web container:
+A demo instance of Openscoring can be launched by dropping its WAR file into the auto-deployment directory of a running [Apache Tomcat](http://tomcat.apache.org/) web container:
 
-1. Download the latest `openscoring-webapp-${version}.war` file from the Maven Central repository to a temporary directory. At the time of writing this, it is [`openscoring-webapp-1.2.15.war`] (http://central.maven.org/maven2/org/openscoring/openscoring-webapp/1.2.15/openscoring-webapp-1.2.15.war).
+1. Download the latest `openscoring-webapp-${version}.war` file from the Maven Central repository to a temporary directory. At the time of writing this, it is [`openscoring-webapp-1.2.15.war`](http://central.maven.org/maven2/org/openscoring/openscoring-webapp/1.2.15/openscoring-webapp-1.2.15.war).
 2. Rename the downloaded file to `openscoring.war`. Apache Tomcat generates the context path for a web application from the filename part of the WAR file. So, the context path for `openscoring.war` will be "/openscoring/" (whereas for the original `openscoring-webapp-${version}.war` it would have been "/openscoring-webapp-${version}/").
 3. Move the `openscoring.war` file from the temporary directory to the `$CATALINA_HOME/webapps` auto-deployment directory. Allow the directory watchdog thread a couple of seconds to unpack and deploy the web application.
-4. Verify the deployment by accessing [http://localhost:8080/openscoring/model] (http://localhost:8080/openscoring/model). Upon success, the response body should be an empty JSON object `{ }`.
+4. Verify the deployment by accessing [http://localhost:8080/openscoring/model](http://localhost:8080/openscoring/model). Upon success, the response body should be an empty JSON object `{ }`.
 
-Openscoring maps every PMML document to a `/model/${id}` endpoint, which provides model-oriented information and services according to the [REST API specification] (https://github.com/jpmml/openscoring#rest-api).
+Openscoring maps every PMML document to a `/model/${id}` endpoint, which provides model-oriented information and services according to the [REST API specification](https://github.com/openscoring/openscoring#rest-api).
 
 Model deployment, download and undeployment are privileged actions that are only accessible to users with the "admin" role. All the unprivileged actions are accessible to all users.
 This basic access and authorization control can be overriden at the Java web container level. For example, configuring Servet filters that restrict the visibility of endpoints by some prefix/suffix, restrict the number of data records that can be evaluated in a time period, etc.
@@ -268,7 +268,7 @@ Adding the wine color model:
 curl -X PUT --data-binary @/path/to/wine-color.pmml -H "Content-type: text/xml" http://localhost:8080/openscoring/model/wine-color
 ```
 
-The response body is an [`org.openscoring.common.ModelResponse`] (https://github.com/jpmml/openscoring/blob/master/openscoring-common/src/main/java/org/openscoring/common/ModelResponse.java) object:
+The response body is an [`org.openscoring.common.ModelResponse`](https://github.com/openscoring/openscoring/blob/master/openscoring-common/src/main/java/org/openscoring/common/ModelResponse.java) object:
 
 ```json
 {
@@ -350,7 +350,7 @@ Evaluating the wine color model in single prediction mode:
 curl -X POST --data-binary @/path/to/data_record.json -H "Content-type: application/json" http://localhost:8080/openscoring/model/wine-color
 ```
 
-The request body is an [`org.openscoring.common.EvaluationRequest`] (https://github.com/jpmml/openscoring/blob/master/openscoring-common/src/main/java/org/openscoring/common/EvaluationRequest.java) object:
+The request body is an [`org.openscoring.common.EvaluationRequest`](https://github.com/openscoring/openscoring/blob/master/openscoring-common/src/main/java/org/openscoring/common/EvaluationRequest.java) object:
 
 ``` json
 {
@@ -368,7 +368,7 @@ The request body is an [`org.openscoring.common.EvaluationRequest`] (https://git
 }
 ```
 
-The response body is an [`org.openscoring.common.EvaluationResponse`] (https://github.com/jpmml/openscoring/blob/master/openscoring-common/src/main/java/org/openscoring/common/EvaluationResponse.java) object:
+The response body is an [`org.openscoring.common.EvaluationResponse`](https://github.com/openscoring/openscoring/blob/master/openscoring-common/src/main/java/org/openscoring/common/EvaluationResponse.java) object:
 
 ``` json
 {
@@ -404,7 +404,7 @@ Openscoring client libraries provide easy and effective means for keeping up wit
 
 The Java client library is part of the Openscoring project. Other client libraries (Python, R, PHP) are isolated into their own projects.
 
-For example, the following Python script uses the [Openscoring-Python] (https://github.com/jpmml/openscoring-python) library to replicate the example workflow.
+For example, the following Python script uses the [Openscoring-Python](https://github.com/openscoring/openscoring-python) library to replicate the example workflow.
 
 ``` python
 import openscoring

@@ -4,15 +4,15 @@ title: "Converting R's random forest (RF) models to PMML documents"
 author: vruusmann
 ---
 
-The power and versatility of the R environment stems from its modular architecture. The functionality of the base platform can be quickly and easily expanded by downloading extension packages from the [CRAN repository] (http://cran.r-project.org/). For example, random forest models can be trained using the following functions:
+The power and versatility of the R environment stems from its modular architecture. The functionality of the base platform can be quickly and easily expanded by downloading extension packages from the [CRAN repository](http://cran.r-project.org/). For example, random forest models can be trained using the following functions:
 
-* `randomForest` ([`randomForest` package] (http://cran.r-project.org/web/packages/randomForest/)). Generic regression and classification. This is the reference implementation.
-* `cforest` ([`party` package] (http://cran.r-project.org/web/packages/party/)). Generic regression and classification.
-* `randomUniformForest` ([`randomUniformForest` package] (http://cran.r-project.org/web/packages/randomUniformForest/)). Generic regression and classification.
-* `bigrfc` ([`bigrf` package] (http://cran.r-project.org/web/packages/bigrf/)). Generic classification.
-* `logforest` ([`LogicForest` package] (http://cran.r-project.org/web/packages/LogicForest/)). Binary classification.
-* `obliqueRF` ([`obliqueRF` package] (http://cran.r-project.org/web/packages/obliqueRF/)). Binary classification.
-* `quantregForest` ([`quantregForest` package] (http://cran.r-project.org/web/packages/quantregForest/)). Quantile regression.
+* `randomForest` ([`randomForest` package](https://cran.r-project.org/package=randomForest)). Generic regression and classification. This is the reference implementation.
+* `cforest` ([`party` package](https://cran.r-project.org/package=party)). Generic regression and classification.
+* `randomUniformForest` ([`randomUniformForest` package](https://cran.r-project.org/package=randomUniformForest)). Generic regression and classification.
+* `bigrfc` ([`bigrf` package](https://cran.r-project.org/package=bigrf)). Generic classification.
+* `logforest` ([`LogicForest` package](https://cran.r-project.org/package=LogicForest)). Binary classification.
+* `obliqueRF` ([`obliqueRF` package](https://cran.r-project.org/package=obliqueRF)). Binary classification.
+* `quantregForest` ([`quantregForest` package](https://cran.r-project.org/package=quantregForest)). Quantile regression.
 
 Every function implements a variation of the "bagging of decision trees" idea. The result is returned as a random forest object, whose description is typically formalized using a package-specific S3 or S4 class definition.
 
@@ -20,23 +20,23 @@ All such model objects are dummy data structures. They can only be executed usin
 
 This one-to-one correspondence between models and model execution functions makes the deployment of R models on Java and Python platforms very complicated. Basically, it will be necessary to implement a separate Java and Python executor for every model type.
 
-![Executing R models on Java] ({{ site.baseurl }}/assets/R_Java.svg)
+![Executing R models on Java]({{ site.baseurl }}/assets/R_Java.svg)
 
-Predictive Model Markup Language (PMML) is an XML-based industry standard for the representation of predictive solutions. PMML provides a [MiningModel element] (http://www.dmg.org/v4-2-1/MultipleModels.html) that can encode a wide variety of bagging and boosting models (plus more complex model workflows). A model that has been converted to the PMML data format can be executed by any compliant PMML engine. A list of PMML producer and consumer software can be found at Data Mining Group (DMG) website under the [PMML Powered] (http://www.dmg.org/products.html) section.
+Predictive Model Markup Language (PMML) is an XML-based industry standard for the representation of predictive solutions. PMML provides a [MiningModel element](http://www.dmg.org/v4-3/MultipleModels.html) that can encode a wide variety of bagging and boosting models (plus more complex model workflows). A model that has been converted to the PMML data format can be executed by any compliant PMML engine. A list of PMML producer and consumer software can be found at Data Mining Group (DMG) website under the [PMML Powered](http://www.dmg.org/products.html) section.
 
-PMML leads to simpler and more robust model deployment workflows. Basically, models are first converted from their function-specific R representation to the PMML representation, and then executed on a shared platform-specific PMML engine. For the Java platform this could be the [JPMML-Evaluator] (https://github.com/jpmml/jpmml-evaluator) library. For the Python platform this could be [Augustus] (augustus.googlecode.com) library.
+PMML leads to simpler and more robust model deployment workflows. Basically, models are first converted from their function-specific R representation to the PMML representation, and then executed on a shared platform-specific PMML engine. For the Java platform this could be the [JPMML-Evaluator](https://github.com/jpmml/jpmml-evaluator) library. For the Python platform this could be [Augustus](augustus.googlecode.com) library.
 
-![Executing R models as PMML on Java] ({{ site.baseurl }}/assets/R_PMML_Java.svg)
+![Executing R models as PMML on Java]({{ site.baseurl }}/assets/R_PMML_Java.svg)
 
 The conversion of model objects from R to PMML is straightforward, because these two languages share many of the core concepts. For example, they both regard data records as collections of key-value pairs (eg. individual fields are identified by name not by position), and decorate their data exchange interfaces (eg. model input and output data records) with data schema information.
 
 ### Conversion ###
 
-The first version of the [`pmml` package] (http://cran.r-project.org/web/packages/pmml/) was released in early 2007. This package has provided great service for the community over the years. However, it has largely failed to respond to new trends and developments, such as the emergence and widespread adoption of ensemble methods.
+The first version of the [`pmml` package](https://cran.r-project.org/package=pmml) was released in early 2007. This package has provided great service for the community over the years. However, it has largely failed to respond to new trends and developments, such as the emergence and widespread adoption of ensemble methods.
 
-This blog post is about introducing the [`r2pmml` package] (https://github.com/jpmml/r2pmml). Today, it simply addresses the major shortcomings of the `pmml` package. Going forward, it aims to bring a completely new set of tools to the table. The long-term goal is to make R models together with associated data pre- and post-processing workflows easily exportable to other platforms.
+This blog post is about introducing the [`r2pmml` package](https://github.com/jpmml/r2pmml). Today, it simply addresses the major shortcomings of the `pmml` package. Going forward, it aims to bring a completely new set of tools to the table. The long-term goal is to make R models together with associated data pre- and post-processing workflows easily exportable to other platforms.
 
-The exercise starts with training a classification-type random forest model for the "audit" dataset. All the data preparation work has been isolated to a separate R script ["audit.R"] ({{ site.baseurl }}/assets/R/audit.R).
+The exercise starts with training a classification-type random forest model for the "audit" dataset. All the data preparation work has been isolated to a separate R script ["audit.R"]({{ site.baseurl }}/assets/R/audit.R).
 
 ``` r
 source("audit.R")
@@ -132,9 +132,9 @@ The package defines a sole conversion function `r2pmml`, which is a thin wrapper
 3. Executing the JPMML-Converter instance.
 4. Cleaning up the temporary ProtoBuf file.
 
-The capabilities of the function `r2pmml` (eg. the selection of supported model types) are completely defined by the capabilities of the [JPMML-Converter] (https://github.com/jpmml/jpmml-converter) library.
+The capabilities of the function `r2pmml` (eg. the selection of supported model types) are completely defined by the capabilities of the [JPMML-Converter](https://github.com/jpmml/jpmml-converter) library.
 
-This package addresses the technical limitations of the `pmml` package completely. First, all the processing (except for the serialization of the model object to a temporary file in the ProtoBuf data format) has been moved from the R memory space to a dedicated Java Virtual Machine (JVM) memory space. Second, model converter classes employ the [JPMML-Model] (https://github.com/jpmml/jpmml-model) library, which delivers high efficiency without compromising on functionality. In this example, the ~2 MB random forest object `audit.rf` gives rise to a ~5.3 MB Java PMML class model object. That is 280 MB / 5.3 MB = ~50 times smaller than the DOM representation!
+This package addresses the technical limitations of the `pmml` package completely. First, all the processing (except for the serialization of the model object to a temporary file in the ProtoBuf data format) has been moved from the R memory space to a dedicated Java Virtual Machine (JVM) memory space. Second, model converter classes employ the [JPMML-Model](https://github.com/jpmml/jpmml-model) library, which delivers high efficiency without compromising on functionality. In this example, the ~2 MB random forest object `audit.rf` gives rise to a ~5.3 MB Java PMML class model object. That is 280 MB / 5.3 MB = ~50 times smaller than the DOM representation!
 
 The detailed timing information about the conversion is very interesting (the readings correspond to the first and second `r2pmml` function call):
 
@@ -151,13 +151,13 @@ Also, the newly introduced `r2pmml` package is able to encode the same amount of
 
 ### Appendix ###
 
-The `r2pmml` package depends on the [`RProtoBuf` package] (http://cran.r-project.org/web/packages/RProtoBuf/) for ProtoBuf serialization and the [`rJava` package] (http://cran.r-project.org/web/packages/rJava/) for Java invocation functionality. Both packages can be downloaded and installed from the CRAN repository using R built-in function `install.packages`.
+The `r2pmml` package depends on the [`RProtoBuf` package](https://cran.r-project.org/package=RProtoBuf) for ProtoBuf serialization and the [`rJava` package](https://cran.r-project.org/package=rJava) for Java invocation functionality. Both packages can be downloaded and installed from the CRAN repository using R built-in function `install.packages`.
 
-Here, the installation and configuration is played out on a blank GNU/Linux system (Fedora). All system-level dependencies are handled using the [Yum software package manager] (https://fedoraproject.org/wiki/Yum).
+Here, the installation and configuration is played out on a blank GNU/Linux system (Fedora). All system-level dependencies are handled using the [Yum software package manager](https://fedoraproject.org/wiki/Yum).
 
 ##### RProtoBuf package #####
 
-This package depends on [curl] (http://curl.haxx.se/) and [protobuf] (https://developers.google.com/protocol-buffers/) system libraries. It is worth mentioning that if the package is built from its source form (default behavior on *NIX systems), then all the required system libraries must be present both in their standard (no suffix) and development flavors (identified by the "-dev" or "-devel" suffix).
+This package depends on [curl](http://curl.haxx.se/) and [protobuf](https://developers.google.com/protocol-buffers/) system libraries. It is worth mentioning that if the package is built from its source form (default behavior on *NIX systems), then all the required system libraries must be present both in their standard (no suffix) and development flavors (identified by the "-dev" or "-devel" suffix).
 
 ```
 $ yum install curl curl-devel

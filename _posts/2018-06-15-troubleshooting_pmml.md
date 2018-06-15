@@ -29,7 +29,7 @@ Typically, a PMML document starts with an XML declaration, followed by a `PMML` 
 
 *Tip*: If the content looks messy, consider re-indenting or re-formatting it.
 
-The JPMML-Model library provides an example command-line application `org.jpmml.model.CopyExample`, which reads/parses a PMML file into an in-memory class model object, and then formats/writes it to another PMML file:
+The [JPMML-Model](https://github.com/jpmml/jpmml-model) library provides an example command-line application `org.jpmml.model.CopyExample`, which reads/parses a PMML file into an in-memory class model object, and then formats/writes it to another PMML file:
 
 ```
 $ java -cp pmml-model-example/target/example-1.4-SNAPSHOT.jar org.jpmml.model.CopyExample --input model.pmml.xml --output /dev/null
@@ -99,7 +99,7 @@ The error happens on line 3 of the PMML document, and is about a missing `Header
 </PMML>
 ```
 
-The parent construct is the `PMML` element. According to the [general structure](http://dmg.org/pmml/v4-2-1/GeneralStructure.html), the first child element of the `PMML` element must be a [`Header` element](http://dmg.org/pmml/v4-2-1/Header.html#xsdElement_Header), which provides a general description of the model.
+The parent construct is the `PMML` element. According to the [general structure](http://dmg.org/pmml/v4-3/GeneralStructure.html), the first child element of the `PMML` element must be a [`Header` element](http://dmg.org/pmml/v4-3/Header.html#xsdElement_Header), which provides a general description of the model.
 
 The easiest way to satisfy the above requirement is inserting a dummy `Header` element:
 
@@ -149,7 +149,7 @@ SEVERE: [severity=ERROR,message=unexpected element (uri:"http://www.dmg.org/PMML
 
 These two errors are both reported against the same location (line 211, column 40), which suggests that they are related/indicative of the same problem.
 
-The parent construct is the [`Characteristic` element](http://dmg.org/pmml/v4-2-1/Scorecard.html#xsdElement_Characteristic), which belongs to the [`Scorecard` element](http://dmg.org/pmml/v4-2-1/Scorecard.html#xsdElement_Characteristic).
+The parent construct is the [`Characteristic` element](http://dmg.org/pmml/v4-3/Scorecard.html#xsdElement_Characteristic), which belongs to the [`Scorecard` element](http://dmg.org/pmml/v4-3/Scorecard.html#xsdElement_Characteristic).
 
 According to the PMML specification, the content of a scorecard model is represented by a sequence of `Characteristic` elements. However, when opening the PMML file in a text editor, then it is possible to find that around line 211 there is a `Characteristic` element nested inside an `Attribute` element (of another `Characteristic` element), which is not permitted:
 

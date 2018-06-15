@@ -12,12 +12,12 @@ The PMML document type is a top-level XML document type. It does not limit the n
 
 There are three main attachment points:
 
-* The [`Annotation` element] (http://www.dmg.org/v4-2-1/Header.html). Document modification history.
-* The [`Extension` element] (http://www.dmg.org/v4-2-1/GeneralStructure.html#extension). Element-specific vendor extensions. Vendor extensions are suitable for adding "depth" to the target element. For example, persisting non-standard data and metadata, which could come in handy during various stages of model life cycle.
+* The [`Annotation` element](http://www.dmg.org/v4-3/Header.html). Document modification history.
+* The [`Extension` element](http://www.dmg.org/v4-3/GeneralStructure.html#extension). Element-specific vendor extensions. Vendor extensions are suitable for adding "depth" to the target element. For example, persisting non-standard data and metadata, which could come in handy during various stages of model life cycle.
 Vendor extensions should not be critical for the successful use of the PMML document. The behaviour of a PMML consumer should not change (at least, materially) if they are filtered out.
-* The [`InlineTable` element] (http://www.dmg.org/v4-2-1/Taxonomy.html). Free-form data tables.
+* The [`InlineTable` element](http://www.dmg.org/v4-3/Taxonomy.html). Free-form data tables.
 
-The [JPMML-Model] (https://github.com/jpmml/jpmml-model) library represents attachment points as List-type fields whose element type is `java.lang.Object`. For example, the `Extension#content` field and the corresponding getter method `Extension#getContent()` are defined as follows:
+The [JPMML-Model](https://github.com/jpmml/jpmml-model) library represents attachment points as List-type fields whose element type is `java.lang.Object`. For example, the `Extension#content` field and the corresponding getter method `Extension#getContent()` are defined as follows:
 
 ``` java
 package org.dmg.pmml;
@@ -46,7 +46,7 @@ Application developers can choose between two API approaches:
 * W3C DOM API. Custom XML content are W3C DOM nodes (ie. instances of `org.w3c.dom.Node`). This approach is applicable to all XML document types, but the development and maintenance costs are rather high. For example, the application developer must manually take care of managing XML namespace information.
 * Java XML Binding (JAXB) API. Custom XML content are JAXB objects. This approach is applicable to XML document types that have a JAXB class model.
 
-The current blog post details a method for working with PMML documents that embed MathML content. [Mathematical Markup Language (MathML)] (http://en.wikipedia.org/wiki/MathML) is an XML-based standard for describing mathematical notations and capturing both its structure and content. It is potentially useful for adding human- and machine-readable documentation to data transformations.
+The current blog post details a method for working with PMML documents that embed MathML content. [Mathematical Markup Language (MathML)](http://en.wikipedia.org/wiki/MathML) is an XML-based standard for describing mathematical notations and capturing both its structure and content. It is potentially useful for adding human- and machine-readable documentation to data transformations.
 
 The XML Schema Definition (XSD) for MathML version 3 is is readily available. It can be compiled to JAXB class model with the help of the XJC binding compiler. The generated MathML class model consists of a number of classes in the `org.wc3.math` package. By convention, the XML registry class is named `org.w3c.math.ObjectFactory`.
 

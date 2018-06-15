@@ -5,7 +5,7 @@ excerpt: "A Primer of Java PMML Evaluator API"
 author: vruusmann
 ---
 
-The central piece of the [JPMML-Evaluator] (https://github.com/jpmml/jpmml-evaluator) library is the interface `org.jpmml.evaluator.Evaluator`, which declares two methods `#prepare(FieldName, Object)` and `#evaluate(Map<FieldName, ?>)`. This API dates back to earliest versions (i.e. 1.0.2) and is still going strong.
+The central piece of the [JPMML-Evaluator](https://github.com/jpmml/jpmml-evaluator) library is the interface `org.jpmml.evaluator.Evaluator`, which declares two methods `#prepare(FieldName, Object)` and `#evaluate(Map<FieldName, ?>)`. This API dates back to earliest versions (i.e. 1.0.2) and is still going strong.
 
 The current blog post aims to clarify the relationship between those two methods. Quite naturally, data preparation precedes data evaluation. It involves three activities:
 
@@ -13,7 +13,7 @@ The current blog post aims to clarify the relationship between those two methods
 * Validation of values as specified by the `DataField` element.
 * Treatment of invalid, outlier and missing values as specified by the `MiningField` element.
 
-The JPMML-Evaluator library represents PMML values using subclasses of the class `org.jpmml.evaluator.FieldValue` (beware, the [JPMML-Model] (https://github.com/jpmml/jpmml-model) library contains a class with the same simple name `org.dmg.pmml.FieldValue`). Most model types operate on single-valued field values. However, there are some model types such as [association rules model] (http://www.dmg.org/v4-2/AssociationRules.html) and [sequence rules model] (http://www.dmg.org/v4-2/Sequence.html) that operate on collection-valued field values. Application developers are advised to employ the utility class `org.jpmml.evaluator.FieldValueUtil` whenever there is a need to create new or refine existing (e.g. change data or operational type) field values.
+The JPMML-Evaluator library represents PMML values using subclasses of the class `org.jpmml.evaluator.FieldValue` (beware, the [JPMML-Model](https://github.com/jpmml/jpmml-model) library contains a class with the same simple name `org.dmg.pmml.FieldValue`). Most model types operate on single-valued field values. However, there are some model types such as [association rules model](http://www.dmg.org/v4-3/AssociationRules.html) and [sequence rules model](http://www.dmg.org/v4-3/Sequence.html) that operate on collection-valued field values. Application developers are advised to employ the utility class `org.jpmml.evaluator.FieldValueUtil` whenever there is a need to create new or refine existing (e.g. change data or operational type) field values.
 
 ### Option 1: Eager preparation ###
 

@@ -122,11 +122,11 @@ The request body now becomes:
 
 The version 1.2 delivers an all-new JAX-RS application class `org.openscoring.service.Openscoring`.
 
-Application configuration is handled using the [Typesafe Config] (https://github.com/typesafehub/config) library. The default configuration is located in file `openscoring-service/src/main/resources/reference.conf`. This file encodes configuration entries as key-value pairs in the HOCON data format, which is a human-oriented superset of the JSON data format (eg. allows comments, allows the omission of unnecessary punctuation symbols). By convention, configuration entries are arranged into a two-level hierarchy, where the top level points to a Java class name and the bottom level to a field name. For example, the configuration entry `modelRegistry.visitorClasses` targets the field `visitorClazzes` of the class `org.openscoring.service.ModelRegistry`.
+Application configuration is handled using the [Typesafe Config](https://github.com/typesafehub/config) library. The default configuration is located in file `openscoring-service/src/main/resources/reference.conf`. This file encodes configuration entries as key-value pairs in the HOCON data format, which is a human-oriented superset of the JSON data format (eg. allows comments, allows the omission of unnecessary punctuation symbols). By convention, configuration entries are arranged into a two-level hierarchy, where the top level points to a Java class name and the bottom level to a field name. For example, the configuration entry `modelRegistry.visitorClasses` targets the field `visitorClazzes` of the class `org.openscoring.service.ModelRegistry`.
 
 The default configuration can be overriden (either in full or in parts) by user-specified configuration file.
 
-The configuration entry `application.componentClasses` (formerly a command-line option `--component-classes`) specifies a list of JAX-RS component classes. If there is a need to customize or extend the functionality of the Openscoring web service in any way, then it should be achieved by developing a dedicated JAX-RS component class using the [Jersey] (http://jersey.java.net/) library.
+The configuration entry `application.componentClasses` (formerly a command-line option `--component-classes`) specifies a list of JAX-RS component classes. If there is a need to customize or extend the functionality of the Openscoring web service in any way, then it should be achieved by developing a dedicated JAX-RS component class using the [Jersey](http://jersey.java.net/) library.
 
 For example, a company-specific client authentication and authorization could be implemented as a JAX-RS filter class `com.mycompany.service.MySecurityContextFilter`. This class can be plugged in (and the default class `org.openscoring.service.NetworkSecurityContextFilter` plugged out) by updating the configuration entry `application.componentClasses` as follows:
 
@@ -139,12 +139,12 @@ application {
 }
 ```
 
-The configuration entry `modelRegistry.visitorClasses` (formerly a command-line option `--visitor-classes`) specifies a list of Visitor classes. Newer versions of [JPMML-Model] (https://github.com/jpmml/jpmml-model) and [JPMML-Evaluator] (https://github.com/jpmml/jpmml-evaluator) libraries contain packages `org.jpmml.model.visitors` and `org.jpmml.evaluator.visitors`, respectively, which provide Visitor classes for optimizing the PMML class model object for better performance.
+The configuration entry `modelRegistry.visitorClasses` (formerly a command-line option `--visitor-classes`) specifies a list of Visitor classes. Newer versions of [JPMML-Model](https://github.com/jpmml/jpmml-model) and [JPMML-Evaluator](https://github.com/jpmml/jpmml-evaluator) libraries contain packages `org.jpmml.model.visitors` and `org.jpmml.evaluator.visitors`, respectively, which provide Visitor classes for optimizing the PMML class model object for better performance.
 
 The version 1.2 packages the JAX-RS application in two flavours:
 
 * Web application (module `openscoring-webapp`). The web application conforms to the Java Servlet 2.5 specification. The WAR file can be deployed on all popular Java web containers (eg. Jetty, Tomcat, Grizzly) without modification.
-* Command-line application (module `openscoring-server`). The executable uber-JAR file embeds the latest stable [Jetty] (http://eclipse.org/jetty/) web container, which is known for its robustness and excellent performance characteristics. The command-line application is equally fit for quick experimentation and for serious production use.
+* Command-line application (module `openscoring-server`). The executable uber-JAR file embeds the latest stable [Jetty](http://eclipse.org/jetty/) web container, which is known for its robustness and excellent performance characteristics. The command-line application is equally fit for quick experimentation and for serious production use.
 
 The version 1.2 command-line application does not support the majority of "old" command-line options. Some of them were converted to configuration entries as demonstrated above. The others were extracted into new applications.
 

@@ -28,11 +28,11 @@ The application code that relies on public API should be fairly robust towards p
 A project is a collection of library and support (e.g. code coverage, integration testing) modules. Projects are organized, built and deployed following Apache Maven conventions.
 
 The split of the JPMML project into JPMML-Model and JPMML-Evaluator projects is depicted on the scheme below:
-![Project structure] ({{ site.baseurl }}/assets/ProjectStructure.svg)
+![Project structure]({{ site.baseurl }}/assets/ProjectStructure.svg)
 
-The two main changes are highlighted in yellow. First, the project artifact `org.jpmml:jpmml` was retired. It is superseded by two new project artifacts `org.jpmm:jpmml-model` and `org.jpmml:jpmml-evaluator`. Second, the license of the JPMML-Evaluator project (and all its modules) was changed from [BSD 3-Clause License] (http://opensource.org/licenses/BSD-3-Clause) to [Affero GPL, version 3.0] (http://www.gnu.org/licenses/agpl-3.0.html) (AGPLv3).
+The two main changes are highlighted in yellow. First, the project artifact `org.jpmml:jpmml` was retired. It is superseded by two new project artifacts `org.jpmm:jpmml-model` and `org.jpmml:jpmml-evaluator`. Second, the license of the JPMML-Evaluator project (and all its modules) was changed from [BSD 3-Clause License](http://opensource.org/licenses/BSD-3-Clause) to [Affero GPL, version 3.0](http://www.gnu.org/licenses/agpl-3.0.html) (AGPLv3).
 
-The technical side of the upgrade is straightforward. All module artifacts have retained their `groupId` and `artifactId` coordinates. Therefore, it is only a matter of setting the `version` coordinate to the desired value. For extra transparency, it may be wise to progress step by step, by upgrading first to the 1.1.0 version and then to the latest 1.1.X version. The success of each step should be verified by testing. For more information, please refer to the blog post about [testing PMML applications] ({{ site.baseurl }}{% post_url 2014-05-12-testing_pmml_applications %}).
+The technical side of the upgrade is straightforward. All module artifacts have retained their `groupId` and `artifactId` coordinates. Therefore, it is only a matter of setting the `version` coordinate to the desired value. For extra transparency, it may be wise to progress step by step, by upgrading first to the 1.1.0 version and then to the latest 1.1.X version. The success of each step should be verified by testing. For more information, please refer to the blog post about [testing PMML applications]({{ site.baseurl }}{% post_url 2014-05-12-testing_pmml_applications %}).
 
 In contrast, the legal side of the upgrade is much more complicated. AGPLv3 is a strong copyleft license that takes extreme stance on the matters of software freedom. Among other things, AGPLv3 requires that the works based on the JPMML-Evaluator library must also be licensed under AGPLv3 (or some other AGPLv3-compatible license). Unless a separate commercial license is obtained, this effectively prohibits incorporating the JPMML-Evaluator library into proprietary software or mixing it with other libraries that are released under AGPLv3-incompatible licenses.
 
@@ -78,7 +78,7 @@ public PMML readPMML(InputStream is) throws Exception {
 }
 ```
 
-For more information about the import and export capabilities of the JPMML-Model library, please refer to the blog post about [converting PMML documents between different schema versions] ({{ site.baseurl }}{% post_url 2014-06-20-jpmml_model_api_import_export %}).
+For more information about the import and export capabilities of the JPMML-Model library, please refer to the blog post about [converting PMML documents between different schema versions]({{ site.baseurl }}{% post_url 2014-06-20-jpmml_model_api_import_export %}).
 
 ##### Miscellaneous #####
 

@@ -6,9 +6,9 @@ author: vruusmann
 
 When it comes to applying predictive models to database data, then it is possible to outline three major approaches:
 
-1. Direct SQL execution. This is attained by translating the model from its "native" representation to SQL representation. For example, there are tools like [pmml2sql] (http://www.pmml2sql.com/) and [KNIME] (http://www.knime.com/) (version 2.11.1 and newer) that claim to have the ability to translate most common model types from PMML to SQL. Naturally, the quality of translation work varies considerably between different SQL dialects.
+1. Direct SQL execution. This is attained by translating the model from its "native" representation to SQL representation. For example, there are tools like [pmml2sql](http://www.pmml2sql.com/) and [KNIME](http://www.knime.com/) (version 2.11.1 and newer) that claim to have the ability to translate most common model types from PMML to SQL. Naturally, the quality of translation work varies considerably between different SQL dialects.
 
-2. Intermediated SQL execution. The model stays in its "native" representation. The evaluation is handled by a dedicated model evaluation engine that is tightly integrated into the database backend. For example, PostgreSQL database supports the execution of arbitrary R and Python application code via [PL/R] (http://www.joeconway.com/plr/) and [PL/Py] (http://python.projects.postgresql.org/) procedural languages, respectively. This approach is technically quite demanding, because it crosses SQL and application programming domains. The life of SQL end users can be made somewhat easier by (automatically-) generating an appropriate SQL wrapper function for every model.
+2. Intermediated SQL execution. The model stays in its "native" representation. The evaluation is handled by a dedicated model evaluation engine that is tightly integrated into the database backend. For example, PostgreSQL database supports the execution of arbitrary R and Python application code via [PL/R](http://www.joeconway.com/plr/) and [PL/Py](http://python.projects.postgresql.org/) procedural languages, respectively. This approach is technically quite demanding, because it crosses SQL and application programming domains. The life of SQL end users can be made somewhat easier by (automatically-) generating an appropriate SQL wrapper function for every model.
 
 3. External execution. The model is deployed to a dedicated model evaluation engine that is separate from the database backend. Such model evaluation engine could be "shared" between several applications and services, which leads to the concept of "organization's predictive analytics hub".
 
@@ -16,11 +16,11 @@ The choice between these three approaches depends on various technical and organ
 
 ### Overview ###
 
-This blog post is about employing the [Openscoring REST web service] (https://github.com/jpmml/openscoring) from within PostgreSQL database.
+This blog post is about employing the [Openscoring REST web service](https://github.com/openscoring/openscoring) from within PostgreSQL database.
 
 The exercise starts with installing and running the Openscoring web service at localhost:8080 and deploying the example model `DecisionTreeIris.pmml` as described in the README file of the project.
 
-Every deployed model should be verified by accessing its summary REST API endpoint. For example, the summary of the newly deployed `DecisionTreeIris` model can be downloaded as a JSON object by performing an HTTP GET request on [http://localhost:8080/openscoring/model/DecisionTreeIris] (http://localhost:8080/openscoring/model/DecisionTreeIris).
+Every deployed model should be verified by accessing its summary REST API endpoint. For example, the summary of the newly deployed `DecisionTreeIris` model can be downloaded as a JSON object by performing an HTTP GET request on [http://localhost:8080/openscoring/model/DecisionTreeIris](http://localhost:8080/openscoring/model/DecisionTreeIris).
 
 The `schema` attribute of this summary object contains the description of the data schema. The `activeFields` and `groupFields` attributes of the schema object represent model arguments, whereas the `targetFields` and `outputFields` attributes represent model results. It is easy to see that the `DecisionTreeIris` model expects four arguments "Sepal\_Length", "Sepal\_Width", "Petal\_Length" and "Petal\_Width", and produces six results "Species", "Predicted\_Species", "Probability\_setosa", "Probability\_versicolor", "Probability\_virginica" and "Node\_Id".
 
@@ -77,7 +77,7 @@ The CSV document must conform to the following rules:
 
 The evaluation is handled by the Openscoring web service over the CSV evaluation REST API endpoint. In brief, this REST API endpoint is bound to the HTTP POST method. The request body is a CSV document with model arguments. The request is processed synchronously. For better responsiveness, application clients can to perform the evaluation in parallel, where one big request is split into several smaller requests. The response body is another CSV document with model results.
 
-Database engines typically do not advertise HTTP client functionality as their core competency. It becomes a one-time responsibility of a SQL developer to find and install a suitable database extension for this purpose. In this exercise, the HTTP client functionality is provided by the [cURL] (http://curl.haxx.se/) command-line application, which is executed from within PostgreSQL database using the [PL/sh] (https://github.com/petere/plsh) procedural language.
+Database engines typically do not advertise HTTP client functionality as their core competency. It becomes a one-time responsibility of a SQL developer to find and install a suitable database extension for this purpose. In this exercise, the HTTP client functionality is provided by the [cURL](http://curl.haxx.se/) command-line application, which is executed from within PostgreSQL database using the [PL/sh](https://github.com/petere/plsh) procedural language.
 
 Activating the PL/sh extension and creating two shell-backed SQL functions `evaluate_iris()` and `clean_iris()`:
 
