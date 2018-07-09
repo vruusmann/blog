@@ -11,7 +11,7 @@ Project timeline:
 * May 2013. The JPMML project is moved from Google Code to GitHub. Public releases from 1.0.1 to 1.0.22.
 * February 2014. Going professional. The JPMML project is split into JPMML-Model and JPMML-Evaluator projects along responsibility lines. The license for the JPMML-Evaluator project is changed from BSD 3-Clause License to Affero GPL, version 3. Public releases 1.1.0 and onward.
 
-The JPMML family of libraries uses a fairly common `<major>.<minor>.<release>` versioning scheme:
+The JPMML family of software uses a fairly common `<major>.<minor>.<release>` versioning scheme:
 
 * Major. Public API level. The interface between the application code and the library.
 * Minor. Private API level. The internal design of the library.
