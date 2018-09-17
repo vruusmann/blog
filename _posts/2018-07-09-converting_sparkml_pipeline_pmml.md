@@ -114,7 +114,7 @@ The exception message provides adequate instructions for updating the applicatio
 
 Old API:
 
-```Java
+``` java
 StructType schema = df.schema();
 PipelineModel pipelineModel = pipeline.fit(df);
 
@@ -123,7 +123,7 @@ byte[] pmmlBytes = ConverterUtil.toPMMLByteArray(schema, pipelineModel);
 
 New API:
 
-```Java
+``` java
 StructType schema = df.schema();
 PipelineModel pipelineModel = pipeline.fit(df);
 
@@ -210,7 +210,7 @@ The Apache Spark connection is typically available in PySpark session as the `sc
 
 Sample usage:
 
-```Python
+``` python
 from pyspark.ml import Pipeline
 
 df = ...
@@ -246,7 +246,7 @@ All mutator and builder methods have been "outsourced" to standalone S4 generic 
 
 Sample usage:
 
-```R
+``` r
 library("dplyr")
 library("sparklyr")
 

@@ -165,7 +165,7 @@ This application comes bundled with Visitor classes of the JPMML-Model library. 
 $ java -cp jpmml-model/pmml-model-example/target/example-1.2-SNAPSHOT.jar:jpmml-evaluator/pmml-rattle/target/pmml-rattle-1.2-SNAPSHOT.jar:jpmml-evaluator/pmml-evaluator-example/target/example-1.2-SNAPSHOT.jar org.jpmml.model.CopyExample --input ada.pmml --output ada-tidy.pmml --visitor-classes org.jpmml.rattle.PredicateTransformer,org.jpmml.model.visitors.MiningSchemaCleaner,org.jpmml.rattle.ScoreDistributionCleaner
 ```
 
-The two PMML documents contain identical prediction logic. However, the transformed PMML document is nearly five times smaller (ie. 1'697 kB vs 352 kB), is much easier to read and maintain, and performs better.
+The two PMML documents contain identical prediction logic. However, the transformed PMML document is nearly five times smaller (ie. 1'697 kB vs. 352 kB), is much easier to read and maintain, and performs better.
 
 A major hassle about XML documents is the formatting, especially the indent style. The [GlassFish Metro](https://metro.java.net/) JAXB runtime (default for Oracle JDK/JRE) resets the indentation level after every eight columns, which makes deeply nested constructs such as decision trees hard to follow. The JVM can be instructed to activate a custom JAXB runtime by defining the `javax.xml.bind.context.factory` Java system property. For example, the [EclipseLink MOXy](https://www.eclipse.org/eclipselink/) JAXB runtime is a good candidate as it keeps the indentation level intact.
 

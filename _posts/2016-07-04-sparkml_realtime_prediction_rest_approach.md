@@ -77,7 +77,7 @@ The decision tree model is represented as the `PMML/TreeModel` element. Its sche
 
 A `MiningField` element serves as a collection of "import" and "export" statements. It refers to some field, and stipulates its role and requirements in the context of the current model element. The fields themselves are declared as `PMML/DataDictionary/DataField` and `PMML/TransformationDictionary/DerivedField` elements.
 
-The wine color model defines eight input fields ("fixed_acidity", "volatile_acidity", .., "sulphates"). The values of input fields are prepared by performing type conversion from user-supplied representation to PMML representation, which is followed by categorization into valid, invalid or missing subspaces, and application of subspace-specific treatments.
+The wine color model defines eight input fields ("fixed_acidity", "volatile_acidity", .., "sulphates"). The values of input fields are prepared by performing type conversion from user-specified representation to PMML representation, which is followed by categorization into valid, invalid or missing subspaces, and application of subspace-specific treatments.
 
 The default definition of the "fixed_acidity" input field:
 

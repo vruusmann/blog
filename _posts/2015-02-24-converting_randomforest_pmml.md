@@ -145,9 +145,9 @@ The detailed timing information about the conversion is very interesting (the re
   * Converting the model from R representation to PMML representation: 648 and 310 ms.
   * Serializing the model in PMML data format to the output file: 2'001 and 135 ms.
 
-The newly introduced `r2pmml` package fulfills all expectations by being 100 to 200 times faster than the `pmml` package (eg. 310 vs 61'280 ms. for model conversion, 135 vs 33'926 ms. for model serialization). The gains are even higher when working with real-life random forest models that are order(s) of magnitude larger. Some gains are attributable to JVM warmup, because the conversion of ensemble models involves performing many repetitive tasks. The other gains are attributable to the smart caching of PMML content by the JPMML-Converter library, which lets the memory usage to scale sublinearly (with respect to the size and complexity of the model).
+The newly introduced `r2pmml` package fulfills all expectations by being 100 to 200 times faster than the `pmml` package (eg. 310 vs. 61'280 ms. for model conversion, 135 vs. 33'926 ms. for model serialization). The gains are even higher when working with real-life random forest models that are order(s) of magnitude larger. Some gains are attributable to JVM warmup, because the conversion of ensemble models involves performing many repetitive tasks. The other gains are attributable to the smart caching of PMML content by the JPMML-Converter library, which lets the memory usage to scale sublinearly (with respect to the size and complexity of the model).
 
-Also, the newly introduced `r2pmml` package is able to encode the same amount of information using fewer bytes than the `pmml` package. In this example, if the resulting files `audit-r2pmml.pmml` and `audit-pmml.pmml` are XML-tidied following the same procedure, then it becomes apparent that the former is approximately 10% smaller than the latter (6'106 vs 6'853 kB).
+Also, the newly introduced `r2pmml` package is able to encode the same amount of information using fewer bytes than the `pmml` package. In this example, if the resulting files `audit-r2pmml.pmml` and `audit-pmml.pmml` are XML-tidied following the same procedure, then it becomes apparent that the former is approximately 10% smaller than the latter (6'106 vs. 6'853 kB).
 
 ### Appendix ###
 
