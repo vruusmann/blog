@@ -59,7 +59,7 @@ public Map<FieldName, ?> prepareLazilyAndEvaluate(Evaluator evaluator, Map<Field
 
 This approach is the most concise one. Essentially, the interaction with the JPMML-Evaluator library is reduced to a single line of code, which greatly simplifies application maintenance. The downside is less control over data preparation errors. The invocation of the method `Evaluator#evaluate(Map<FieldName, ?>)` fails when the first problematic field value is encountered. In other words, the whole data record is invalidated, not just some field(s).
 
-This approach is fully supported by JPMML-Evaluator library version 1.1.4 and newer. Earlier versions implement the conversion of values, but do not implement the validation of values and treatment of invalid, outlier and missing values (see above). Even though the data evaluation operation is very likely to succeed with earlier versions, the result is unspecified in terms of the PMML specification (e.g. may complete successfully instead of failing with a PMML invalid field value exception).
+This approach is fully supported by JPMML-Evaluator version 1.1.4 and newer. Earlier versions implement the conversion of values, but do not implement the validation of values and treatment of invalid, outlier and missing values (see above). Even though the data evaluation operation is very likely to succeed with earlier versions, the result is unspecified in terms of the PMML specification (e.g. may complete successfully instead of failing with a PMML invalid field value exception).
 
 The recommended type argument for map values is `java.lang.String`. A Java string can be parsed into any PMML type provided that it is syntactically and semantically correct. The parsing overhead is negligible. There is no need for "optimizations" such as pre-parsing Java strings to Java primitive values by application code. In fact, doing so may lead to a PMML type cast exception afterwards.
 
@@ -82,7 +82,7 @@ private FieldValue getFieldValue(Evaluator evaluator, Map<FieldName, ?> argument
 
 ### Option 3: Manual preparation ###
 
-The lazy loading logic provides a "loophole", which makes it possible to circumvent data preparation altogether when `FieldValue` instances are created manually:
+The lazy loading logic provides a "loophole", which makes it possible to circumvent data preparation altogether when `FieldValue` objects are created manually:
 
 ``` java
 public Map<FieldName, ?> prepareManuallyAndEvaluate(Evaluator evaluator, Map<FieldName, Double> userArguments){

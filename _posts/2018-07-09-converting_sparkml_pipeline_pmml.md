@@ -155,14 +155,14 @@ Conversion options are systematized as Java marker interfaces, which inherit fro
 A similar convention is being enforced across all JPMML conversion libraries. For example, in the [JPMML-SkLearn](https://github.com/jpmml/jpmml-sklearn) library, which deals with the conversion of Scikit-Learn pipelines to PMML, the class hierarchy is rooted at the `org.jpmml.sklearn.HasOptions` base marker interface.
 
 Unfortunately, the documentation is severely lacking in this area.
-To discover and learn which conversion options are available (in a particular JPMML-SparkML library version), simply order the Java IDE to display the class hierarchy starting from the `HasOptions` base marker interface, and browse through it.
+To discover and learn which conversion options are available (in a particular JPMML-SparkML version), simply order the Java IDE to display the class hierarchy starting from the `HasOptions` base marker interface, and browse through it.
 
 Notable conversion options:
 
 * `org.jpmml.sparkml.model.HasRegressionOptions#OPTION_LOOKUP_THRESHOLD`. Controls the encoding of categorical features in regression models - table scan vs. table lookup.
 * `org.jpmml.sparkml.model.HasTreeOptions#OPTION_COMPACT`. Controls the encoding of the tree data structure in decision tree models and their ensembles - Apache Spark-style binary splits vs. PMML-style multi-splits. Can reduce the size of PMML documents anywhere between 25 to 50%.
 
-For maximum future-proofness, all conversion option names and values should be given as Java class constants. For example, the name of the decision tree compaction option should be given as `org.jpmml.sparkml.model.HasTreeOptions#OPTION_COMPACT` (instead of a Java string literal `"compact"`). If this conversion options should be renamed, relocated, or removed in some future JPMML-SparkML library version, then the Java IDE/compiler would automatically issue a notification about it.
+For maximum future-proofness, all conversion option names and values should be given as Java class constants. For example, the name of the decision tree compaction option should be given as `org.jpmml.sparkml.model.HasTreeOptions#OPTION_COMPACT` (instead of a Java string literal `"compact"`). If this conversion options should be renamed, relocated, or removed in some future JPMML-SparkML version, then the Java IDE/compiler would automatically issue a notification about it.
 
 The `PMMLBuilder` builder class currently exposes the following mutator methods:
 
@@ -178,7 +178,7 @@ In brief, it is possible to embed a verification data into models. The verificat
 PMML engines are expected to perform self-checks using the verification data before commissioning the model. If the live predictions made by the PMML engine agree with the stored predictions of the original ML framework (within the defined acceptability criteria), then that is a strong indication that everything is going favourably.
 Next to most common cases, the verification dataset should aim to include all sorts of fringe cases (eg. missing, outlier, invalid values) in order to increase the confidence.
 
-The [JPMML-Evaluator](https://github.com/jpmml/jpmml-evaluator) library can be ordered to perform self-checks on the `org.jpmml.evaluator.Evaluator` instance by invoking its `#verify()` method.
+The [JPMML-Evaluator](https://github.com/jpmml/jpmml-evaluator) library can be ordered to perform self-checks on the `org.jpmml.evaluator.Evaluator` object by invoking its `#verify()` method.
 JPMML-SparkML integration tests indicate that the JPMML family of software (ie. JPMML-SparkML converter plus JPMML-Evaluator scorer) is consistently able to reproduce Apache Spark predictions (eg. regression targets, classification probabilities) with an abolute/relative error of 1e-14 or less.
 
 The `PMMLBuilder` builder class exposes the following mutator methods:

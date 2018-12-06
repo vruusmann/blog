@@ -43,7 +43,7 @@ The JPMML-Model library provides full support for producing and consuming mixed 
 
 Application developers can choose between two API approaches:
 
-* W3C DOM API. Custom XML content are W3C DOM nodes (ie. instances of `org.w3c.dom.Node`). This approach is applicable to all XML document types, but the development and maintenance costs are rather high. For example, the application developer must manually take care of managing XML namespace information.
+* W3C DOM API. Custom XML content are W3C DOM nodes (ie. instances of class `org.w3c.dom.Node`). This approach is applicable to all XML document types, but the development and maintenance costs are rather high. For example, the application developer must manually take care of managing XML namespace information.
 * Java XML Binding (JAXB) API. Custom XML content are JAXB objects. This approach is applicable to XML document types that have a JAXB class model.
 
 The current blog post details a method for working with PMML documents that embed MathML content. [Mathematical Markup Language (MathML)](http://en.wikipedia.org/wiki/MathML) is an XML-based standard for describing mathematical notations and capturing both its structure and content. It is potentially useful for adding human- and machine-readable documentation to data transformations.
@@ -148,9 +148,9 @@ Caused by: javax.xml.bind.JAXBException: class org.w3c.math.Math nor any of its 
 
 Just like the exception message suggests, the solution is to make the MathML class model known to the JAXB runtime.
 
-A `javax.xml.bind.JAXBContext` instance can be created by calling the `JAXBContext#newInstance(Class...)` method with a list of XML registry classes as arguments. Currently, this list must include `org.dmg.pmml.ObjectFactory` and `org.w3c.math.ObjectFactory` classes.
+A `javax.xml.bind.JAXBContext` objects can be created by calling the `JAXBContext#newInstance(Class...)` method with a list of XML registry classes as arguments. Currently, this list must include `org.dmg.pmml.ObjectFactory` and `org.w3c.math.ObjectFactory` classes.
 
-A custom `JAXBContext` instance passes complete type information to its child `javax.xml.bind.Marshaller` and `javax.xml.bind.Unmarshaller` instances. The marshalling and unmarshalling behaviour can be further modified by adjusting generic as well as implementation-specific configuration options. For example, setting the generic `jaxb.formatted.output` configuration option to `true` will indentate the XML document to make it more human friendly:
+A custom `JAXBContext` object passes complete type information to its child `javax.xml.bind.Marshaller` and `javax.xml.bind.Unmarshaller` objects. The marshalling and unmarshalling behaviour can be further modified by adjusting generic as well as implementation-specific configuration options. For example, setting the generic `jaxb.formatted.output` configuration option to `true` will indentate the XML document to make it more human friendly:
 
 ``` java
 private static JAXBContext mixedContext = null;

@@ -186,7 +186,7 @@ configure: error: ERROR: ProtoBuf headers required; use '-Iincludedir' in CXXFLA
 ERROR: configuration failed for package ‘RProtoBuf’
 ```
 
-The format of ProtoBuf messages is defined by the proto file `inst/proto/rexp.proto`. Currently, the JPMML-Conversion library uses the proto file that came with the RProtoBuf package version 0.4.2. As a word of caution, it will be useless to force the `r2pmml` package to depend on any RProtoBuf package version older than that, because this proto file underwent incompatible changes between versions 0.4.1 and 0.4.2. The Java converter application throws an instance of `com.google.protobuf.InvalidProtocolBufferException` when the contents of the ProtoBuf input file does not match the expected ProtoBuf message format.
+The format of ProtoBuf messages is defined by the proto file `inst/proto/rexp.proto`. Currently, the JPMML-Conversion library uses the proto file that came with the RProtoBuf package version 0.4.2. As a word of caution, it will be useless to force the `r2pmml` package to depend on any RProtoBuf package version older than that, because this proto file underwent incompatible changes between versions 0.4.1 and 0.4.2. The Java converter application throws an exception (instance of class `com.google.protobuf.InvalidProtocolBufferException`) when the contents of the ProtoBuf input file does not match the expected ProtoBuf message format.
 
 The version of a package can be verified using the function `packageVersion`:
 

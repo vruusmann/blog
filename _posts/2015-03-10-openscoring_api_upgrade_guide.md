@@ -73,7 +73,7 @@ public <R extends SimpleResponse> void checkResponse(R response){
 
 The version 1.1 does not handle error conditions. Both checked and unchecked exceptions are allowed to "bubble up" to the web container, which formats them as HTML error pages. This makes the life of application developers miserable, because they need to be ready to handle different data formats from the same endpoint (ie. JSON for a successful operation, web container-specific HTML for a failed operation).
 
-The version 1.2 does its best to handle all internal and external error conditions. For example, if the client refers to a non-existent model instance `FictionalId`, then the JAX-RS exception class `javax.ws.rs.NotFoundException` instance is converted to the following `SimpleResponse` object:
+The version 1.2 does its best to handle all internal and external error conditions. For example, if the client refers to a non-existent model instance `FictionalId`, then the JAX-RS exception object (instance of class `javax.ws.rs.NotFoundException`) is converted to the following `SimpleResponse` object:
 
 ``` json
 {

@@ -25,7 +25,7 @@ public Locator getLocator(Object object){
 }
 ```
 
-The method `HasLocator#getLocator()` returns an instance of `org.xml.sax.Locator` when the PMML document was unmarshalled from a SAX source or a SAX-backed DOM source. It returns a `null` reference when the PMML document was unmarshalled from other types of sources, or created manually.
+The method `HasLocator#getLocator()` returns an `org.xml.sax.Locator` object when the PMML document was unmarshalled from a SAX source or a SAX-backed DOM source. It returns a `null` reference when the PMML document was unmarshalled from other types of sources, or created manually.
 
 SAX Locator information is relevant for PMML consumers, especially in model development and model testing stages. For example, the [JPMML-Evaluator](https://github.com/jpmml/jpmml-evaluator) library uses it to point out the exact location of the problematic class model object in the source PMML document when throwing a subclass of `org.jpmml.manager.PMMLException`. However, if the quality assurance process is up to the challenge, then there should be no place for such debugging work in the final model deployment stage.
 
@@ -128,8 +128,8 @@ Memory measurement is performed by the class `org.jpmml.model.visitors.MemoryMea
 The decision to implement yet another memory measurement tool (as opposed to reusing some existing tool, eg. [Java Agent for Memory Measurements](https://github.com/jbellis/jamm)) is supported by specific traits of the JPMML-Model class model:
 
 * The traversal by JPMML-Model Visitor API is much faster than by Java Reflection API. Speed becomes critical when working with extremely large (several GB in size) ensemble models.
-* Proper handling of PMML class model specific datatypes. For example, instances of `org.dmg.pmml.FieldName` are treated as `enum` constants when they are interned, and as regular objects when they are not interned.
-* Conservative definition of "reachability". For example, interned instances of `String` and shared instances of Java primitive wrapper classes are added to the set of distinct objects.
+* Proper handling of PMML class model specific datatypes. For example, `org.dmg.pmml.FieldName` objects are treated as `enum` constants when they are interned, and as regular objects when they are not interned.
+* Conservative definition of "reachability". For example, interned `String` objects and shared Java primitive value wrapper objects are added to the set of distinct objects.
 
 Java source code of a simple application that outputs basic information about a class model object:
 
@@ -183,4 +183,4 @@ The number of distinct objects in the object graph: 271
 The size of the object graph: 9920 bytes
 ```
 
-All the differences between these two object graphs are solely attributable to the omission of SAX Locator information. It can be seen that instances of `org.xml.sax.Locator` make up (373 - 271) / 373 = 27.3% of distinct objects and (13680 - 9920) / 13680 = 27.5% of memory consumption.
+All the differences between these two object graphs are solely attributable to the omission of SAX Locator information. It can be seen that `org.xml.sax.Locator` objects make up (373 - 271) / 373 = 27.3% of distinct objects and (13680 - 9920) / 13680 = 27.5% of memory consumption.
