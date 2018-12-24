@@ -28,7 +28,7 @@ The application code that relies on public API should be fairly robust towards p
 A project is a collection of library and support (e.g. code coverage, integration testing) modules. Projects are organized, built and deployed following Apache Maven conventions.
 
 The split of the JPMML project into JPMML-Model and JPMML-Evaluator projects is depicted on the scheme below:
-![Project structure]({{ site.baseurl }}/assets/ProjectStructure.svg)
+![Project structure]({{ site.baseurl }}/assets/2014-07-14/ProjectStructure.svg)
 
 The two main changes are highlighted in yellow. First, the project artifact `org.jpmml:jpmml` was retired. It is superseded by two new project artifacts `org.jpmm:jpmml-model` and `org.jpmml:jpmml-evaluator`. Second, the license of the JPMML-Evaluator project (and all its modules) was changed from [BSD 3-Clause License](http://opensource.org/licenses/BSD-3-Clause) to [Affero GPL, version 3.0](http://www.gnu.org/licenses/agpl-3.0.html) (AGPLv3).
 

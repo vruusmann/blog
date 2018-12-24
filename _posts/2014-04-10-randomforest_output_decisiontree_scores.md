@@ -21,7 +21,7 @@ iris.randomForest = randomForest(Species ~ ., iris, ntree = 5, maxnodes = 2)
 saveXML(pmml(iris.randomForest), "RandomForestIris.pmml")
 ```
 
-The resulting PMML document ["RandomForestIris.pmml"]({{ site.baseurl }}/assets/pmml/RandomForestIris.pmml) can be opened for inspection in a text editor. The core of the random forest model is the `Segmentation` element. It specifies the `multipleModelMethod` attribute as "majorityVote" and contains five `Segment` elements, one for each member decision tree. Individual `Segment` elements are identified by their `id` attribute. This attribute is optional according to the PMML specification. When the `id` attribute is missing, then the `Segment` element is identified by an implicit 1-based index.
+The resulting PMML document ["RandomForestIris.pmml"]({{ site.baseurl }}/assets/2014-04-10/RandomForestIris.pmml) can be opened for inspection in a text editor. The core of the random forest model is the `Segmentation` element. It specifies the `multipleModelMethod` attribute as "majorityVote" and contains five `Segment` elements, one for each member decision tree. Individual `Segment` elements are identified by their `id` attribute. This attribute is optional according to the PMML specification. When the `id` attribute is missing, then the `Segment` element is identified by an implicit 1-based index.
 
 The `Output` element contains four `OutputField` elements. The first output field "Predicted\_Species" is not that relevant as it simply generates a copy of the predicted value. The remaining three output fields "Probability\_setosa", "Probability\_versicolor" and "Probability\_virginica" compute the probabilities that the current input records belongs to the specified class.
 

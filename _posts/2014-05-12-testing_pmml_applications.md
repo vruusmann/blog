@@ -109,4 +109,4 @@ The above Java source code specifies both parameters as 1.e-6 (that is, one part
 [not equal: value differences={Probability_setosa=(0.9999989, 1.0)}]
 ```
 
-The example Apache Maven project ["DecisionTreeIris.zip"]({{ site.baseurl }}/assets/zip/DecisionTreeIris.zip) is a good starting point for developing custom integration test modules.
+The example Apache Maven project ["DecisionTreeIris.zip"]({{ site.baseurl }}/assets/2014-05-12/DecisionTreeIris.zip) is a good starting point for developing custom integration test modules.

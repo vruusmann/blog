@@ -20,13 +20,13 @@ All such model objects are dummy data structures. They can only be executed usin
 
 This one-to-one correspondence between models and model execution functions makes the deployment of R models on Java and Python platforms very complicated. Basically, it will be necessary to implement a separate Java and Python executor for every model type.
 
-![Executing R models on Java]({{ site.baseurl }}/assets/R_Java.svg)
+![Executing R models on Java]({{ site.baseurl }}/assets/2015-02-24/R_Java.svg)
 
 Predictive Model Markup Language (PMML) is an XML-based industry standard for the representation of predictive solutions. PMML provides a [MiningModel element](http://www.dmg.org/v4-3/MultipleModels.html) that can encode a wide variety of bagging and boosting models (plus more complex model workflows). A model that has been converted to the PMML data format can be executed by any compliant PMML engine. A list of PMML producer and consumer software can be found at Data Mining Group (DMG) website under the [PMML Powered](http://www.dmg.org/products.html) section.
 
 PMML leads to simpler and more robust model deployment workflows. Basically, models are first converted from their function-specific R representation to the PMML representation, and then executed on a shared platform-specific PMML engine. For the Java platform this could be the [JPMML-Evaluator](https://github.com/jpmml/jpmml-evaluator) library. For the Python platform this could be [Augustus](augustus.googlecode.com) library.
 
-![Executing R models as PMML on Java]({{ site.baseurl }}/assets/R_PMML_Java.svg)
+![Executing R models as PMML on Java]({{ site.baseurl }}/assets/2015-02-24/R_PMML_Java.svg)
 
 The conversion of model objects from R to PMML is straightforward, because these two languages share many of the core concepts. For example, they both regard data records as collections of key-value pairs (eg. individual fields are identified by name not by position), and decorate their data exchange interfaces (eg. model input and output data records) with data schema information.
 
@@ -36,7 +36,7 @@ The first version of the [`pmml` package](https://cran.r-project.org/package=pmm
 
 This blog post is about introducing the [`r2pmml` package](https://github.com/jpmml/r2pmml). Today, it simply addresses the major shortcomings of the `pmml` package. Going forward, it aims to bring a completely new set of tools to the table. The long-term goal is to make R models together with associated data pre- and post-processing workflows easily exportable to other platforms.
 
-The exercise starts with training a classification-type random forest model for the "audit" dataset. All the data preparation work has been isolated to a separate R script ["audit.R"]({{ site.baseurl }}/assets/R/audit.R).
+The exercise starts with training a classification-type random forest model for the "audit" dataset. All the data preparation work has been isolated to a separate R script ["audit.R"]({{ site.baseurl }}/assets/2015-02-24/audit.R).
 
 ``` r
 source("audit.R")
