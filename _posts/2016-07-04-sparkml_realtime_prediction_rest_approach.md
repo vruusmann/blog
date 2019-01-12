@@ -4,7 +4,7 @@ title: "Using Apache Spark ML pipeline models for real-time prediction: the Open
 author: vruusmann
 ---
 
-[Apache Spark](http://spark.apache.org/) follows the batch data processing paradigm, which has its strengths and weaknesses.
+[Apache Spark](https://spark.apache.org/) follows the batch data processing paradigm, which has its strengths and weaknesses.
 On one hand, the batch processing is suitable for working with true Big Data datasets. Apache Spark splits the task into manageable-size batches and distributes the workfload across a cluster of machines.
 Apache Spark competitors such as R or Python cannot match that, because they typically require the task to fit into the RAM of a single machine.
 
@@ -246,11 +246,11 @@ mvn clean package
 
 Openscoring exists in two variants. First, the standalone command-line application variant `openscoring-server/target/server-executable-${version}.jar` is based on Jetty web server. Easy configuration and almost instant startup and shutdown times make it suitable for local development and testing use cases. The web application (WAR) variant `openscoring-webapp/target/openscoring-webapp-${version}.war` is more suitable for production use cases. It can be deployed on any standards-compliant Java web- or application container, and secured and scaled according to organization's preferences.
 
-Alternatively, release versions of the Openscoring WAR file can be downloaded from the [`org/openscoring/openscoring-webapp`](http://central.maven.org/maven2/org/openscoring/openscoring-webapp/) section of the Maven Central repository.
+Alternatively, release versions of the Openscoring WAR file can be downloaded from the [`org/openscoring/openscoring-webapp`](https://central.maven.org/maven2/org/openscoring/openscoring-webapp/) section of the Maven Central repository.
 
-A demo instance of Openscoring can be launched by dropping its WAR file into the auto-deployment directory of a running [Apache Tomcat](http://tomcat.apache.org/) web container:
+A demo instance of Openscoring can be launched by dropping its WAR file into the auto-deployment directory of a running [Apache Tomcat](https://tomcat.apache.org/) web container:
 
-1. Download the latest `openscoring-webapp-${version}.war` file from the Maven Central repository to a temporary directory. At the time of writing this, it is [`openscoring-webapp-1.2.15.war`](http://central.maven.org/maven2/org/openscoring/openscoring-webapp/1.2.15/openscoring-webapp-1.2.15.war).
+1. Download the latest `openscoring-webapp-${version}.war` file from the Maven Central repository to a temporary directory. At the time of writing this, it is [`openscoring-webapp-1.2.15.war`](https://central.maven.org/maven2/org/openscoring/openscoring-webapp/1.2.15/openscoring-webapp-1.2.15.war).
 2. Rename the downloaded file to `openscoring.war`. Apache Tomcat generates the context path for a web application from the filename part of the WAR file. So, the context path for `openscoring.war` will be "/openscoring/" (whereas for the original `openscoring-webapp-${version}.war` it would have been "/openscoring-webapp-${version}/").
 3. Move the `openscoring.war` file from the temporary directory to the `$CATALINA_HOME/webapps` auto-deployment directory. Allow the directory watchdog thread a couple of seconds to unpack and deploy the web application.
 4. Verify the deployment by accessing [http://localhost:8080/openscoring/model](http://localhost:8080/openscoring/model). Upon success, the response body should be an empty JSON object `{ }`.

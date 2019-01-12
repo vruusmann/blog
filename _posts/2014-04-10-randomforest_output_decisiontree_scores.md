@@ -10,7 +10,7 @@ The PMML specification does not provide a special purpose element for the repres
 
 The current blog post details a method for interacting with member decision trees. This method is based on the `segmentId` attribute of the `OutputField` element. The `Output` element, which is simply a container of `OutputField` elements, is a "gatekeeper" that controls which computation results (and how) are exposed to the PMML client application. Getting to know this part of the PMML specification is crucial for PMML developers, because it gives access to some of the most powerful and versatile tools in the toolbox.
 
-The exercise starts with training a classification-type random forest model for the ["iris" dataset](http://archive.ics.uci.edu/ml/datasets/Iris). The "iris" dataset is rather small and well-behaving. A satisfactory discrimination between iris species can be achieved using a single decision tree model that is two levels deep. The idea of engaging a random forest algorithm is to try to "flatten" its structure. The following R script produces an ensemble of five decision tree models (`ntree = 5`), with every decision tree model being exactly one level deep (`maxnodes = 2`).
+The exercise starts with training a classification-type random forest model for the ["iris" dataset](https://archive.ics.uci.edu/ml/datasets/Iris). The "iris" dataset is rather small and well-behaving. A satisfactory discrimination between iris species can be achieved using a single decision tree model that is two levels deep. The idea of engaging a random forest algorithm is to try to "flatten" its structure. The following R script produces an ensemble of five decision tree models (`ntree = 5`), with every decision tree model being exactly one level deep (`maxnodes = 2`).
 
 ``` r
 library("pmml")
@@ -108,4 +108,4 @@ The output record now becomes:
 
 The node identifier may come in handy if the decision tree has more complex structure so that multiple `Node` elements have the same `score` attribute value. It may be the case that one particular `Node` element is known to represent a special condition (e.g. an outlier).
 
-Currently, the fourth decision tree does not compute associated probabilities (i.e. the sum of "tree\_4-Probability\_*" fields is 0), because `Node` elements do not contain `ScoreDistribution` elements. This is a [known limitation](http://stackoverflow.com/questions/21994430/r-pmml-class-distribution) of random forest models that are exported using the "pmml" package.
+Currently, the fourth decision tree does not compute associated probabilities (i.e. the sum of "tree\_4-Probability\_*" fields is 0), because `Node` elements do not contain `ScoreDistribution` elements. This is a [known limitation](https://stackoverflow.com/questions/21994430/r-pmml-class-distribution) of random forest models that are exported using the "pmml" package.

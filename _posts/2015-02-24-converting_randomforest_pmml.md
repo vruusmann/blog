@@ -4,7 +4,7 @@ title: "Converting R's random forest (RF) models to PMML documents"
 author: vruusmann
 ---
 
-The power and versatility of the R environment stems from its modular architecture. The functionality of the base platform can be quickly and easily expanded by downloading extension packages from the [CRAN repository](http://cran.r-project.org/). For example, random forest models can be trained using the following functions:
+The power and versatility of the R environment stems from its modular architecture. The functionality of the base platform can be quickly and easily expanded by downloading extension packages from the [CRAN repository](https://cran.r-project.org/). For example, random forest models can be trained using the following functions:
 
 * `randomForest` ([`randomForest` package](https://cran.r-project.org/package=randomForest)). Generic regression and classification. This is the reference implementation.
 * `cforest` ([`party` package](https://cran.r-project.org/package=party)). Generic regression and classification.
@@ -157,7 +157,7 @@ Here, the installation and configuration is played out on a blank GNU/Linux syst
 
 ##### RProtoBuf package #####
 
-This package depends on [curl](http://curl.haxx.se/) and [protobuf](https://developers.google.com/protocol-buffers/) system libraries. It is worth mentioning that if the package is built from its source form (default behavior on *NIX systems), then all the required system libraries must be present both in their standard (no suffix) and development flavors (identified by the "-dev" or "-devel" suffix).
+This package depends on [curl](https://curl.haxx.se/) and [protobuf](https://developers.google.com/protocol-buffers/) system libraries. It is worth mentioning that if the package is built from its source form (default behavior on *NIX systems), then all the required system libraries must be present both in their standard (no suffix) and development flavors (identified by the "-dev" or "-devel" suffix).
 
 ```
 $ yum install curl curl-devel

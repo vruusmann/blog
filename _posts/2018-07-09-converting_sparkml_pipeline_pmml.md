@@ -203,9 +203,9 @@ The `pyspark2pmml.PMMLBuilder` Python class is effectively an API clone (in term
 
 The only noteworthy difference is that it has a three-argument constructor (instead of a two-argument one):
 
-1. Apache Spark connection in the form of a [`pyspark.SparkContext`](http://spark.apache.org/docs/latest/api/python/pyspark.html#pyspark.SparkContext) object.
-2. Training dataset in the form of a [`pyspark.sql.DataFrame`](http://spark.apache.org/docs/latest/api/python/pyspark.sql.html#pyspark.sql.DataFrame) object.
-3. Fitted pipeline in the form of a [`pyspark.ml.PipelineModel`](http://spark.apache.org/docs/latest/api/python/pyspark.ml.html#pyspark.ml.PipelineModel) object.
+1. Apache Spark connection in the form of a [`pyspark.SparkContext`](https://spark.apache.org/docs/latest/api/python/pyspark.html#pyspark.SparkContext) object.
+2. Training dataset in the form of a [`pyspark.sql.DataFrame`](https://spark.apache.org/docs/latest/api/python/pyspark.sql.html#pyspark.sql.DataFrame) object.
+3. Fitted pipeline in the form of a [`pyspark.ml.PipelineModel`](https://spark.apache.org/docs/latest/api/python/pyspark.ml.html#pyspark.ml.PipelineModel) object.
 
 The Apache Spark connection is typically available in PySpark session as the `sc` variable. The `SparkContext` class has an `_jvm` attribute, which gives Python (power-)users direct access to JPMML-SparkML functionality via the Py4J gateway.
 
@@ -231,7 +231,7 @@ pmmlBuilder.buildFile("pipeline.pmml")
 ### Sparklyr
 
 There is no package for the official [SparkR](https://spark.apache.org/docs/latest/sparkr.html) interface.
-However, the [`sparklyr2pmml`](https://github.com/jpmml/sparklyr2pmml) package works with RStudio's [Sparklyr](http://spark.rstudio.com/) interface.
+However, the [`sparklyr2pmml`](https://github.com/jpmml/sparklyr2pmml) package works with RStudio's [Sparklyr](https://spark.rstudio.com/) interface.
 
 Contrary to Java, Scala and Python, object-oriented design and programming is a bit challenging in R.
 

@@ -4,7 +4,7 @@ title: "Testing PMML applications"
 author: vruusmann
 ---
 
-The [JPMML-Evaluator](https://github.com/jpmml/jpmml-evaluator) library aims to provide high quality service to its users. The main module contains unit tests that ensure compliance with the PMML specification. Additionally, there are several support modules that contain integration tests that ensure interoperability with popular open-source PMML producer software such as [R/Rattle](http://rattle.togaware.com/), [KNIME](http://knime.com/) and [RapidMiner](http://rapidminer.com/).
+The [JPMML-Evaluator](https://github.com/jpmml/jpmml-evaluator) library aims to provide high quality service to its users. The main module contains unit tests that ensure compliance with the PMML specification. Additionally, there are several support modules that contain integration tests that ensure interoperability with popular open-source PMML producer software such as [R/Rattle](https://rattle.togaware.com/), [KNIME](https://knime.com/) and [RapidMiner](https://rapidminer.com/).
 
 However, there can never be too much testing. Application developers are encouraged to create and maintain custom integration test modules that replicate models and datasets from their production environments. Such integration tests lower the risk of change. They make it more secure to keep up with the latest version of the JPMML-Evaluator library (on average, released on a monthly basis) or the PMML producer software, or switch from one PMML producer software to another.
 
@@ -36,7 +36,7 @@ The class `org.jpmml.evaluator.ArchiveBatch` loads resources from the current Ja
 * Input CSV. `/csv/<dataset identifier>.csv`
 * Output CSV. `/csv/<model identifier><dataset identifier>.csv`
 
-The following R script creates a decision tree model for the ["iris" dataset](http://archive.ics.uci.edu/ml/datasets/Iris). The model identifier is "DecisionTree" and the dataset identifier is "Iris". All file paths are prefixed with `src/test/resources`, which is the root directory for test resources in Apache Maven builds.
+The following R script creates a decision tree model for the ["iris" dataset](https://archive.ics.uci.edu/ml/datasets/Iris). The model identifier is "DecisionTree" and the dataset identifier is "Iris". All file paths are prefixed with `src/test/resources`, which is the root directory for test resources in Apache Maven builds.
 
 ``` r
 library("pmml")
@@ -66,7 +66,7 @@ write.table(irisOutput, file = "src/test/resources/csv/DecisionTreeIris.csv", co
 
 The generated decision tree model "DecisionTreeIris.pmml" contains a single target field and four output fields. The first output field "Predicted\_Species" is simply a copy of the target field, whereas the remaining three output fields "Probability\_setosa", "Probability\_versicolor" and "Probability\_virginica" give the probabilities for each target category. A thorough test handler will want to check all five fields (a not so thorough test handler could comment out or remove the `Output` element and check only the target field). The method `predict.rpart` of the ["rpart" package](https://cran.r-project.org/package=rpart) is executed twice in order to compile the necessary data table. The first execution (`type = "class"`) predicts class labels. The second execution (`type = "prob"`) computes the associated probabilities.
 
-The following Java source code runs this batch job using the [JUnit framework](http://junit.org/):
+The following Java source code runs this batch job using the [JUnit framework](https://junit.org/):
 
 ``` java
 package org.jpmml.example;

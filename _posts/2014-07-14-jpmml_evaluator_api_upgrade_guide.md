@@ -30,7 +30,7 @@ A project is a collection of library and support (e.g. code coverage, integratio
 The split of the JPMML project into JPMML-Model and JPMML-Evaluator projects is depicted on the scheme below:
 ![Project structure]({{ site.baseurl }}/assets/2014-07-14/ProjectStructure.svg)
 
-The two main changes are highlighted in yellow. First, the project artifact `org.jpmml:jpmml` was retired. It is superseded by two new project artifacts `org.jpmm:jpmml-model` and `org.jpmml:jpmml-evaluator`. Second, the license of the JPMML-Evaluator project (and all its modules) was changed from [BSD 3-Clause License](http://opensource.org/licenses/BSD-3-Clause) to [Affero GPL, version 3.0](http://www.gnu.org/licenses/agpl-3.0.html) (AGPLv3).
+The two main changes are highlighted in yellow. First, the project artifact `org.jpmml:jpmml` was retired. It is superseded by two new project artifacts `org.jpmm:jpmml-model` and `org.jpmml:jpmml-evaluator`. Second, the license of the JPMML-Evaluator project (and all its modules) was changed from [BSD 3-Clause License](https://opensource.org/licenses/BSD-3-Clause) to [Affero GPL, version 3.0](https://www.gnu.org/licenses/agpl-3.0.html) (AGPLv3).
 
 The technical side of the upgrade is straightforward. All module artifacts have retained their `groupId` and `artifactId` coordinates. Therefore, it is only a matter of setting the `version` coordinate to the desired value. For extra transparency, it may be wise to progress step by step, by upgrading first to the 1.1.0 version and then to the latest 1.1.X version. The success of each step should be verified by testing. For more information, please refer to the blog post about [testing PMML applications]({{ site.baseurl }}{% post_url 2014-05-12-testing_pmml_applications %}).
 

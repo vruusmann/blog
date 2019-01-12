@@ -4,7 +4,7 @@ title: "JPMML-Model: Transforming and measuring the memory consumption of class 
 author: vruusmann
 ---
 
-Java (programming language-) agent is a JVM service that is based on the [Java Instrumentation API](http://docs.oracle.com/javase/7/docs/api/java/lang/instrument/package-summary.html). Java agents are loaded into the JVM and activated before any Java application code is loaded. Therefore, Java agents have the unique ability to monitor and/or control the complete life-cycle of Java applications. This is typically achieved by modifying the definitions of Java class files.
+Java (programming language-) agent is a JVM service that is based on the [Java Instrumentation API](https://docs.oracle.com/javase/7/docs/api/java/lang/instrument/package-summary.html). Java agents are loaded into the JVM and activated before any Java application code is loaded. Therefore, Java agents have the unique ability to monitor and/or control the complete life-cycle of Java applications. This is typically achieved by modifying the definitions of Java class files.
 
 ### SAX Locator information ###
 
@@ -35,10 +35,10 @@ This leads to the conclusion that, more often than not, it would be desirable to
 
 ### Activating the JPMML agent ###
 
-JPMML agent is part of the JPMML-Model library project. JPMML agent depends on the [Javassist](http://www.javassist.org) library for its Java class file transformation functionality. Both the JPMML agent JAR file and the Javassist JAR file can be downloaded from the Maven Central repository:
+JPMML agent is part of the JPMML-Model library project. JPMML agent depends on the [Javassist](https://www.javassist.org) library for its Java class file transformation functionality. Both the JPMML agent JAR file and the Javassist JAR file can be downloaded from the Maven Central repository:
 
-* [Search for a JPMML agent JAR file](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.jpmml%22%20AND%20a%3A%22pmml-agent%22).
-* [Search for a Javassist JAR file](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.javassist%22%20AND%20a%3A%22javassist%22).
+* [Search for a JPMML agent JAR file](https://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.jpmml%22%20AND%20a%3A%22pmml-agent%22).
+* [Search for a Javassist JAR file](https://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.javassist%22%20AND%20a%3A%22javassist%22).
 
 The following example assumes that the Java application is packaged into an executable JAR file `myapplication.jar` and the name of the main class is `com.mycompany.myapplication.Main`.
 

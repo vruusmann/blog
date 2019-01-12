@@ -24,7 +24,7 @@ R's [`pmml` package](https://cran.r-project.org/package=pmml) is one of the most
 
 This blog post is aimed at demonstrating a workflow for tidying AdaBoost PMML documents.
 
-The exercise starts with training a binary classification model using the built-in ["soldat" dataset](http://www.inside-r.org/packages/cran/ada/docs/soldat). The challenge is to predict whether a chemical compound is soluble or not based on its structure: `solubility = f(chemical structure)`. The data matrix has 5631 rows and 73 columns. The target column (ie. dependent variable) "y" is a categorical integer. Active columns (ie. independent variables) "x1", "x2", .., "x72" are continuous doubles.
+The exercise starts with training a binary classification model using the built-in ["soldat" dataset](https://www.rdocumentation.org/packages/ada/versions/2.0-5/topics/soldat). The challenge is to predict whether a chemical compound is soluble or not based on its structure: `solubility = f(chemical structure)`. The data matrix has 5631 rows and 73 columns. The target column (ie. dependent variable) "y" is a categorical integer. Active columns (ie. independent variables) "x1", "x2", .., "x72" are continuous doubles.
 
 ``` r
 library("ada")
@@ -50,11 +50,11 @@ When the resulting PMML document "ada.pmml" is opened in text editor, then the e
 
 ##### Step 1/3: Simplifying Predicate elements #####
 
-The behaviour of the [`rpart()` function](http://www.inside-r.org/packages/cran/rpart/docs/rpart), which underlies the [`ada()` function](http://www.inside-r.org/packages/cran/ada/docs/ada), is controlled using options. The default configuration is aimed at being applicable to most diverse use cases. For example, it supports missing values in the training dataset, and generates a set of "alternative" splits in addition to the "main" split.
+The behaviour of the [`rpart()` function](https://www.rdocumentation.org/packages/rpart/versions/4.1-13/topics/rpart), which underlies the [`ada()` function](https://www.rdocumentation.org/packages/ada/versions/2.0-5/topics/ada), is controlled using options. The default configuration is aimed at being applicable to most diverse use cases. For example, it supports missing values in the training dataset, and generates a set of "alternative" splits in addition to the "main" split.
 
 The default configuration is suboptimal for two reasons. First, the "soldat" dataset does not deal with missing values, which means that it is not necessary to consider and generate surrogate splits. Second, "alternative" splits could be useful during model training as they reflect the performance of individual active fields at the specified juncture (eg. a data scientist could use this information for steering her feature engineering efforts). However, they are completely useless during model deployment.
 
-The options can be passed to the `ada()` function as an [`rpart.control` object](http://www.inside-r.org/r-doc/rpart/rpart.control). Use `maxsurrogate = 0` and `maxcompete = 0` for disabling surrogate splits and "alternative" splits, respectively.
+The options can be passed to the `ada()` function as an [`rpart.control` object](https://www.rdocumentation.org/packages/rpart/versions/4.1-13/topics/rpart.control). Use `maxsurrogate = 0` and `maxcompete = 0` for disabling surrogate splits and "alternative" splits, respectively.
 
 ``` r
 set.seed(13)

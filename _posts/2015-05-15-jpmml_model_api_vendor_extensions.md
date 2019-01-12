@@ -46,7 +46,7 @@ Application developers can choose between two API approaches:
 * W3C DOM API. Custom XML content are W3C DOM nodes (ie. instances of class `org.w3c.dom.Node`). This approach is applicable to all XML document types, but the development and maintenance costs are rather high. For example, the application developer must manually take care of managing XML namespace information.
 * Java XML Binding (JAXB) API. Custom XML content are JAXB objects. This approach is applicable to XML document types that have a JAXB class model.
 
-The current blog post details a method for working with PMML documents that embed MathML content. [Mathematical Markup Language (MathML)](http://en.wikipedia.org/wiki/MathML) is an XML-based standard for describing mathematical notations and capturing both its structure and content. It is potentially useful for adding human- and machine-readable documentation to data transformations.
+The current blog post details a method for working with PMML documents that embed MathML content. [Mathematical Markup Language (MathML)](https://en.wikipedia.org/wiki/MathML) is an XML-based standard for describing mathematical notations and capturing both its structure and content. It is potentially useful for adding human- and machine-readable documentation to data transformations.
 
 The XML Schema Definition (XSD) for MathML version 3 is is readily available. It can be compiled to JAXB class model with the help of the XJC binding compiler. The generated MathML class model consists of a number of classes in the `org.wc3.math` package. By convention, the XML registry class is named `org.w3c.math.ObjectFactory`.
 
