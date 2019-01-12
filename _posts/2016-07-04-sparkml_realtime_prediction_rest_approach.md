@@ -11,24 +11,24 @@ Apache Spark competitors such as R or Python cannot match that, because they typ
 On the other hand, the batch processing is characterized by high "inertia". Apache Spark falls short in application areas where it is necessary to work with small datasets (eg. single data records) in real time.
 Essentially, there is a lower bound (instead of an upper bound) to the effective size of a task.
 
-This blog post is about demonstrating a workflow where Spark ML pipeline models are exported in Predictive Model Markup Language (PMML) data format, and then imported into Openscoring REST web service for easy interfacing with third-party applications.
+This blog post is about demonstrating a workflow where Apache Spark ML pipeline models are exported in Predictive Model Markup Language (PMML) data format, and then imported into Openscoring REST web service for easy interfacing with third-party applications.
 
-# Step 1: Exporting Spark ML pipeline models to PMML #
+# Step 1: Exporting Apache Spark ML pipeline models to PMML #
 
-The support for PMML was [introduced](https://databricks.com/blog/2015/07/02/pmml-support-in-apache-spark-mllib.html) in Apache Spark MLlib version 1.4.0 in the form of a `org.apache.spark.mllib.pmml.PMMLExportable` trait. The invocation of the `PMMLExportable#toPMML()` method (or one of its overloaded variants) produces a PMML document withich contains the symbolic description of the fitted model object.
+The support for PMML was [introduced](https://databricks.com/blog/2015/07/02/pmml-support-in-apache-spark-mllib.html) in Apache Spark MLlib version 1.4.0 in the form of a `org.apache.spark.mllib.pmml.PMMLExportable` trait. The invocation of the `PMMLExportable#toPMML()` method (or one of its overloaded variants) produces a PMML document withich contains the symbolic description of the fitted model.
 
-Unfortunately, this solution is not very relevant to Apache Spark ML.
-First, Spark ML is organized around the pipeline concept. A Spark ML pipeline can be regarded as a directed graph of data transformations and models. When exporting a model, then it will be necessary to include all the preceding stages to the dump.
-Second, Spark ML comes with rich metadata. The `DataFrame` representation of a dataset is associated with a static schema, which can be queried for column names, data types and more.
-Finally, Spark ML has replaced and/or abstracted away a great deal of Spark MLlib APIs. Newer versions of Spark ML have almost completely ceased to rely on Spark MLlib classes that implement the `PMMLExportable` trait.
+Unfortunately, this solution is not very relevant anymore.
+First, Apache Spark ML is organized around the pipeline formalization. A pipeline can be regarded as a directed graph of data transformations and models. When exporting a model, then it will be necessary to include all the preceding pipeline stages to the dump.
+Second, Apache Spark ML comes with rich metadata. The `DataFrame` representation of a dataset is associated with a static schema, which can be queried for column names, data types and more.
+Finally, Apache Spark ML has replaced and/or abstracted away a great deal of Apache Spark MLlib APIs. Newer versions of Apache Spark ML have almost completely ceased to rely on Apache Spark MLlib classes that implement the `PMMLExportable` trait.
 
-The [JPMML-SparkML](https://github.com/jpmml/jpmml-sparkml) library is an independent effort to provide a fully-featured PMML exporter for Spark ML pipelines.
+The [JPMML-SparkML](https://github.com/jpmml/jpmml-sparkml) library is an independent effort to provide a fully-featured PMML exporter for Apache Spark ML pipelines.
 
 The main interaction point is the `org.jpmml.sparkml.ConverterUtil#toPMML(StructType, PipelineModel)` utility method.
-The conversion engine initializes a PMML document based on the `StructType` argument, and fills it with relevant content by iterating over all the stages of the `PipelineModel` argument.
+The conversion engine initializes a PMML document based on the `StructType` argument, and fills it with relevant content by iterating over all the pipeline stages of the `PipelineModel` argument.
 
-The conversion engine requires a valid class mapping from `org.apache.spark.ml.Transformer` to `org.jpmml.sparkml.TransformerConverter` for every stage class.
-The class mappings registry is automatically populated for most common Spark ML transformer and model types. Application developers can implement and register their own `TransformerConverter` classes when looking to move beyond that.
+The conversion engine requires a valid class mapping from `org.apache.spark.ml.Transformer` to `org.jpmml.sparkml.TransformerConverter` for every pipeline stage class.
+The class mappings registry is automatically populated for most common transformer and model types. Application developers can implement and register their own `TransformerConverter` classes when looking to move beyond that.
 
 Typical usage:
 
@@ -44,11 +44,11 @@ PMML pmml = ConverterUtil.toPMML(schema, pipelineModel);
 JAXBUtil.marshalPMML(pmml, new StreamResult(System.out));
 ```
 
-The JPMML-SparkML library depends on a newer version of the [JPMML-Model](https://github.com/jpmml/jpmml-model) library than Spark MLlib, which introduces severe compile-time and run-time classpath conflicts. The solution is to employ [Maven Shade Plugin](https://maven.apache.org/plugins/maven-shade-plugin/) and relocate the affected `org.dmg.pmml` and `org.jpmml.(agent|model|schema)` packages.
+The JPMML-SparkML library depends on a newer version of the [JPMML-Model](https://github.com/jpmml/jpmml-model) library than Apache Spark, which introduces severe compile-time and run-time classpath conflicts. The solution is to employ [Maven Shade Plugin](https://maven.apache.org/plugins/maven-shade-plugin/) and relocate the affected `org.dmg.pmml` and `org.jpmml.(agent|model|schema)` packages.
 
 The [JPMML-SparkML-Bootstrap](https://github.com/jpmml/jpmml-sparkml-bootstrap) project aims to provide a complete example about developing and packaging an JPMML-SparkML powered application.
 
-The `org.jpmml.sparkml.bootstrap.Main` application class demonstrates a two-stage Spark ML pipeline. The first stage is a `RFormula` feature selector that selects columns from a CSV input file. The second stage is either a `DecisionTreeRegressor` or `DecisionTreeClassifier` estimator that finds the best approximation between the target column and active columns. The result is written to a PMML output file.
+The `org.jpmml.sparkml.bootstrap.Main` application class demonstrates a two-stage pipeline. The first pipeline stage is a `RFormula` transformer that simply selects columns from a CSV input file. The second pipeline stage is either a `DecisionTreeRegressor` or `DecisionTreeClassifier` predictor that finds the best approximation between the label column and feature columns. The result is written to a PMML output file.
 
 The exercise starts with training a classification-type decision tree model for the ["wine quality" dataset](https://archive.ics.uci.edu/ml/datasets/Wine+Quality):
 
@@ -125,7 +125,7 @@ For example, classification models typically return the label of the winning cla
 
 Secondary output fields are declared as `Output/OutputField` elements.
 
-Spark ML models indicate the availability of additional details by implementing marker interfaces.
+Apache Spark ML models indicate the availability of additional details by implementing marker interfaces.
 The conversion engine keeps an eye out for the `org.apache.spark.ml.param.shared.HasProbabilityCol` marker interface. It is considered a proof that the classification model is capable of estimating class probability distribution, which is a prerequisite for encoding an `Output` element that contains probability-type `OutputField` child elements.
 
 The wine color model defines a primary target field ("color"), and two secondary output fields ("probability_white" and "probability_red"):
@@ -163,14 +163,14 @@ The identifier of the winning decision tree leaf can be queried by declaring an 
 </PMML>
 ```
 
-Spark ML does not assign explicit identifiers to decision tree nodes.
+Apache Spark does not assign explicit identifiers to decision tree nodes.
 Therefore, a PMML engine would be returning implicit identifiers in the form of a 1-based index, which are perfectly adequate for distinguishing between winning decision tree leafs.
 
 The JPMML-Evaluator and JPMML-Model libraries provides rich APIs that can resolve node identifiers to `org.dmg.pmml.Node` class model objects, and backtrack these to the root of the decision tree.
 
 ### Transformations
 
-From the PMML perspective, Spark ML data transformations can be classified as "real" or "pseudo".
+From the PMML perspective, Apache Spark ML data transformations can be classified as "real" or "pseudo".
 A "real" transformation performs a computation on a feature or a feature vector. It is encoded as one or more `PMML/DataDictionary/DerivedField` elements.
 
 Examples of "real" transformer classes:
@@ -210,7 +210,7 @@ The above, after conversion to PMML:
 </PMML>
 ```
 
-A "pseudo" transformation performs Spark ML-specific housekeeping work such as assembling, disassembling or subsetting feature vectors.
+A "pseudo" transformation performs Apache Spark ML-specific housekeeping work such as assembling, disassembling or subsetting feature vectors.
 
 Examples of "pseudo" transformer classes:
 

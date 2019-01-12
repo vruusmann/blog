@@ -26,7 +26,7 @@ if(Petal_Length < 2.45){
 
 ### ML framework perspective
 
-Popular ML frameworks such as R, Scikit-Learn and Apache Spark ML disregard the "business rules" use case.
+Popular ML frameworks such as R, Scikit-Learn and Apache Spark disregard the "business rules" use case.
 The solution is to develop a custom model type, which has the following behaviour:
 
 1. The constructor takes user-specified business rules.
@@ -73,7 +73,7 @@ Python predicates involving categorical features:
 * `X['Species'] != 'setosa'`
 * `X['Species'] in ['versicolor', 'virginica']`
 
-If the `RuleSetClassifier` model will be used only in Scikit-Learn runtime environment, then Python predicates may take advantage of full language and library/platform features. However, if the `RuleSetClassifier` model is eventually going to be converted into PMML data format, then some limitations and restrictions apply. A great deal of them are temporary, and will be lifted as the Python-to-PMML [expression](https://github.com/jpmml/jpmml-sklearn/blob/master/src/main/javacc/expression.jj) and [predicate translation components](https://github.com/jpmml/jpmml-sklearn/blob/master/src/main/javacc/predicate.jj) of the JPMML-SkLearn library evolve.
+If the `RuleSetClassifier` model will be used only in Scikit-Learn runtime environment, then Python predicates may take advantage of full language and library/platform features. However, if the `RuleSetClassifier` model is eventually going to be converted to PMML data format, then some limitations and restrictions apply. A great deal of them are temporary, and will be lifted as the Python-to-PMML [expression](https://github.com/jpmml/jpmml-sklearn/blob/master/src/main/javacc/expression.jj) and [predicate translation components](https://github.com/jpmml/jpmml-sklearn/blob/master/src/main/javacc/predicate.jj) of the JPMML-SkLearn library evolve.
 
 ### Example workflow
 

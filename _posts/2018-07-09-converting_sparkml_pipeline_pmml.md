@@ -14,14 +14,14 @@ The current blog post details this breaking API change, and all the new features
 
 # API overview #
 
-The old API was designed after Apache Spark MLLib's [`org.apache.spark.mllib.pmml.PMMLExportable`](https://spark.apache.org/docs/latest/api/java/org/apache/spark/mllib/pmml/PMMLExportable.html) trait.
+The old API was designed after Apache Spark MLlib's [`org.apache.spark.mllib.pmml.PMMLExportable`](https://spark.apache.org/docs/latest/api/java/org/apache/spark/mllib/pmml/PMMLExportable.html) trait.
 The `ConverterUtil#toPMML(StructType, PipelineModel)` utility method was simply doing its best to emulates the non-existing `org.apache.spark.ml.PipelineModel#toPMML(StructType)` method.
 
 The new API is designed after the [builder pattern](https://en.wikipedia.org/wiki/Builder_pattern).
-The primary (ie. essential) state of the `org.jpmml.sparkml.PMMLBuilder` class includes the data schema and the compiled pipeline. The initial values are supplied via the the two-argument `PMMLBuilder(StructType, PipelineModel)` constructor, and can be updated any time via the `#setSchema(StructType)` and `#setPipelineModel(PipelineModel)` mutator methods.
+The primary (ie. essential) state of the `org.jpmml.sparkml.PMMLBuilder` class includes the data schema and the fitted pipeline. The initial values are supplied via the the two-argument `PMMLBuilder(StructType, PipelineModel)` constructor, and can be updated any time via the `#setSchema(StructType)` and `#setPipelineModel(PipelineModel)` mutator methods.
 
 Data schema mutation may involve renaming columns or clarifying their data types.
-Apache Spark pays little attention to the data type of categorical features, because after string indexing, vector indexing, vector slicing and dicing, they all end up as `double` arrays anyway.
+Apache Spark ML pays little attention to the data type of categorical features, because after string indexing, vector indexing, vector slicing and dicing, they all end up as `double` arrays anyway.
 In contrast, JPMML-SparkML carefully collects and maintains (meta-)information about each and every feature, with the aim of using it to generate more precise and nuanced PMML documents. For example, JPMML-SparkML (just like all other JPMML conversion libraries) eagerly takes note if the data type of a column is indicated as `boolean`, and generates simplified, binary logic PMML language constructs wherever possible.
 
 Pipeline mutation may involve inserting new transformers and models, or removing existing ones. For example, generating a "complete" PMML document, then removing all transformers and generating a "model-only" PMML document.
@@ -38,21 +38,22 @@ JPMML-SparkML exists in two flavours:
 * Library JAR file `jpmml-sparkml-${version}.jar`. Contains `org.jpmml.sparkml.*` classes. Distributed via the Maven Central repository.
 * Executable uber-JAR file `jpmml-sparkml-executable-${version}.jar`. Contains all library JAR file classes, plus all transitive dependency (JPMML-Converter, JPMML-Model, Google Guava, etc.) classes. Distributed via the [GitHub releases](https://github.com/jpmml/jpmml-sparkml/releases) page.
 
-The "business logic" of Apache Spark transformers and models is version dependent. Major releases (eg. `2.<major>`) introduce new algorithms and parameterization schemes, whereas minor versions (eg. `2.<major>.<minor>`) address their stability and optimization issues.
+The "business logic" of Apache Spark ML transformers and models is version dependent. Major releases (eg. `2.<major>`) introduce new algorithms and parameterization schemes, whereas minor versions (eg. `2.<major>.<minor>`) address their stability and optimization issues.
 
 JPMML-SparkML is versioned after Apache Spark major versions. There is an active JPMML-SparkML development branch for every supported Apache Spark major version. The "conversion logic" for some transformer or model is implemented in the earliest development branch, and is then merged forward to later development branches (with appropriate modifications).
 
-At the time of writing this (July 2018), JPMML-SparkML supports all current Apache Spark 2.X versions:
+At the time of writing this (July 2018; updated in January 2019), JPMML-SparkML supports all current Apache Spark 2.X versions:
 
 | Apache Spark version | JPMML-SparkML development branch | JPMML-SparkML latest release version |
 |----------------------|----------------------------------|--------------------------------------|
-| 2.0.X | [`1.1.X`](https://github.com/jpmml/jpmml-sparkml/tree/1.1.X) | [`1.1.20`](https://github.com/jpmml/jpmml-sparkml/releases/tag/1.1.20) |
-| 2.1.X | [`1.2.X`](https://github.com/jpmml/jpmml-sparkml/tree/1.2.X) | [`1.2.12`](https://github.com/jpmml/jpmml-sparkml/releases/tag/1.2.12) |
-| 2.2.X | [`1.3.X`](https://github.com/jpmml/jpmml-sparkml/tree/1.3.X) | [`1.3.8`](https://github.com/jpmml/jpmml-sparkml/releases/tag/1.3.8) |
-| 2.3.X | [`master`](https://github.com/jpmml/jpmml-sparkml/tree/master) | [`1.4.5`](https://github.com/jpmml/jpmml-sparkml/releases/tag/1.4.5) |
+| 2.0.X | [`1.1.X`](https://github.com/jpmml/jpmml-sparkml/tree/1.1.X) | [`1.1.22`](https://github.com/jpmml/jpmml-sparkml/releases/tag/1.1.22) |
+| 2.1.X | [`1.2.X`](https://github.com/jpmml/jpmml-sparkml/tree/1.2.X) | [`1.2.14`](https://github.com/jpmml/jpmml-sparkml/releases/tag/1.2.14) |
+| 2.2.X | [`1.3.X`](https://github.com/jpmml/jpmml-sparkml/tree/1.3.X) | [`1.3.10`](https://github.com/jpmml/jpmml-sparkml/releases/tag/1.3.10) |
+| 2.3.X | [`1.4.X`](https://github.com/jpmml/jpmml-sparkml/tree/1.4.X) | [`1.4.7`](https://github.com/jpmml/jpmml-sparkml/releases/tag/1.4.7) |
+| 2.4.X | [`master`](https://github.com/jpmml/jpmml-sparkml/tree/master) | [`1.5.0`](https://github.com/jpmml/jpmml-sparkml/releases/tag/1.5.0) |
 
 JPMML-SparkML checks the version of Apache Spark runtime environment before doing any conversion work.
-For example, the following exception is thrown when JPMML-SparkML version 1.4(.5) discovers that it has been improperly paired with Apache Spark version 2.2:
+For example, the following exception is thrown when JPMML-SparkML version 1.4(.7) discovers that it has been improperly paired with Apache Spark version 2.2:
 
 ```
 java.lang.IllegalArgumentException: Expected Apache Spark ML version 2.3, got version 2.2 (2.2.0)
@@ -144,7 +145,7 @@ The choice between the last two options depends on the approximate size/complexi
 
 ### Conversion options
 
-The "business logic" of some Apache Spark transformer or model can often be translated to PMML in more than one way. Some representations are easier to approach for humans (eg. interpretation and manual modification), whereas some other representations are more compact or faster to execute for machines.
+The "business logic" of some Apache Spark ML transformer or model can often be translated to PMML in more than one way. Some representations are easier to approach for humans (eg. interpretation and manual modification), whereas some other representations are more compact or faster to execute for machines.
 
 The purpose of conversion options is to activate the most optimal representation for the intended application scenario. Granted, the content of PMML documents is well structured and is fairly easy to manipulate using [JPMML-Model](https://github.com/jpmml/jpmml-model) and [JPMML-Converter](https://github.com/jpmml/jpmml-converter) libraries at any later time. However, achieving the desired outcome by toggling high-level controls is much more productive than writing low-level application code.
 
@@ -171,7 +172,7 @@ The `PMMLBuilder` builder class currently exposes the following mutator methods:
 
 ### Verification
 
-Every conversion operation raises concern, whether the JPMML-SparkML library was doing a good job or not. Say, the conversion operation appears to have succeeded (ie. there were no exceptions thrown, and no warning- or error-level log messages emitted), but how to be sure that the PMML representation of the compiled pipeline shall be making exactly the same predictions as the Apache Spark representation did?
+Every conversion operation raises concern, whether the JPMML-SparkML library was doing a good job or not. Say, the conversion operation appears to have succeeded (ie. there were no exceptions thrown, and no warning- or error-level log messages emitted), but how to be sure that the PMML representation of the fitted pipeline shall be making exactly the same predictions as the Apache Spark representation did?
 
 The PMML specification addresses this condundrum with the [model verification](http://dmg.org/pmml/v4-3/ModelVerification.html) mechanism.
 In brief, it is possible to embed a verification data into models. The verification dataset has two column groups - the inputs, and the predictions that the original ML framework made when those inputs were fed into it.
@@ -204,7 +205,7 @@ The only noteworthy difference is that it has a three-argument constructor (inst
 
 1. Apache Spark connection in the form of a [`pyspark.SparkContext`](http://spark.apache.org/docs/latest/api/python/pyspark.html#pyspark.SparkContext) object.
 2. Training dataset in the form of a [`pyspark.sql.DataFrame`](http://spark.apache.org/docs/latest/api/python/pyspark.sql.html#pyspark.sql.DataFrame) object.
-3. Compiled pipeline in the form of a [`pyspark.ml.PipelineModel`](http://spark.apache.org/docs/latest/api/python/pyspark.ml.html#pyspark.ml.PipelineModel) object.
+3. Fitted pipeline in the form of a [`pyspark.ml.PipelineModel`](http://spark.apache.org/docs/latest/api/python/pyspark.ml.html#pyspark.ml.PipelineModel) object.
 
 The Apache Spark connection is typically available in PySpark session as the `sc` variable. The `SparkContext` class has an `_jvm` attribute, which gives Python (power-)users direct access to JPMML-SparkML functionality via the Py4J gateway.
 
@@ -234,7 +235,7 @@ However, the [`sparklyr2pmml`](https://github.com/jpmml/sparklyr2pmml) package w
 
 Contrary to Java, Scala and Python, object-oriented design and programming is a bit challenging in R.
 
-The `sparklyr2pmml::PMMLBuilder` S4 class can only capture the state. It defines two slots `sc` and `java_pmml_builder`, which can be initialized via the two-argument constructor. However, most R users are advised to regard this constructor as private, and heed the three-argument `sparklyr2pmml::PMMLBuilder` S4 helper function instead. This function takes care of initializing a proper `java_pmml_builder` object based on the `sparklyr::tbl_spark` training dataset and the `sparklyr::ml_pipeline_model` compiled pipeline objects.
+The `sparklyr2pmml::PMMLBuilder` S4 class can only capture the state. It defines two slots `sc` and `java_pmml_builder`, which can be initialized via the two-argument constructor. However, most R users are advised to regard this constructor as private, and heed the three-argument `sparklyr2pmml::PMMLBuilder` S4 helper function instead. This function takes care of initializing a proper `java_pmml_builder` object based on the `sparklyr::tbl_spark` training dataset and `sparklyr::ml_pipeline_model` fitted pipeline objects.
 
 All mutator and builder methods have been "outsourced" to standalone S4 generic functions, which take the `sparklyr2pmml::PMMLBuilder` object as the first argument:
 

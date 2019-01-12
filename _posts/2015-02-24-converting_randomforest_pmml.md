@@ -22,7 +22,7 @@ This one-to-one correspondence between models and model execution functions make
 
 ![Executing R models on Java]({{ site.baseurl }}/assets/2015-02-24/R_Java.svg)
 
-Predictive Model Markup Language (PMML) is an XML-based industry standard for the representation of predictive solutions. PMML provides a [MiningModel element](http://www.dmg.org/v4-3/MultipleModels.html) that can encode a wide variety of bagging and boosting models (plus more complex model workflows). A model that has been converted to the PMML data format can be executed by any compliant PMML engine. A list of PMML producer and consumer software can be found at Data Mining Group (DMG) website under the [PMML Powered](http://www.dmg.org/products.html) section.
+Predictive Model Markup Language (PMML) is an XML-based industry standard for the representation of predictive solutions. PMML provides a [MiningModel element](http://www.dmg.org/v4-3/MultipleModels.html) that can encode a wide variety of bagging and boosting models (plus more complex model workflows). A model that has been converted to PMML data format can be executed by any compliant PMML engine. A list of PMML producer and consumer software can be found at Data Mining Group (DMG) website under the [PMML Powered](http://www.dmg.org/products.html) section.
 
 PMML leads to simpler and more robust model deployment workflows. Basically, models are first converted from their function-specific R representation to the PMML representation, and then executed on a shared platform-specific PMML engine. For the Java platform this could be the [JPMML-Evaluator](https://github.com/jpmml/jpmml-evaluator) library. For the Python platform this could be [Augustus](augustus.googlecode.com) library.
 
