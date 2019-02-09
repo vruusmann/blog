@@ -2,7 +2,7 @@
 layout: post
 title: "Tidying R's AdaBoost PMML documents"
 author: vruusmann
---- 
+---
 
 The experience shows that the quality of PMML documents varies considerably across PMML producer software. One way to establish and enforce a well-defined quality level is to transform them to a canonicalized (aka "tidy") representation:
 

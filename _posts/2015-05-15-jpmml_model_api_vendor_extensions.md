@@ -2,7 +2,7 @@
 layout: post
 title: "JPMML-Model: Extending PMML documents with custom XML content"
 author: vruusmann
---- 
+---
 
 The XML data format is commonly despised for its complexity and verbosity, especially in comparison with other text-based data formats such as JSON and YAML. However, there are several application areas where its design proves to be an asset instead of a liability.
 

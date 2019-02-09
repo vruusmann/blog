@@ -64,7 +64,7 @@ java.lang.IllegalArgumentException: Expected Apache Spark ML version 2.3, got ve
 
 ### Library JAR
 
-The library JAR file can be "imported" into Apache Spark version 2.3.0 (and newer) using the `--packages` command-line option. Package coordinates must follow Apache Maven conventions `${groupId}:${artifactId}:version`, where the groupId and artifactId are fixed as `org.jpmml` and `jpmml-sparkml`, respectively.
+The library JAR file can be "imported" into Apache Spark version 2.3.0 (and newer) using the `--packages` command-line option. Package coordinates must follow Apache Maven conventions `${groupId}:${artifactId}:${version}`, where the groupId and artifactId are fixed as `org.jpmml` and `jpmml-sparkml`, respectively.
 
 For example, starting Spark shell with the JPMML-SparkML library JAR:
 
@@ -73,7 +73,7 @@ $ export SPARK_HOME=/opt/spark-2.3.0/
 $ $SPARK_HOME/bin/spark-shell --packages org.jpmml:jpmml-sparkml:${version}
 ```
 
-**Important** The library JAR file is not directly usable with Apache Spark versions 2.0 through 2.2 due to a classpath conflict, which is documented in [SPARK-15526](https://issues.apache.org/jira/browse/SPARK-15526).
+**Important**: this library JAR file is not directly usable with Apache Spark versions 2.0 through 2.2 due to the [SPARK-15526](https://issues.apache.org/jira/browse/SPARK-15526) classpath conflict.
 
 This classpath conflict typically manifests itself during the conversion work, in the form of some obscure `java.lang.NoSuchFieldError` or `java.lang.NoSuchMethodError`:
 
@@ -96,7 +96,7 @@ The executable uber-JAR file can be "imported" into any Apache Spark version usi
 For example, starting PySpark with the JPMML-SparkML executable uber-JAR:
 
 ```
-$ export SPARK_HOME=/opt/spark-2.2.0
+$ export SPARK_HOME=/opt/spark-2.2.0/
 $ $SPARK_HOME/bin/pyspark --jars /path/to/jpmml-sparkml-executable-${version}.jar
 ```
 

@@ -2,7 +2,7 @@
 layout: post
 title: "Troubleshooting PMML data format documents"
 author: vruusmann
---- 
+---
 
 **CHALLENGE**: you've composed a Predictive Model Markup Language (PMML) document and would like to make sure that it complies with the PMML standard.
 
