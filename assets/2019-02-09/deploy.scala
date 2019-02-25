@@ -1,7 +1,7 @@
 import java.io.File
 import org.jpmml.evaluator.LoadingModelEvaluatorBuilder
 
-val evaluatorBuilder = new LoadingModelEvaluatorBuilder().load(new File("audit_glm.pmml"))
+val evaluatorBuilder = new LoadingModelEvaluatorBuilder().load(new File("LogisticRegressionAudit.pmml"))
 
 val evaluator = evaluatorBuilder.build()
 

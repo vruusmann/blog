@@ -1,6 +1,6 @@
 Age,Employment,Education,Marital,Occupation,Income,Gender,Deductions,Hours,Adjusted
 38,Private,College,Unmarried,Service,81838,Female,FALSE,72,0
-Maybe35,Private,Associate,Absent,Transport,72099,Male,FALSE,30,0
+35,Private,Associate,Absent,Transport,72099,Male,FALSE,30,0
 32,Private,HSgrad,Divorced,Clerical,154676.74,Male,FALSE,40,0
 45,Private,Bachelor,Married,Repair,27743.82,Male,FALSE,55,1
 60,Private,College,Married,Executive,7568.23,Male,FALSE,40,1

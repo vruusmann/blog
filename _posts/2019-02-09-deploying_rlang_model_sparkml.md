@@ -79,7 +79,7 @@ The conversion functionality is available via the `r2pmml::r2pmml(obj, path)` pa
 ``` r
 library("r2pmml")
 
-r2pmml(audit.glm, "audit_glm.pmml")
+r2pmml(audit.glm, "LogisticRegressionAudit.pmml")
 ```
 
 ### Apache Spark side
@@ -111,7 +111,7 @@ import java.io.File
 import org.jpmml.evaluator.LoadingModelEvaluatorBuilder
 
 val evaluatorBuilder = new LoadingModelEvaluatorBuilder() \
-	.load(new File("audit_glm.pmml"))
+	.load(new File("LogisticRegressionAudit.pmml"))
 
 val evaluator = evaluatorBuilder.build()
 
@@ -161,5 +161,5 @@ Prediction columns are appended to the input dataset. Depending on the setting o
 ### Resources
 
 * The "audit" dataset: ["audit.csv"]({{ site.baseurl }}/assets/2019-02-09/audit.csv)
-* The R script: ["audit.R"]({{ site.baseurl }}/assets/2019-02-09/audit.R)
-* The Scala script: ["audit.scala"]({{ site.baseurl }}/assets/2019-02-09/audit.scala)
+* The R script: ["train.R"]({{ site.baseurl }}/assets/2019-02-09/train.R)
+* The Scala script: ["deploy.scala"]({{ site.baseurl }}/assets/2019-02-09/deploy.scala)

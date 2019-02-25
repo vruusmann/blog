@@ -26,4 +26,4 @@ audit_sample$Adjusted = NULL
 
 audit.glm = verify(audit.glm, newdata = audit_sample)
 
-r2pmml(audit.glm, "audit_glm.pmml")
+r2pmml(audit.glm, "LogisticRegressionAudit.pmml")
