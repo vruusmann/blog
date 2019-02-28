@@ -91,7 +91,7 @@ Library descriptions:
 
 For example, declaring a minimal GlassFish Metro dependency:
 
-```
+``` xml
 <dependency>
 	<groupId>org.glassfish.jaxb</groupId>
 	<artifactId>jaxb-runtime</artifactId>
@@ -139,4 +139,4 @@ After declaring the minimal GlassFish Metro dependency, the project can be built
 
 ### Resources
 
-* The toy application: ["jaxb_demo.zip"]({{ site.baseurl }}/assets/2019-02-28/jaxb_demo.zip)
+* The toy application: ["jaxb_demo.zip.github"]({{ site.baseurl }}/assets/2019-02-28/jaxb_demo.zip.github) (Please remove the ".github" suffix from the file name after download)
