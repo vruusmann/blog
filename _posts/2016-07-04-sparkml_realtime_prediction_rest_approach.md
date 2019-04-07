@@ -73,9 +73,9 @@ The design and implementation of these two interfaces is PMML engine specific. T
 
 ### Input
 
-The decision tree model is represented as the `PMML/TreeModel` element. Its schema is defined by the combination of `MiningSchema` and `Output` child elements.
+The decision tree model is represented as the `/PMML/TreeModel` element. Its schema is defined by the combination of `MiningSchema` and `Output` child elements.
 
-A `MiningField` element serves as a collection of "import" and "export" statements. It refers to some field, and stipulates its role and requirements in the context of the current model element. The fields themselves are declared as `PMML/DataDictionary/DataField` and `PMML/TransformationDictionary/DerivedField` elements.
+A `MiningField` element serves as a collection of "import" and "export" statements. It refers to some field, and stipulates its role and requirements in the context of the current model element. The fields themselves are declared as `/PMML/DataDictionary/DataField` and `/PMML/TransformationDictionary/DerivedField` elements.
 
 The wine color model defines eight input fields ("fixed_acidity", "volatile_acidity", .., "sulphates"). The values of input fields are prepared by performing type conversion from user-specified representation to PMML representation, which is followed by categorization into valid, invalid or missing subspaces, and application of subspace-specific treatments.
 
@@ -171,7 +171,7 @@ The JPMML-Evaluator and JPMML-Model libraries provides rich APIs that can resolv
 ### Transformations
 
 From the PMML perspective, Apache Spark ML data transformations can be classified as "real" or "pseudo".
-A "real" transformation performs a computation on a feature or a feature vector. It is encoded as one or more `PMML/DataDictionary/DerivedField` elements.
+A "real" transformation performs a computation on a feature or a feature vector. It is encoded as one or more `/PMML/DataDictionary/DerivedField` elements.
 
 Examples of "real" transformer classes:
 

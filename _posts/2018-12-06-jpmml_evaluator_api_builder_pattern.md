@@ -10,7 +10,7 @@ The [JPMML-Evaluator](https://github.com/jpmml/jpmml-evaluator) library has reli
 However, this approach has reached its limits, as demonstrated by curiosities such as "factory of factories" and "factory method taking factories as arguments".
 
 The biggest gripe with the Factory pattern is its statelessness and poor extensibility. All the object creation and configuration work is captured inside a single factory method, which can be interacted with via a long list of formal parameters.
-The Factory pattern might be a great fit for dynamic programming languages, but not for the Java programming language. For example, in Java, every added/updated/removed formal parameter results in a breaking API change, and it's not possible to assign default values to them. Moreover, base factory methods are rather difficult to override with more specialized ones.
+The Factory pattern might be a great fit for dynamic programming languages, but not for the Java programming language. For example, in Java, every added/updated/removed formal parameter results in a breaking API change, and it is not possible to assign default values to them. Moreover, base factory methods are rather difficult to override with more specialized ones.
 
 The way forward is the [Builder pattern](https://en.wikipedia.org/wiki/Builder_pattern).
 A builder object proposes a sensible default configuration, which can be queried and incrementally updated using accessor methods. The object creation work happens inside the no-arguments `#build()` method. The builder object as a whole is typically reusable and serializable.
@@ -42,7 +42,7 @@ First, the "primary state" is concerned with the PMML class model. Its `#pmml` a
 Second, the "secondary state" is concerned with control and configuration. There are a number of factory-related fields that can be set and reset using mutator methods.
 
 The `ModelEvaluatorBuilder` class is not thread-safe.
-However, it's possible to effectively "freeze" its instances by casting them to instances of the super interface `EvaluatorBuilder`, which does not expose any mutator methods:
+However, it is possible to effectively "freeze" its instances by casting them to instances of the super interface `EvaluatorBuilder`, which does not expose any mutator methods:
 
 ``` java
 EvaluatorBuilder evaluatorBuilder = new ModelEvaluatorBuilder(pmml)
@@ -51,7 +51,7 @@ EvaluatorBuilder evaluatorBuilder = new ModelEvaluatorBuilder(pmml)
 Evaluator evaluator = evaluatorBuilder.build();
 ```
 
-The `EvaluatorBuilder#build()` method can be invoked any number of times. It's up to the implementation class to decide if it creates a new `Evaluator` object for each invocation, or caches and keeps returning the same `Evaluator` object.
+The `EvaluatorBuilder#build()` method can be invoked any number of times. It is up to the implementation class to decide if it creates a new `Evaluator` object for each invocation, or caches and keeps returning the same `Evaluator` object.
 
 ### Moving from ModelEvaluatorBuilder onward
 

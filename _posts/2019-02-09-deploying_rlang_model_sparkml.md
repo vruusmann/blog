@@ -56,9 +56,9 @@ Supported constructs:
 
 There is always the doubt whether the `r2pmml` package did get everything right, meaning that the generated PMML model has the same input/output interface and is making the same predictions as the R model.
 
-This doubt can be somewhat alleviated by manual inspection of the PMML file. For example, making sure that all "raw" input fields are correctly defined under the `DataDictionary` element (name, type and the value domain), and all "derived" values under the `TransformationDictionary` element.
+This doubt can be somewhat alleviated by manual inspection of the PMML file. For example, making sure that all "raw" input fields are correctly defined under the `/PMML/DataDictionary` element (name, type and the value domain), and all "derived" values under the `/PMML/TransformationDictionary` element.
 
-It's possible to remove all doubts about the PMML model executability and correctness using the [model verification](http://dmg.org/pmml/v4-3/ModelVerification.html) mechanism:
+It is possible to remove all doubts about the PMML model executability and correctness using the [model verification](http://dmg.org/pmml/v4-3/ModelVerification.html) mechanism:
 
 ``` r
 library("dplyr")
@@ -118,7 +118,7 @@ val evaluator = evaluatorBuilder.build()
 evaluator.verify()
 ```
 
-The `Transformer` object can be created manually or using the `org.jpmml.evaluator.spark.TransformerBuilder` builder class. Model fields are typically mapped to Apache Spark dataset columns on a group basis using `TransformerBuilder#withTargetCols()` and `TransformerBuilder#withOutputCols()` configuration methods. However, if the model is known to follow a specific contract, then it's possible to map its fields individually using function-specific configuration methods.
+The `Transformer` object can be created manually or using the `org.jpmml.evaluator.spark.TransformerBuilder` builder class. Model fields are typically mapped to Apache Spark dataset columns on a group basis using `TransformerBuilder#withTargetCols()` and `TransformerBuilder#withOutputCols()` configuration methods. However, if the model is known to follow a specific contract, then it is possible to map its fields individually using function-specific configuration methods.
 For example, the probability distribution of a probabilistic classification model can be mapped to an Apache Spark ML-style vector column using the `TransformerBuilder#withProbabilityCol(String, List<String>)` configuration method.
 
 ``` scala

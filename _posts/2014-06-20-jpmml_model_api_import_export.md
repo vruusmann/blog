@@ -22,7 +22,7 @@ When dealing with version annotations then it is worth stressing over that the `
 protected RuleFeatureType ruleFeature;
 ```
 
-This declaraton states that the `ruleFeature` attribute was added in PMML schema version 4.0 and deprecated in PMML schema version 4.2. In other words, it is a first-class feature in PMML schema version 4.0 and 4.1 documents. It can be used in PMML schema version 4.2 documents, but doing so is discouraged, because it has been superseded by another set of attributes. In any way, the `ruleFeature` attribute cannot be used in PMML schema version 3.2 and earlier documents. A validating PMML parser would report that as an error.
+This declaraton states that the `ruleFeature` attribute was added in PMML schema version 4.0 and deprecated in PMML schema version 4.2. In other words, it is a first-class concept in PMML schema version 4.0 and 4.1 documents. It can be used in PMML schema version 4.2 documents, but doing so is discouraged, because it has been superseded by another set of attributes. In any way, the `ruleFeature` attribute cannot be used in PMML schema version 3.2 and earlier documents. A validating PMML parser would report that as an error.
 
 The JPMML-Model library provides a visitor class `org.jpmml.model.SchemaInspector` that traverses a class model object and computes its supported version range. The upper and lower boundaries can be queried using methods `#getMinimum()` and `#getMaximum()`, respectively. The following Java source code checks if a class model object is compatible with the specified PMML schema version:
 
