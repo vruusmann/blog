@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Converting Scikit-Learn plus LightGBM pipelines to PMML documents"
+title: "Converting Scikit-Learn based LightGBM pipelines to PMML documents"
 author: vruusmann
 --- 
 
