@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Troubleshooting PMML data format documents"
+title: "Troubleshooting PMML documents"
 author: vruusmann
 ---
 
