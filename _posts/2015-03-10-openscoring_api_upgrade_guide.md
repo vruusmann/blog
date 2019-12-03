@@ -52,11 +52,11 @@ Data schema information is stored as an optional Map-type field `schema`. Map ke
 
 ### Data classes ###
 
-The version 1.2 imposes a new requirement that the client request and the server response must enclose one and only one JSON object. This requirement is reflected in the refactored Java class hierarchy, where all request classes inherit from the class `org.openscoring.common.SimpleRequest`, and all response classes inherit from the class `org.openscoring.common.SimpleResponse`.
+The version 1.2 imposes a new requirement that the client request and the server response must enclose one and only one JSON object. This requirement is reflected in the refactored Java class hierarchy, where all request classes inherit from the `org.openscoring.common.SimpleRequest` class, and all response classes inherit from the `org.openscoring.common.SimpleResponse` class.
 
 Additionally, the JSON encoder is (re-)configured to emit only non-null and non-empty fields. For example, the JSON representation of an object does not include String fields that are either uninitialized (ie. `null`) or initialized with an empty String value (ie. `""`). This change was necessary to make the narrowing reference conversion safe on request and response objects.
 
-The class `SimpleResponse` declares a sole String-type field `message`, which is initialized with an appropriate error message if the operation fails because of an error condition. This message is suitable for displaying to end users. Application clients can put it into context by paying attention to the HTTP status code. For example, HTTP status codes 4XX indicate a permanent failure due to client-side problem (eg. missing or invalid input data). HTTP status codes 5XX indicate temporary failure due to server-side problem (eg. lack of resources).
+The `SimpleResponse` class declares a sole String-type field `message`, which is initialized with an appropriate error message if the operation fails because of an error condition. This message is suitable for displaying to end users. Application clients can put it into context by paying attention to the HTTP status code. For example, HTTP status codes 4XX indicate a permanent failure due to client-side problem (eg. missing or invalid input data). HTTP status codes 5XX indicate temporary failure due to server-side problem (eg. lack of resources).
 
 Java application clients can employ the following idiom to check the outcome of an operation:
 
@@ -98,7 +98,7 @@ The version 1.1 specifies several endpoints that either accept an array of JSON 
 
 The version 1.2 does not allow such behaviour, because a JSON array cannot be coerced to a `SimpleResponse` object in case of an error condition. The solution is to place a JSON array into an "envelope" JSON object. By convention, the name of the envelope class is derived by prepending "Batch" to the name of the array element class.
 
-The class `BatchEvaluationRequest` holds the array of `EvaluationRequest` objects as a List-type field `requests`. Application clients can keep track of parallel or asynchronous requests by initializing the String-type field `id` with a unique value.
+The `BatchEvaluationRequest` class holds the array of `EvaluationRequest` objects as a List-type field `requests`. Application clients can keep track of parallel or asynchronous requests by initializing the String-type field `id` with a unique value.
 
 The request body now becomes:
 
@@ -122,7 +122,7 @@ The request body now becomes:
 
 The version 1.2 delivers an all-new JAX-RS application class `org.openscoring.service.Openscoring`.
 
-Application configuration is handled using the [Typesafe Config](https://github.com/typesafehub/config) library. The default configuration is located in file `openscoring-service/src/main/resources/reference.conf`. This file encodes configuration entries as key-value pairs in the HOCON data format, which is a human-oriented superset of the JSON data format (eg. allows comments, allows the omission of unnecessary punctuation symbols). By convention, configuration entries are arranged into a two-level hierarchy, where the top level points to a Java class name and the bottom level to a field name. For example, the configuration entry `modelRegistry.visitorClasses` targets the field `visitorClazzes` of the class `org.openscoring.service.ModelRegistry`.
+Application configuration is handled using the [Typesafe Config](https://github.com/typesafehub/config) library. The default configuration is located in file `openscoring-service/src/main/resources/reference.conf`. This file encodes configuration entries as key-value pairs in the HOCON data format, which is a human-oriented superset of the JSON data format (eg. allows comments, allows the omission of unnecessary punctuation symbols). By convention, configuration entries are arranged into a two-level hierarchy, where the top level points to a Java class name and the bottom level to a field name. For example, the configuration entry `modelRegistry.visitorClasses` targets the field `visitorClazzes` of the `org.openscoring.service.ModelRegistry` class.
 
 The default configuration can be overriden (either in full or in parts) by user-specified configuration file.
 

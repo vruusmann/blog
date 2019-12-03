@@ -56,7 +56,7 @@ Supported constructs:
 
 There is always the doubt whether the `r2pmml` package did get everything right, meaning that the generated PMML model has the same input/output interface and is making the same predictions as the R model.
 
-This doubt can be somewhat alleviated by manual inspection of the PMML file. For example, making sure that all "raw" input fields are correctly defined under the `/PMML/DataDictionary` element (name, type and the value domain), and all "derived" values under the `/PMML/TransformationDictionary` element.
+This doubt can be somewhat alleviated by manual inspection of the PMML document. For example, making sure that all "raw" input fields are correctly defined under the `/PMML/DataDictionary` element (name, type and the value domain), and all "derived" values under the `/PMML/TransformationDictionary` element.
 
 It is possible to remove all doubts about the PMML model executability and correctness using the [model verification](http://dmg.org/pmml/v4-3/ModelVerification.html) mechanism:
 

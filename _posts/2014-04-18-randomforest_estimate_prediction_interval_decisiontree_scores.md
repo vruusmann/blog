@@ -108,7 +108,7 @@ public void printMedvValues(Map<FieldName, ?> result){
 
 ### Java-backed user-defined functions ###
 
-Any class that implements the interface `org.jpmml.evaluator.Function` qualifies as a user-defined function. It is recommended to extend the abstract class `org.jpmml.evaluator.functions.AbstractFunction` that provides utility methods for checking the number and data type of arguments, converting the result to proper data type etc.
+Any class that implements the `org.jpmml.evaluator.Function` interface qualifies as a user-defined function. It is recommended to extend the abstract class `org.jpmml.evaluator.functions.AbstractFunction` that provides utility methods for checking the number and data type of arguments, converting the result to proper data type etc.
 
 Function invocation is handled by the `Apply` element. The `name` attribute identifies the function. PMML [built-in functions](http://www.dmg.org/v4-3/BuiltinFunctions.html) employ simple text tokens as identifiers (e.g. arithmetic functions "+", "-", "*" and "/"). Java-backed user-defined functions should employ fully-qualified names of the function classes as identifiers (e.g. "com.mycompany.myproject.functions.SomeFunction"). This convention allows for very efficient mapping from function names to actual implementing classes. The JPMML-Evaluator library can dynamically locate and load Java-backed user-defined functions from JAR files that are part of the application classpath.
 

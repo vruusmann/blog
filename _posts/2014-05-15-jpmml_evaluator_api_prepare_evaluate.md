@@ -5,7 +5,7 @@ excerpt: "A Primer of Java PMML Evaluator API"
 author: vruusmann
 ---
 
-The central piece of the [JPMML-Evaluator](https://github.com/jpmml/jpmml-evaluator) library is the interface `org.jpmml.evaluator.Evaluator`, which declares two methods `#prepare(FieldName, Object)` and `#evaluate(Map<FieldName, ?>)`. This API dates back to earliest versions (i.e. 1.0.2) and is still going strong.
+The central piece of the [JPMML-Evaluator](https://github.com/jpmml/jpmml-evaluator) library is the `org.jpmml.evaluator.Evaluator` interface, which declares two methods `#prepare(FieldName, Object)` and `#evaluate(Map<FieldName, ?>)`. This API dates back to earliest versions (i.e. 1.0.2) and is still going strong.
 
 The current blog post aims to clarify the relationship between those two methods. Quite naturally, data preparation precedes data evaluation. It involves three activities:
 
@@ -13,7 +13,7 @@ The current blog post aims to clarify the relationship between those two methods
 * Validation of values as specified by the `DataField` element.
 * Treatment of invalid, outlier and missing values as specified by the `MiningField` element.
 
-The JPMML-Evaluator library represents PMML values using subclasses of the class `org.jpmml.evaluator.FieldValue` (beware, the [JPMML-Model](https://github.com/jpmml/jpmml-model) library contains a class with the same simple name `org.dmg.pmml.FieldValue`). Most model types operate on single-valued field values. However, there are some model types such as [association rules model](http://www.dmg.org/v4-3/AssociationRules.html) and [sequence rules model](http://www.dmg.org/v4-3/Sequence.html) that operate on collection-valued field values. Application developers are advised to employ the utility class `org.jpmml.evaluator.FieldValueUtil` whenever there is a need to create new or refine existing (e.g. change data or operational type) field values.
+The JPMML-Evaluator library represents PMML values using subclasses of the `org.jpmml.evaluator.FieldValue` class (beware, the [JPMML-Model](https://github.com/jpmml/jpmml-model) library contains a class with the same simple name `org.dmg.pmml.FieldValue`). Most model types operate on single-valued field values. However, there are some model types such as [association rules model](http://www.dmg.org/v4-3/AssociationRules.html) and [sequence rules model](http://www.dmg.org/v4-3/Sequence.html) that operate on collection-valued field values. Application developers are advised to employ the utility class `org.jpmml.evaluator.FieldValueUtil` whenever there is a need to create new or refine existing (e.g. change data or operational type) field values.
 
 ### Option 1: Eager preparation ###
 
@@ -43,7 +43,7 @@ public Map<FieldName, ?> prepareEagerlyAndEvaluate(Evaluator evaluator, Map<Stri
 
 This approach is the most versatile one. The variable `userArguments` could be any map-like data structure, including a query interface that fetches data interactively (e.g. prompts the end user). The application developer has full control over handling data preparation errors.
 
-Typically, the variable `pmmlArguments` is serializable using Java's serialization mechanism (i.e. the whole object graph implements the interface `java.io.Serializable`). This opens up the opportunity of developing distributed applications where data preparation and data evaluation are separated from each other.
+Typically, the variable `pmmlArguments` is serializable using Java's serialization mechanism (i.e. the whole object graph implements the `java.io.Serializable` interface). This opens up the opportunity of developing distributed applications where data preparation and data evaluation are separated from each other.
 
 The method `Evaluator#prepare(FieldName, Object)` only deals with single-valued field values. A collection-valued field value must be subjected to data preparation element-wise. Application developers are advised to employ the utility method `org.jpmml.evaluator.EvaluatorUtil#prepare(Evaluator, FieldName, Object)` when handling a mix of single- and collection-valued field values.
 
@@ -65,7 +65,7 @@ The recommended type argument for map values is `java.lang.String`. A Java strin
 
 The JPMML-Evaluator library does not make any guarantees exactly when and where the data preparation operation is executed. This should leave room for implementing more sophisticated field value preparation and caching data flows in future versions.
 
-The following Java source code approximates the lazy loading logic inside the class `org.jpmml.evaluator.EvaluationContext`:
+The following Java source code approximates the lazy loading logic inside the `org.jpmml.evaluator.EvaluationContext` class:
 
 ``` java
 private FieldValue getFieldValue(Evaluator evaluator, Map<FieldName, ?> arguments, FieldName field){

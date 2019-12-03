@@ -10,7 +10,7 @@ Java (programming language-) agent is a JVM service that is based on the [Java I
 
 The [JPMML-Model](https://github.com/jpmml/jpmml-model) library provides a class model that is rooted at abstract class `org.dmg.pmml.PMMLObject`. This class declares a single field `locator`, whose responsibility is to hold SAX Locator information. Different JAXB runtimes are able to discover and initialize this field in a completely automated fashion, because it is marked with appropriate proprietary annotations (eg. `com.sun.xml.bind.annotation.XmlLocation` for [GlassFish Metro implementation](https://jaxb.java.net/), `org.eclipse.persistence.oxm.annotations.XmlLocation` for [EclipseLink MOXy implementation](https://eclipse.org/eclipselink/moxy.php)).
 
-Application developers can access SAX Locator information using the interface `org.dmg.pmml.HasLocator`.
+Application developers can access SAX Locator information using the `org.dmg.pmml.HasLocator` interface.
 
 ``` java
 public Locator getLocator(Object object){
@@ -66,9 +66,9 @@ If the JAR file `myapplication.jar` does not contain Javassist classes, then the
 
 ### Transformation ###
 
-Transformation is performed by the class `org.jpmml.agent.PMMLObjectTransformer`. The current implementation is naive, because the SAX Locator information is omitted simply by deleting the field `locator`. A more sophisticated implementation could perform a series of "push down" refactorings, so that this field is preserved for subclasses that are associated with more error-prone PMML content.
+Transformation is performed by the `org.jpmml.agent.PMMLObjectTransformer` class. The current implementation is naive, because the SAX Locator information is omitted simply by deleting the field `locator`. A more sophisticated implementation could perform a series of "push down" refactorings, so that this field is preserved for subclasses that are associated with more error-prone PMML content.
 
-Java source code representation of the class `PMMLObject` before transformation:
+Java source code representation of the `PMMLObject` class before transformation:
 
 ``` java
 package org.dmg.pmml;
@@ -123,7 +123,7 @@ This transformation should be completely safe and undetectable from the Java app
 
 ### Memory measurement ###
 
-Memory measurement is performed by the class `org.jpmml.model.visitors.MemoryMeasurer` that traverses a class model object first by JPMML-Model Visitor API and then by Java Reflection API. This Visitor maintains a set of distinct objects that are reachable from the specified "root" object. The size of individual objects is approximated using the method `java.lang.instrument.Instrumentation#getObjectSize(Object)`. The total size of the class model object is calculated by summing the sizes of set members.
+Memory measurement is performed by the `org.jpmml.model.visitors.MemoryMeasurer` class that traverses a class model object first by JPMML-Model Visitor API and then by Java Reflection API. This Visitor maintains a set of distinct objects that are reachable from the specified "root" object. The size of individual objects is approximated using the method `java.lang.instrument.Instrumentation#getObjectSize(Object)`. The total size of the class model object is calculated by summing the sizes of set members.
 
 The decision to implement yet another memory measurement tool (as opposed to reusing some existing tool, eg. [Java Agent for Memory Measurements](https://github.com/jbellis/jamm)) is supported by specific traits of the JPMML-Model class model:
 

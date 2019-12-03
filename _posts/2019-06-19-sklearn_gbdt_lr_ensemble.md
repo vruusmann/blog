@@ -31,7 +31,7 @@ For example, discovering "cliffs" and other anomalies in the decision space by o
 
 Scikit-Learn documentation dedicates a separate page to GBDT plus LR ensemble models: [Feature transformations with ensembles of trees](https://scikit-learn.org/stable/auto_examples/ensemble/plot_feature_transformation.html)
 
-While the concept and its implementation are discussed in great detail, there is no reusable GBDT+LR estimator class available within the Scikit-Learn runtime environment.
+While the concept and its implementation are discussed in great detail, there is no reusable GBDT+LR estimator class available within the Scikit-Learn framework.
 Interested parties are either expected to copy-paste the example code, or rely on third-party libraries.
 
 The [`sklearn2pmml` package](https://github.com/jpmml/sklearn2pmml) version 0.47.0 introduced class [`sklearn2pmml.ensemble.GBDTLRClassifier`](https://github.com/jpmml/sklearn2pmml/blob/master/sklearn2pmml/ensemble/__init__.py) (together with `sklearn2pmml.ensemble.GBDTLMRegressor`) to address this deficiency.
