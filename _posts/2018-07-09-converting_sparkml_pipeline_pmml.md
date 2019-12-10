@@ -12,7 +12,7 @@ However, recent iterations have been gradually introducing new public API buildi
 
 The current blog post details this breaking API change, and all the new features and functionality that it entails.
 
-# API overview #
+### API overview
 
 The old API was designed after Apache Spark MLlib's [`org.apache.spark.mllib.pmml.PMMLExportable`](https://spark.apache.org/docs/latest/api/java/org/apache/spark/mllib/pmml/PMMLExportable.html) trait.
 The `ConverterUtil#toPMML(StructType, PipelineModel)` utility method was simply doing its best to emulates the non-existing `org.apache.spark.ml.PipelineModel#toPMML(StructType)` method.
@@ -31,7 +31,7 @@ The secondary (ie. non-essential) state of the `PMMLBuilder` class includes conv
 Application code should treat `PMMLBuilder` objects as local throwaway objects.
 Due to the tight coupling to the Apache Spark runtime environment, they are not suitable for persistence, or exchanging between applications and runtime environments.
 
-# Choosing the right JPMML-SparkML flavour and version #
+### Choosing the right JPMML-SparkML flavour and version
 
 JPMML-SparkML exists in two flavours:
 
@@ -62,7 +62,7 @@ java.lang.IllegalArgumentException: Expected Apache Spark ML version 2.3, got ve
   ... 48 elided
 ```
 
-### Library JAR
+##### Library JAR
 
 The library JAR file can be "imported" into Apache Spark version 2.3.0 (and newer) using the `--packages` command-line option. Package coordinates must follow Apache Maven conventions `${groupId}:${artifactId}:${version}`, where the groupId and artifactId are fixed as `org.jpmml` and `jpmml-sparkml`, respectively.
 
@@ -89,7 +89,7 @@ java.lang.NoSuchMethodError: org.dmg.pmml.Field.setOpType(Lorg/dmg/pmml/OpType;)
   ... 48 elided
 ```
 
-### Executable uber-JAR
+##### Executable uber-JAR
 
 The executable uber-JAR file can be "imported" into any Apache Spark version using the `--jars` command-line option.
 
@@ -100,7 +100,7 @@ $ export SPARK_HOME=/opt/spark-2.2.0/
 $ $SPARK_HOME/bin/pyspark --jars /path/to/jpmml-sparkml-executable-${version}.jar
 ```
 
-# Updating application code #
+### Updating application code
 
 The `org.jpmml.sparkml.ConverterUtil` utility class is still part of JPMML-SparkML, but it has been marked as deprecated, and rendered dysfunctional - both `#toPMML(StructType, PipelineModel)` and `#toPMMLByteArray(StructType, PipelineModel)` utility methods throw an `java.lang.UnsupportedOperationException` when invoked:
 
@@ -141,9 +141,9 @@ The first option is aimed at PMML-savvy applications that wish to perform extra 
 However, most applications should be content with the JPMML-SparkML generated PMML document, and will be processing it as a generic blob.
 The choice between the last two options depends on the approximate size/complexity of the PMML document (eg. elementary models vs. ensemble models) and overall application architecture.
 
-# New API features and functionality #
+### New API features and functionality
 
-### Conversion options
+##### Conversion options
 
 The "business logic" of some Apache Spark ML transformer or model can often be translated to PMML in more than one way. Some representations are easier to approach for humans (eg. interpretation and manual modification), whereas some other representations are more compact or faster to execute for machines.
 
@@ -170,7 +170,7 @@ The `PMMLBuilder` builder class currently exposes the following mutator methods:
 * `#putOption(String, Object)`. Sets the conversion option for all pipeline stages.
 * `#putOption(PipelineStage, String, Object)`. Sets the conversion option for the specified pipeline stage only.
 
-### Verification
+##### Verification
 
 Every conversion operation raises concern, whether the JPMML-SparkML library was doing a good job or not. Say, the conversion operation appears to have succeeded (ie. there were no exceptions thrown, and no warning- or error-level log messages emitted), but how to be sure that the PMML representation of the fitted pipeline shall be making exactly the same predictions as the Apache Spark representation did?
 
@@ -187,7 +187,7 @@ The `PMMLBuilder` builder class exposes the following mutator methods:
 * `#verify(Dataset<Row>)`. Embeds the verification dataset.
 * `#verify(Dataset<Row>, double, double)`. Embeds the verification dataset with custom acceptance criteria (precision and zero threshold).
 
-# JPMML-SparkML wrappers #
+### JPMML-SparkML wrappers
 
 The JPMML-SparkML library is written in Java. It is very easy to integrate into any Java or Scala application to give it Apache Spark ingestion capabilities.
 
@@ -195,7 +195,7 @@ However, there is an even more important audience of data scientists that would 
 
 The JPMML family of software now includes Python and R wrapper libraries for the JPMML-SparkML library. The wrappers are kept as minimal and shallow as possible. Essentially, they provide a language-specific builder class that communicates with the underlying `org.jpmml.sparkml.PMMLBuilder` Java builder class, and handle the conversion of objects between the two environments (eg. converting Python and R strings to Java strings, and vice versa).
 
-### PySpark
+##### PySpark
 
 The [`pyspark2pmml`](https://github.com/jpmml/pyspark2pmml) package works with the official [PySpark](https://spark.apache.org/docs/latest/api/python/pyspark.html) interface.
 
@@ -228,7 +228,7 @@ pmmlBuilder = PMMLBuilder(sc, df, pipelineModel) \
 pmmlBuilder.buildFile("pipeline.pmml")
 ```
 
-### Sparklyr
+##### Sparklyr
 
 There is no package for the official [SparkR](https://spark.apache.org/docs/latest/sparkr.html) interface.
 However, the [`sparklyr2pmml`](https://github.com/jpmml/sparklyr2pmml) package works with RStudio's [Sparklyr](https://spark.rstudio.com/) interface.

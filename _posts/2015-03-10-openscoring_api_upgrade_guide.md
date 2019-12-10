@@ -23,7 +23,7 @@ The comparison of Openscoring versions 1.1.X and 1.2.X:
 | Evaluate data (CSV mode) | POST | `/model/${id}/csv` | `/model/${id}/csv` | (No changes) |
 | Undeploy | DELETE | `/model/${id}` | `/model/${id}` | (No changes) |
 
-### Endpoints ###
+### Endpoints
 
 The URL of an endpoint consists of a model selector part and an optional feature selector part. The model selector is either the model collection `/model` or a model instance `/model/${id}`. The feature selector is the feature name `${feature}`.
 
@@ -50,7 +50,7 @@ The version 1.2 is centered around the high-level description of a model. The co
 
 Data schema information is stored as an optional Map-type field `schema`. Map keys are String constants `activeFields`, `groupFields`, `targetFields` and `outputFields`. Map values are arrays of `org.openscoring.common.Field` objects. Application clients can use this information for different value-added services such as generating smart data entry widgets (eg. a drop-down menu of categorical values instead of a textbox), performing data validation etc.
 
-### Data classes ###
+### Data classes
 
 The version 1.2 imposes a new requirement that the client request and the server response must enclose one and only one JSON object. This requirement is reflected in the refactored Java class hierarchy, where all request classes inherit from the `org.openscoring.common.SimpleRequest` class, and all response classes inherit from the `org.openscoring.common.SimpleResponse` class.
 
@@ -118,7 +118,7 @@ The request body now becomes:
 }
 ```
 
-### Application ###
+### Application
 
 The version 1.2 delivers an all-new JAX-RS application class `org.openscoring.service.Openscoring`.
 

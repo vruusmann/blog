@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Deploying LightGBM models on the Java/JVM platform"
+title: "Deploying LightGBM models on Java/JVM platform"
 author: vruusmann
 ---
 
@@ -16,7 +16,7 @@ This blog post details an alternative route for deploying LightGBM models on the
 
 1. Training a model using Scikit-Learn API.
 2. Converting the model to the standardized PMML representation.
-3. Deploying the model in "PMML interpretation" and "PMML to Java bytecode transpilation" modes,
+3. Deploying the model in "PMML interpretation" and "PMML to Java bytecode transpilation" modes.
 
 ### Model training
 

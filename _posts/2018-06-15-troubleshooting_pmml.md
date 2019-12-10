@@ -12,7 +12,7 @@ author: vruusmann
 2. Is the content structurally valid PMML?
 3. Is the content logically valid PMML?
 
-# Structural validation as XML #
+### Structural validation as XML
 
 Open the PMML document for inspection in an XML-aware text editor. Most text editors should be able to detect XML content and switch to XML editing mode. 
 
@@ -59,7 +59,7 @@ Caused by: org.xml.sax.SAXParseException; lineNumber: 248; columnNumber: 19; The
   at com.sun.org.apache.xerces.internal.impl.XMLScanner.reportFatalError(XMLScanner.java:1472)
 ```
 
-# Structural validation as PMML #
+### Structural validation as PMML
 
 The JPMML-Model library provides an example command-line application `org.jpmml.model.ValidationExample`, which validates the content of a PMML file against the built-in PMML schema definition (XSD) file. This XSD file is based on the latest PMML schema version (at the time of writing this, 4.3), and includes a limited number JPMML vendor extension elements and attributes. Nevertheless, it is suitable for validating all PMML schema version 3.X and 4.X documents, as the PMML standard is fully backwards- and forwards-compatible in this schema version range.
 
@@ -79,7 +79,7 @@ Troubleshooting procedure:
 
 Examples of warnings and errors, and their fixes.
 
-### Missing elements and attributes
+##### Missing elements and attributes
 
 Validation log:
 
@@ -137,7 +137,7 @@ By revisiting the formal specification of the `Application` element, it is remin
 </PMML>
 ```
 
-### Invalid and/or misplaced elements and attributes
+##### Invalid and/or misplaced elements and attributes
 
 Validation log:
 
@@ -183,7 +183,7 @@ The fix is to relocate the offending `Characteristic` element:
 </Characteristics>
 ```
 
-# Logical validation as PMML #
+### Logical validation as PMML
 
 The above two structural validation stages should ensure that a PMML document can be loaded by a PMML engine, but they offer no guarantee that the PMML document can be used for prediction, and more importantly, that the predictions will be correct.
 

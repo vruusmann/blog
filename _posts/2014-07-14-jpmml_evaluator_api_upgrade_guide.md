@@ -21,9 +21,9 @@ This versioning scheme is easy to exemplify on the basis of the JPMML-Evaluator 
 
 The application code that relies on public API should be fairly robust towards private API and feature version upgrades. Here, it is worth pointing out that API evolution is performed in a non-defensive way. For example, when a public method is renamed or a public class is moved between packages, then the old location is simply cleared. This may cause occasional compiler errors, which are fairly easy to resolve when working with a capable Java IDE. In any case, all "breaking changes" are documented in release notes.
 
-### Changes between JPMML 1.0.22 and JPMML-Model 1.1.0/JPMML-Evaluator 1.1.0 ###
+### Changes between JPMML 1.0.22 and JPMML-Model 1.1.0/JPMML-Evaluator 1.1.0
 
-##### Project layout #####
+##### Project layout
 
 A project is a collection of library and support (e.g. code coverage, integration testing) modules. Projects are organized, built and deployed following Apache Maven conventions.
 
@@ -36,7 +36,7 @@ The technical side of the upgrade is straightforward. All module artifacts have 
 
 In contrast, the legal side of the upgrade is much more complicated. AGPLv3 is a strong copyleft license that takes extreme stance on the matters of software freedom. Among other things, AGPLv3 requires that the works based on the JPMML-Evaluator library must also be licensed under AGPLv3 (or some other AGPLv3-compatible license). Unless a separate commercial license is obtained, this effectively prohibits incorporating the JPMML-Evaluator library into proprietary software or mixing it with other libraries that are released under AGPLv3-incompatible licenses.
 
-##### Packaging #####
+##### Packaging
 
 The Java code of the JPMML-Model library was re-packaged. The qualified name of the base package of every library module is now `org.jpmml.<name>`, where `name` is the name of the library module without the `pmml-` prefix. For example, the qualified names of the base packages of `pmml-schema` and `pmml-model` library modules are now `org.jpmml.schema` and `org.jpmml.model`, respectively.
 
@@ -51,7 +51,7 @@ Examples of classes that were moved between packages:
 
 This refactoring can be offset by updating the import statements of affected compilation units.
 
-##### Marshalling and unmarshalling of PMML class model objects #####
+##### Marshalling and unmarshalling of PMML class model objects
 
 The unmarshalling of a PMML class model object is the first step in any PMML consumption workflow. The JPMML-Model library provides a public utility class for most common use cases. However, application developers who need better control over unmarshalling options or who would like to perform custom pre- or post-processing operations may want to rely on their own implementation.
 
@@ -80,7 +80,7 @@ public PMML readPMML(InputStream is) throws Exception {
 
 For more information about the import and export capabilities of the JPMML-Model library, please refer to the blog post about [converting PMML documents between different schema versions]({{ site.baseurl }}{% post_url 2014-06-20-jpmml_model_api_import_export %}).
 
-##### Miscellaneous #####
+##### Miscellaneous
 
 The public API of JPMML-Model and JPMML-Evaluator libraries is kept in sync with the latest PMML schema version in order to prevent terminological confusion.
 
@@ -88,7 +88,7 @@ The main change is that the method `org.jpmml.manager.Consumer#getPredictedField
 
 This refactoring can be offset by updating the affected method invocation expressions.
 
-### Changes between JPMML-Model 1.1.2 and 1.1.3 ###
+### Changes between JPMML-Model 1.1.2 and 1.1.3
 
 The annotation class `org.jpmml.schema.Schema` was split into annotation classes `org.jpmml.schema.Added` and `org.jpmml.schema.Removed`.
 
@@ -108,7 +108,7 @@ Doing the same using the version 1.1 of the private API:
 protected Boolean scorable;
 ```
 
-### Changes between JPMML-Evaluator 1.1.0 and 1.1.1 ###
+### Changes between JPMML-Evaluator 1.1.0 and 1.1.1
 
 The nested interface `org.jpmml.evaluator.FunctionUtil$Function` was moved to a top-level interface `org.jpmml.evaluator.Function`. Additionally, a package `org.jpmml.evaluator.functions` was created, and all nested classes implementing this interface were moved to top-level classes in that package. For example, the nested class `org.jpmml.evaluator.FunctionUtil$ArithmeticFunction` was moved to a top-level class `org.jpmml.evaluator.functions.ArithmeticFunction`.
 

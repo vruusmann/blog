@@ -84,7 +84,7 @@ The output record now becomes:
 }
 ```
 
-### Client application ###
+### Client application
 
 The estimation of prediction intervals must be handled by custom application code. The PMML specification provides [aggregation transformations](http://www.dmg.org/v4-3/Transformations.html#xsdElement_Aggregate), but they are not applicable to the current problem. First, the intended statistical procedure cannot be expressed in terms of primitive aggregations "count", "sum", "average", "min" and "max". Second, these primitive aggregations operate on lists of single-valued fields, not on single list-valued fields.
 
@@ -106,7 +106,7 @@ public void printMedvValues(Map<FieldName, ?> result){
 }
 ```
 
-### Java-backed user-defined functions ###
+### Java-backed user-defined functions
 
 Any class that implements the `org.jpmml.evaluator.Function` interface qualifies as a user-defined function. It is recommended to extend the abstract class `org.jpmml.evaluator.functions.AbstractFunction` that provides utility methods for checking the number and data type of arguments, converting the result to proper data type etc.
 
@@ -120,7 +120,7 @@ User-defined functions can be deployed by appending their JAR files (together wi
 $ java -cp "server-executable-1.1-SNAPSHOT.jar;pmml-extension-1.1.3.jar" org.openscoring.server.Main
 ```
 
-##### Option 1: Normal distribution #####
+##### Option 1: Normal distribution
 
 The `Output` element after enhancement:
 
@@ -170,7 +170,7 @@ The output record now becomes:
 }
 ```
 
-##### Option 2: Non-normal distribution #####
+##### Option 2: Non-normal distribution
 
 The `Output` element after enhancement:
 

@@ -30,7 +30,7 @@ PMML leads to simpler and more robust model deployment workflows. Basically, mod
 
 The conversion of model objects from R to PMML is straightforward, because these two languages share many of the core concepts. For example, they both regard data records as collections of key-value pairs (eg. individual fields are identified by name not by position), and decorate their data exchange interfaces (eg. model input and output data records) with data schema information.
 
-### Conversion ###
+### Conversion
 
 The first version of the [`pmml` package](https://cran.r-project.org/package=pmml) was released in early 2007. This package has provided great service for the community over the years. However, it has largely failed to respond to new trends and developments, such as the emergence and widespread adoption of ensemble methods.
 
@@ -75,19 +75,19 @@ measure(function(){ r2pmml(audit.rf, "/tmp/audit-r2pmml.pmml") })
 
 The summary of the training run:
 
-1. Model training:
+* Model training:
   * The size of the `audit.rf` object is 2'031 kB.
-2. Model export using the `pmml` package:
+* Model export using the `pmml` package:
   * The `pmml` function call is completed in 61'280 ms.
   * The size of the `audit.pmml` object is 280'058 kB.
   * The `saveXML` function call is completed in 33'926 ms.
   * The size of the XML-tidied `audit-pmml.pmml` file is 6'853 kB.
-3. Model export using the `r2pmml` package:
+* Model export using the `r2pmml` package:
   * The first `r2pmml` function call is completed in 4'077 ms.
   * The second `r2pmml` function call is completed in 1'466 ms.
   * The size of the XML-tidied `audit-r2pmml.pmml` file is 6'106 kB.
 
-##### pmml package #####
+##### pmml package
 
 Typical usage:
 
@@ -113,7 +113,7 @@ This package has hard time handling large model objects (eg. bagging and boostin
 
 Second, DOM is a low-level API, which is unsuitable for working with specific XML dialects such as PMML. Any proper medium- to high-level API should deliver much more compact representation of objects, plus take care of technical trivialities such as XML serialization and deserialization.
 
-##### r2pmml package #####
+##### r2pmml package
 
 Typical usage:
 
@@ -125,12 +125,12 @@ r2pmml(audit.rf, "/tmp/audit-r2pmml.pmml")
 
 The package defines a sole conversion function `r2pmml`, which is a thin wrapper around the Java converter application class `org.jpmml.converter.Main`. Behind the scenes, this function performs the following operations:
 
-1. Serializing the argument model object in ProtoBuf data format to a temporary file.
-2. Initializing the JPMML-Converter instance:
+* Serializing the argument model object in ProtoBuf data format to a temporary file.
+* Initializing the JPMML-Converter instance:
   * Setting the ProtoBuf input file to the temporary ProtoBuf file
   * Setting the PMML output file to the argument file
-3. Executing the JPMML-Converter instance.
-4. Cleaning up the temporary ProtoBuf file.
+* Executing the JPMML-Converter instance.
+* Cleaning up the temporary ProtoBuf file.
 
 The capabilities of the function `r2pmml` (eg. the selection of supported model types) are completely defined by the capabilities of the [JPMML-Converter](https://github.com/jpmml/jpmml-converter) library.
 
@@ -138,9 +138,9 @@ This package addresses the technical limitations of the `pmml` package completel
 
 The detailed timing information about the conversion is very interesting (the readings correspond to the first and second `r2pmml` function call):
 
-1. The R side of operations:
+* The R side of operations:
   * Serializing the model in ProtoBuf data format to the temporary file: 1'262 and 1'007 ms.
-2. The Java side of operations:
+* The Java side of operations:
   * Deserializing the model from the temporary file: 166 and 14 ms.
   * Converting the model from R representation to PMML representation: 648 and 310 ms.
   * Serializing the model in PMML data format to the output file: 2'001 and 135 ms.
@@ -149,13 +149,13 @@ The newly introduced `r2pmml` package fulfills all expectations by being 100 to 
 
 Also, the newly introduced `r2pmml` package is able to encode the same amount of information using fewer bytes than the `pmml` package. In this example, if the resulting files `audit-r2pmml.pmml` and `audit-pmml.pmml` are XML-tidied following the same procedure, then it becomes apparent that the former is approximately 10% smaller than the latter (6'106 vs. 6'853 kB).
 
-### Appendix ###
+### Appendix
 
 The `r2pmml` package depends on the [`RProtoBuf` package](https://cran.r-project.org/package=RProtoBuf) for ProtoBuf serialization and the [`rJava` package](https://cran.r-project.org/package=rJava) for Java invocation functionality. Both packages can be downloaded and installed from the CRAN repository using R built-in function `install.packages`.
 
 Here, the installation and configuration is played out on a blank GNU/Linux system (Fedora). All system-level dependencies are handled using the [Yum software package manager](https://fedoraproject.org/wiki/Yum).
 
-##### RProtoBuf package #####
+##### RProtoBuf package
 
 This package depends on [curl](https://curl.haxx.se/) and [protobuf](https://developers.google.com/protocol-buffers/) system libraries. It is worth mentioning that if the package is built from its source form (default behavior on *NIX systems), then all the required system libraries must be present both in their standard (no suffix) and development flavors (identified by the "-dev" or "-devel" suffix).
 
@@ -194,7 +194,7 @@ The version of a package can be verified using the function `packageVersion`:
 packageVersion("RProtoBuf")
 ```
 
-##### rJava package #####
+##### rJava package
 
 This package depends on Java version 1.7.0 or newer.
 
