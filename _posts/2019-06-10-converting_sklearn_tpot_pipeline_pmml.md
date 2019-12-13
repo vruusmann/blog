@@ -266,6 +266,6 @@ Corrected PMML documents have lower resource requirements and perform significan
 
 ### Resources
 
-* "Audit" dataset: [`audit.csv`]({{ site.baseurl }}/assets/2019-02-09/audit.csv)
+* "Audit" dataset: [`audit.csv`]({{ site.baseurl }}/assets/data/audit.csv)
 * Python script: [`train.py`]({{ site.baseurl }}/assets/2019-06-10/train.py)
 * TPOT PMML document: [`TPOTAudit.pmml`]({{ site.baseurl }}/assets/2019-06-10/TPOTAudit.pmml)

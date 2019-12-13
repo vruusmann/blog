@@ -167,5 +167,5 @@ When working with sparse datasets, then it is possible to make `make_fit_gbdtlr`
 
 ### Resources
 
-* "Audit" dataset: [`audit.csv`]({{ site.baseurl }}/assets/2019-02-09/audit.csv)
+* "Audit" dataset: [`audit.csv`]({{ site.baseurl }}/assets/data/audit.csv)
 * Python script: [`train.py`]({{ site.baseurl }}/assets/2019-06-19/train.py)
