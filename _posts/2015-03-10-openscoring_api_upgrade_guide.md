@@ -32,7 +32,7 @@ The URL of an endpoint consists of a model selector part and an optional feature
 | Feature applied to a model collection | `/model/${feature}` | `${feature}/model` |
 | Feature applied to a model | `/model/${id}/${feature}` | `${feature}/model/${id}` |
 
-The version 1.1 appends the feature selector to the model selector. This results in poor extensibility, because there exists a name collision between the endpoints `/model/${feature}` and `/model/${id}`. The workaround would be to treat feature names as reserved symbols. Unfortunately, this workaround does not "scale" very well in situations where the features are defined or modified dynamically.
+The version 1.1 appends the feature selector to the model selector. This results in poor extensibility, because there exists a name collision between the endpoints `/model/${feature}` and `/model/${id}`. The workaround would be to treat feature names as reserved symbols. Unfortunately, this workaround does not scale very well in situations where the features are defined or modified dynamically.
 
 Contrariwise, the version 1.2 prepends the feature selector to the model selector, which provides relief from name collisons. Obviously, it is still reasonable to treat "model" as a reserved symbol.
 
@@ -48,7 +48,7 @@ The version 1.1 is centered around PMML documents. For example, application clie
 
 The version 1.2 is centered around the high-level description of a model. The contract for the model collection endpoint `/model` and the model instance endpoint `/model/${id}` has been unified. The former returns a `BatchModelResponse` object that contains an array of data schema-less `ModelResponse` objects. The latter returns a single data schema-full `ModelResponse` object.
 
-Data schema information is stored as an optional Map-type field `schema`. Map keys are String constants `activeFields`, `groupFields`, `targetFields` and `outputFields`. Map values are arrays of `org.openscoring.common.Field` objects. Application clients can use this information for different value-added services such as generating smart data entry widgets (eg. a drop-down menu of categorical values instead of a textbox), performing data validation etc.
+Data schema information is stored as an optional Map-type `schema` field. Map keys are String constants `activeFields`, `groupFields`, `targetFields` and `outputFields`. Map values are arrays of `org.openscoring.common.Field` objects. Application clients can use this information for different value-added services such as generating smart data entry widgets (eg. a drop-down menu of categorical values instead of a textbox), performing data validation etc.
 
 ### Data classes
 
@@ -56,7 +56,7 @@ The version 1.2 imposes a new requirement that the client request and the server
 
 Additionally, the JSON encoder is (re-)configured to emit only non-null and non-empty fields. For example, the JSON representation of an object does not include String fields that are either uninitialized (ie. `null`) or initialized with an empty String value (ie. `""`). This change was necessary to make the narrowing reference conversion safe on request and response objects.
 
-The `SimpleResponse` class declares a sole String-type field `message`, which is initialized with an appropriate error message if the operation fails because of an error condition. This message is suitable for displaying to end users. Application clients can put it into context by paying attention to the HTTP status code. For example, HTTP status codes 4XX indicate a permanent failure due to client-side problem (eg. missing or invalid input data). HTTP status codes 5XX indicate temporary failure due to server-side problem (eg. lack of resources).
+The `SimpleResponse` class declares a sole String-type `message` field, which is initialized with an appropriate error message if the operation fails because of an error condition. This message is suitable for displaying to end users. Application clients can put it into context by paying attention to the HTTP status code. For example, HTTP status codes 4XX indicate a permanent failure due to client-side problem (eg. missing or invalid input data). HTTP status codes 5XX indicate temporary failure due to server-side problem (eg. lack of resources).
 
 Java application clients can employ the following idiom to check the outcome of an operation:
 
@@ -73,7 +73,7 @@ public <R extends SimpleResponse> void checkResponse(R response){
 
 The version 1.1 does not handle error conditions. Both checked and unchecked exceptions are allowed to "bubble up" to the web container, which formats them as HTML error pages. This makes the life of application developers miserable, because they need to be ready to handle different data formats from the same endpoint (ie. JSON for a successful operation, web container-specific HTML for a failed operation).
 
-The version 1.2 does its best to handle all internal and external error conditions. For example, if the client refers to a non-existent model instance `FictionalId`, then the JAX-RS exception object (instance of class `javax.ws.rs.NotFoundException`) is converted to the following `SimpleResponse` object:
+The version 1.2 does its best to handle all internal and external error conditions. For example, if the application client refers to a non-existent model instance `FictionalId`, then the JAX-RS exception object (instance of `javax.ws.rs.NotFoundException`) is converted to the following `SimpleResponse` object:
 
 ``` json
 {
@@ -98,7 +98,7 @@ The version 1.1 specifies several endpoints that either accept an array of JSON 
 
 The version 1.2 does not allow such behaviour, because a JSON array cannot be coerced to a `SimpleResponse` object in case of an error condition. The solution is to place a JSON array into an "envelope" JSON object. By convention, the name of the envelope class is derived by prepending "Batch" to the name of the array element class.
 
-The `BatchEvaluationRequest` class holds the array of `EvaluationRequest` objects as a List-type field `requests`. Application clients can keep track of parallel or asynchronous requests by initializing the String-type field `id` with a unique value.
+The `BatchEvaluationRequest` class holds the array of `EvaluationRequest` objects as a List-type `requests` field. Application clients can keep track of parallel or asynchronous requests by initializing the String-type `id` field with a unique value.
 
 The request body now becomes:
 
@@ -120,15 +120,15 @@ The request body now becomes:
 
 ### Application
 
-The version 1.2 delivers an all-new JAX-RS application class `org.openscoring.service.Openscoring`.
+The version 1.2 delivers an all-new `org.openscoring.service.Openscoring` JAX-RS application class.
 
-Application configuration is handled using the [Typesafe Config](https://github.com/typesafehub/config) library. The default configuration is located in file `openscoring-service/src/main/resources/reference.conf`. This file encodes configuration entries as key-value pairs in the HOCON data format, which is a human-oriented superset of the JSON data format (eg. allows comments, allows the omission of unnecessary punctuation symbols). By convention, configuration entries are arranged into a two-level hierarchy, where the top level points to a Java class name and the bottom level to a field name. For example, the configuration entry `modelRegistry.visitorClasses` targets the field `visitorClazzes` of the `org.openscoring.service.ModelRegistry` class.
+Application configuration is handled using the [Typesafe Config](https://github.com/typesafehub/config) library. The default configuration is located in file `openscoring-service/src/main/resources/reference.conf`. This file encodes configuration entries as key-value pairs in the HOCON data format, which is a human-oriented superset of the JSON data format (eg. allows comments, allows the omission of unnecessary punctuation symbols). By convention, configuration entries are arranged into a two-level hierarchy, where the top level points to a Java class name and the bottom level to a field name. For example, the configuration entry `modelRegistry.visitorClasses` targets the `visitorClazzes` field of the `org.openscoring.service.ModelRegistry` class.
 
 The default configuration can be overriden (either in full or in parts) by user-specified configuration file.
 
 The configuration entry `application.componentClasses` (formerly a command-line option `--component-classes`) specifies a list of JAX-RS component classes. If there is a need to customize or extend the functionality of the Openscoring web service in any way, then it should be achieved by developing a dedicated JAX-RS component class using the [Jersey](https://jersey.java.net/) library.
 
-For example, a company-specific client authentication and authorization could be implemented as a JAX-RS filter class `com.mycompany.service.MySecurityContextFilter`. This class can be plugged in (and the default class `org.openscoring.service.NetworkSecurityContextFilter` plugged out) by updating the configuration entry `application.componentClasses` as follows:
+For example, a company-specific client authentication and authorization could be implemented as a `com.mycompany.service.MySecurityContextFilter` JAX-RS filter class. This class can be plugged in by updating the configuration entry `application.componentClasses` as follows:
 
 ```
 application {
@@ -148,4 +148,4 @@ The version 1.2 packages the JAX-RS application in two flavours:
 
 The version 1.2 command-line application does not support the majority of "old" command-line options. Some of them were converted to configuration entries as demonstrated above. The others were extracted into new applications.
 
-The case in point is the command-line option `--deploy-dir`, which was extracted to a command-line application `org.openscoring.client.DirectoryDeployer`. Such "separation of concerns" makes it possible to synchronize a local filesystem directory with a remote Openscoring web service, or monitor several directories for PMML file addition and removal events simultaneously.
+The case in point is the command-line option `--deploy-dir`, which was extracted to a command-line application `org.openscoring.client.DirectoryDeployer`. Such separation of concerns makes it possible to synchronize a local filesystem directory with a remote Openscoring web service, or monitor several directories for PMML file addition and removal events simultaneously.

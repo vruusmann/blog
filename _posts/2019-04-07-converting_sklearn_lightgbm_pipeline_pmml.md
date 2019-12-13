@@ -11,7 +11,7 @@ The idea is to use the underlying ML framework for generic activities such as lo
 As a specialized library, LightGBM offers much better performance (eg. distributed and hardware-accelerated backends) and richer parameterization options.
 
 Getting started with third-party libraries is fairly easy on Scikit-Learn, because everything is organized around the pipeline concept, and the roles and responsibilities of individual pipeline steps are formalized via an API.
-For example, a Scikit-Learn pipeline that was constructed around the `sklearn.ensemble.GradientBoostingClassifier` estimator class can be "upgraded" to LightGBM by simply replacing it with the `lightgbm.LGBMClassifier` estimator class.
+For example, a Scikit-Learn pipeline that was constructed around the `sklearn.ensemble.GradientBoostingClassifier` estimator class can be upgraded to LightGBM by simply replacing it with the `lightgbm.LGBMClassifier` estimator class.
 
 However, in order to unlock the full potential of third-party libraries, it becomes necessary to learn about their main characteristics and assumptions by systematically going through their documentation and code examples.
 It is often the case that a good portion of key functionality remains unused, because end users simply do not know about it, or cannot find a way to implement it in practice.
@@ -57,7 +57,7 @@ LightGBM models can be converted to the standardized Predictive Model Markup Lan
 Just like LightGBM itself, this library can be used as a standalone tool or as a plugin to other JPMML family conversion tools and libraries.
 The main difference between these two usage modes is related to the sourcing of feature definitions.
 In standalone mode, they are extracted from the LightGBM model object.
-In plugin mode, they are "inherited" from the host ML framework, and only checked for consistency against the LightGBM model object.
+In plugin mode, they are inherited from the host ML framework, and only checked for consistency against the LightGBM model object.
 
 The [`sklearn2pmml`](https://github.com/jpmml/sklearn2pmml) package provides `CategoricalDomain` and `ContinuousDomain` decorator classes specifically for the purpose of ensuring that Scikit-Learn feature definitions are as rich and nuanced as possible.
 
@@ -153,7 +153,7 @@ pipeline.fit(df, df["Adjusted"], classifier__categorical_feature = cat_indices)
 
 A binary-style categorical split discriminates one category level against all others ("send category level A to the left, and all other category levels to the right").
 A multinomial-style categorical split examines every category level, and proposes two distinct subsets based on their discriminatory effect ("send category levels A, C, D and F to the left, and category levels B, and E to the right").
-LightGBM does not appear to limit the cardinality of categorical features. There is no need to change anything about the Python script when "scaling" from two to twenty thousand category levels.
+LightGBM does not appear to limit the cardinality of categorical features. There is no need to change anything about the Python script when scaling from two to twenty thousand category levels.
 
 Multinomial-style categorical splits are encoded using the `SimpleSetPredicate` element:
 
@@ -258,6 +258,6 @@ The predictive performance of the LightGBM classifier improves considerably acro
 
 ### Resources
 
-* The "audit" dataset: ["audit.csv"]({{ site.baseurl }}/assets/2019-04-07/audit.csv)
-* The "audit-with-missing-values" dataset: ["audit-NA.csv"]({{ site.baseurl }}/assets/2019-04-07/audit-NA.csv)
-* The Python script: ["train.py"]({{ site.baseurl }}/assets/2019-04-07/train.py)
+* "Audit" dataset: [`audit.csv`]({{ site.baseurl }}/assets/2019-04-07/audit.csv)
+* "Audit-NA" dataset: [`audit-NA.csv`]({{ site.baseurl }}/assets/2019-04-07/audit-NA.csv)
+* Python script: [`train.py`]({{ site.baseurl }}/assets/2019-04-07/train.py)

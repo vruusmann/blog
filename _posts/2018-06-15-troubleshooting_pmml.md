@@ -61,7 +61,7 @@ Caused by: org.xml.sax.SAXParseException; lineNumber: 248; columnNumber: 19; The
 
 ### Structural validation as PMML
 
-The JPMML-Model library provides an example command-line application `org.jpmml.model.ValidationExample`, which validates the content of a PMML file against the built-in PMML schema definition (XSD) file. This XSD file is based on the latest PMML schema version (at the time of writing this, 4.3), and includes a limited number JPMML vendor extension elements and attributes. Nevertheless, it is suitable for validating all PMML schema version 3.X and 4.X documents, as the PMML standard is fully backwards- and forwards-compatible in this schema version range.
+The JPMML-Model library provides an example command-line application `org.jpmml.model.ValidationExample`, which validates the content of a PMML document against the built-in PMML schema definition (XSD) file. This XSD file is based on the latest PMML schema version (at the time of writing this, 4.3), and includes a limited number JPMML vendor extension elements and attributes. Nevertheless, it is suitable for validating all PMML schema version 3.X and 4.X documents, as the PMML standard is fully backwards- and forwards-compatible in this schema version range.
 
 ```
 $ java -cp pmml-model-example/target/example-1.4-SNAPSHOT.jar org.jpmml.model.ValidationExample --input model.pmml.xml
@@ -71,7 +71,7 @@ This application prints a list of warnings and errors. Getting to productivity m
 
 Troubleshooting procedure:
 
-1. Open the PMML file in a text editor, and scroll to the pinpointed location.
+1. Open the PMML document in a text editor, and scroll to the pinpointed location.
 2. Identify the parent construct of the offending PMML markup; if the parent construct is nested inside some model element, then identify it as well.
 3. Open the correct version of PMML specification, and go to the page that deals with the identified parent construct.
 4. Jump the (sub-)section that corresponds to the offending PMML markup, figure out the nature of the problem and an appropriate fix. Implement the corrective change manually.
@@ -87,7 +87,7 @@ Validation log:
 SEVERE: [severity=FATAL_ERROR,message=cvc-complex-type.2.4.a: Invalid content was found starting with element 'DataDictionary'. One of '{"http://www.dmg.org/PMML-4_3":Header}' is expected.,locator=[node=null,object=null,url=null,line=3,col=41,offset=-1]]
 ```
 
-The error happens on line 3 of the PMML document, and is about a missing `Header` element. When opening the PMML file in a text editor, then the following content is found:
+The error happens on line 3 of the PMML document, and is about a missing `Header` element. When opening the PMML document in a text editor, then the following content is found:
 
 ``` xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -151,7 +151,7 @@ These two errors are both reported against the same location (line 211, column 4
 
 The parent construct is the [`Characteristic` element](http://dmg.org/pmml/v4-3/Scorecard.html#xsdElement_Characteristic), which belongs to the [`Scorecard` element](http://dmg.org/pmml/v4-3/Scorecard.html#xsdElement_Characteristic).
 
-According to the PMML specification, the content of a scorecard model is represented by a sequence of `Characteristic` elements. However, when opening the PMML file in a text editor, then it is possible to find that around line 211 there is a `Characteristic` element nested inside an `Attribute` element (of another `Characteristic` element), which is not permitted:
+According to the PMML specification, the content of a scorecard model is represented by a sequence of `Characteristic` elements. However, when opening the PMML document in a text editor, then it is possible to find that around line 211 there is a `Characteristic` element nested inside an `Attribute` element (of another `Characteristic` element), which is not permitted:
 
 ``` xml
 <Characteristics>

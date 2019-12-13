@@ -24,7 +24,7 @@ protected RuleFeatureType ruleFeature;
 
 This declaraton states that the `ruleFeature` attribute was added in PMML schema version 4.0 and deprecated in PMML schema version 4.2. In other words, it is a first-class concept in PMML schema version 4.0 and 4.1 documents. It can be used in PMML schema version 4.2 documents, but doing so is discouraged, because it has been superseded by another set of attributes. In any way, the `ruleFeature` attribute cannot be used in PMML schema version 3.2 and earlier documents. A validating PMML parser would report that as an error.
 
-The JPMML-Model library provides a visitor class `org.jpmml.model.SchemaInspector` that traverses a class model object and computes its supported version range. The upper and lower boundaries can be queried using methods `#getMinimum()` and `#getMaximum()`, respectively. The following Java source code checks if a class model object is compatible with the specified PMML schema version:
+The JPMML-Model library provides a `org.jpmml.model.SchemaInspector` Visitor class that traverses a class model object and computes its supported version range. The upper and lower boundaries can be queried using `#getMinimum()` and `#getMaximum()` methods, respectively. The following Java source code checks if a class model object is compatible with the specified PMML schema version:
 
 ``` java
 public boolean isCompatible(PMMLObject object, Version version){
@@ -59,7 +59,7 @@ These activities can be implemented using XML filtering. More complicated activi
 
 The XML filtering allows for direct conversion between arbitrary PMML schema versions. However, it is recommended to employ an intermediated conversion approach, where the input PMML document is first parsed to an in-memory PMML schema version 4.2 class model object, which is validated ("trust, but verify") and only then formatted to the output PMML document.
 
-The conversion from any PMML schema version 3.X or 4.X document to an PMML schema version 4.2 document is implemented by class `org.jpmml.model.ImportFilter`. This filter should be applied to the source before feeding it to the PMML unmarshaller:
+The conversion from any PMML schema version 3.X or 4.X document to a PMML schema version 4.2 document is implemented by the `org.jpmml.model.ImportFilter` class. This filter should be applied to the source before feeding it to the PMML unmarshaller:
 
 ``` java
 public PMML readPMML(InputStream is) throws Exception {
@@ -71,7 +71,7 @@ public PMML readPMML(InputStream is) throws Exception {
 }
 ```
 
-The conversion in the opposite direction is implemented by class `org.jpmml.model.ExportFilter`. Java's simple API for XML (SAX) does not provide means for applying XML filters to results. In theory, it should be possible to perform XML filtering on a result obtained from the PMML marshaller using a generic XSL identity transformation. In practice, however, it fails to update the XML namespace declaration for an unknown reason. The following Java source code performs a SAX-specific transformation:
+The conversion in the opposite direction is implemented by the `org.jpmml.model.ExportFilter` class. Java's simple API for XML (SAX) does not provide means for applying XML filters to results. In theory, it should be possible to perform XML filtering on a result obtained from the PMML marshaller using a generic XSL identity transformation. In practice, however, it fails to update the XML namespace declaration for an unknown reason. The following Java source code performs a SAX-specific transformation:
 
 ``` java
 public void writePMML(PMML pmml, Version version, OutputStream os) throws Exception {
@@ -103,4 +103,4 @@ private InputSource toInputSource(PMML pmml) throws Exception {
 }
 ```
 
-**Update**: Starting from JPMML-Model version 1.1.12, class `org.jpmml.model.SchemaInspector` has been relocated and renamed to `org.jpmml.model.visitors.VersionInspector`.
+**Update**: Starting from JPMML-Model version 1.1.12, the `org.jpmml.model.SchemaInspector` class has been relocated and renamed to the `org.jpmml.model.visitors.VersionInspector` class.

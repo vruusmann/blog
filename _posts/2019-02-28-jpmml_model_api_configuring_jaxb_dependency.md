@@ -9,7 +9,7 @@ The core set of JPMML-Model classes have been generated based on the PMML XML Sc
 
 The JAXB runtime was more or less an integral part of Java SE versions 1.6 thorugh 1.8. However, with the advent of [Java SE 9 module system](https://jcp.org/en/jsr/detail?id=376), the JAXB runtime was isolated to a `java.xml.bind` module, and excluded from the core (ie. active by default) module set.
 
-If a Java SE 9 (or newer) applications wants to use JAXB runtime functionality, then it can do one of the following:
+If a Java SE 9 (or newer) application wants to use JAXB runtime functionality, then it can do one of the following:
 
 * Activate the `java.xml.bind` module using the `--add-modules java.xml.bind` command-line option.
 * Leave the `java.xml.bind` module inactive, and add a functionally equivalent set of Java libraries/classes straight to the application classpath.
@@ -21,7 +21,7 @@ The JPMML-Model library declares a compile-time dependency ("provided" Apache Ma
 If a Java application declares a run-time dependency ("compile" and "runtime" Apache Maven scopes) only on the JPMML-Model library, then it is limited to the first deployment scenario.
 However, if the Java application declares a run-time dependency on the JPMML-Model library **plus** one or more JAXB runtimes, then it can follow either development scenario.
 
-This blog post aims to nail down the configuration of GlassFish Metro runtime. The analysis is based on a `jaxb_demo` toy application, which deals with marshalling and unmarshalling an empty PMML class model object.
+This blog post aims to nail down the configuration of GlassFish Metro runtime. The analysis is based on a `jaxb_demo` demo application, which deals with marshalling and unmarshalling an empty PMML class model object.
 
 The project is built and deployed throughout this exercise using the following sequence of commands:
 
@@ -139,4 +139,4 @@ After declaring the minimal GlassFish Metro dependency, the project can be built
 
 ### Resources
 
-* The toy application: ["jaxb_demo.zip.github"]({{ site.baseurl }}/assets/2019-02-28/jaxb_demo.zip.github) (Please remove the ".github" suffix from the file name after download)
+* Demo application: [`jaxb_demo.zip.github`]({{ site.baseurl }}/assets/2019-02-28/jaxb_demo.zip) (Please remove the ".github" suffix from the file name after download)

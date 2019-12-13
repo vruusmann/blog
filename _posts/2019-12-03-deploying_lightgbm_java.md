@@ -6,7 +6,7 @@ author: vruusmann
 
 [LightGBM](https://github.com/Microsoft/LightGBM) is a gradient boosting framework that is written in the C++ language.
 
-Most end users interact with LightGBM core APIs via high-level languages and APIs.
+Most data scientists interact with LightGBM core APIs via high-level languages and APIs.
 For example, Python users can choose between a medium-level [Training API](https://lightgbm.readthedocs.io/en/latest/Python-API.html#training-api) and a high-level [Scikit-Learn API](https://lightgbm.readthedocs.io/en/latest/Python-API.html#scikit-learn-api) to meet their model training and deployment needs.
 
 The lack of Java language bindings is understandable due to Java's subdued role in the machine learning space.
@@ -24,7 +24,7 @@ LightGBM has built-in support for categorical features and missing values.
 This functionality often remains unused, because end users simply do not know about it, or cannot find a way to implement it in practice.
 For example, the Scikit-Learn framework version 0.22 still does not provide [missing value aware label encoders](https://github.com/scikit-learn/scikit-learn/pull/15009).
 
-The [`sklearn2pmml` package](https://github.com/jpmml/sklearn2pmml) version 0.50.1 introduced utility functions `sklearn2pmml.preprocessing.lightgbm.make_lightgbm_dataframe_mapper` and `make_lightgbm_column_transformer` that take care of constructing column mapper transformations for complex datasets.
+The [`sklearn2pmml`](https://github.com/jpmml/sklearn2pmml) package version 0.50.1 introduced utility functions `sklearn2pmml.preprocessing.lightgbm.make_lightgbm_dataframe_mapper` and `make_lightgbm_column_transformer` that take care of constructing column mapper transformations for complex datasets.
 
 These two utility functions have identical signatures.
 They accept the description of a dataset in the form of `dtypes` (iterable of tuples `(column, dtype)`) and `missing_value_aware` (boolean) parameters, and return a tuple `(mapper, categorical_feature)`.
@@ -73,7 +73,7 @@ By Scikit-Learn conventions, if the fit method is called via the `(PMML)Pipeline
 ### Model conversion
 
 The PMML representation of LightGBM models relies on PMML markup and idioms that have been firmly in place since the PMML schema version 3.0.
-This coupled with the fact that the PMML standard is designed with backward compatibility in mind makes for a very convincing argument that LightGBM models that have been converted to the PMML data format shall be usable for years and even decades with zero or very little maintenance.
+This coupled with the fact that the PMML standard is designed with backward compatibility in mind makes for a very convincing argument that LightGBM models that have been converted to the PMML representation shall be usable for years and even decades with zero or very little maintenance.
 
 A fitted `PMMLPipeline` object can be converted to a PMML XML file using the `sklearn2pmml.sklearn2pmml` utility function:
 
@@ -201,5 +201,5 @@ It is virtually impossible to make programming mistakes (eg. accidentally swappi
 
 ### Resources
 
-* The "audit-with-missing-values" dataset: ["audit-NA.csv"]({{ site.baseurl }}/assets/2019-04-07/audit-NA.csv)
-* The Python script: ["train.py"]({{ site.baseurl }}/assets/2019-12-03/train.py)
+* "Audit-NA" dataset: [`audit-NA.csv`]({{ site.baseurl }}/assets/2019-04-07/audit-NA.csv)
+* Python script: [`train.py`]({{ site.baseurl }}/assets/2019-12-03/train.py)

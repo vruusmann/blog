@@ -4,10 +4,10 @@ title: "Tidying R's AdaBoost PMML documents"
 author: vruusmann
 ---
 
-The experience shows that the quality of PMML documents varies considerably across PMML producer software. One way to establish and enforce a well-defined quality level is to transform them to a canonicalized (aka "tidy") representation:
+The experience shows that the quality of PMML documents varies considerably across PMML converters. One way to establish and enforce a well-defined quality level is to convert them to a canonicalized (aka "tidy") representation:
 
 * Updating the PMML schema version.
-* Translating deprecated and/or inefficient PMML constructs.
+* Updating deprecated and/or inefficient PMML constructs.
 * Purging unused PMML constructs.
 * Adding organization-specific extensions and metadata.
 * Pretty-printing for improved readability and more meaningful diffing experience.
@@ -20,11 +20,11 @@ The Visitor API of the [JPMML-Model](https://github.com/jpmml/jpmml-model) libra
 
 ### Workflow design
 
-R's [`pmml` package](https://cran.r-project.org/package=pmml) is one of the most popular PMML producer software. However, the quality of PMML documents varies dramatically between supported model types. Around the negative end of the spectrum is the support for AdaBoost models as implemented by the [`ada` package](https://cran.r-project.org/package=ada).
+The legacy [`pmml`](https://cran.r-project.org/package=pmml) package is a popular PMML converter. However, the quality of PMML documents varies dramatically between supported model types. Around the negative end of the spectrum is the support for AdaBoost models as implemented by the [`ada`](https://cran.r-project.org/package=ada) package.
 
 This blog post is aimed at demonstrating a workflow for tidying AdaBoost PMML documents.
 
-The exercise starts with training a binary classification model using the built-in ["soldat" dataset](https://www.rdocumentation.org/packages/ada/versions/2.0-5/topics/soldat). The challenge is to predict whether a chemical compound is soluble or not based on its structure: `solubility = f(chemical structure)`. The data matrix has 5631 rows and 73 columns. The target column (ie. dependent variable) "y" is a categorical integer. Active columns (ie. independent variables) "x1", "x2", .., "x72" are continuous doubles.
+The exercise starts with training a binary classification model using R's built-in "soldat" dataset. The objective is to predict whether a chemical compound is soluble or not based on its structure: `solubility = f(chemical structure)`. The data matrix has 5631 rows and 73 columns. The target column (ie. dependent variable) "y" is a categorical integer. Active columns (ie. independent variables) "x1", "x2", .., "x72" are continuous doubles.
 
 ``` r
 library("ada")
@@ -38,12 +38,12 @@ ada = ada(y ~ ., data = soldat)
 saveXML(pmml(ada), "ada.pmml")
 ```
 
-When the resulting PMML document "ada.pmml" is opened in text editor, then the expert eye can spot the following shortcomings:
+When the newly generated PMML document `ada.pmml` is opened in text editor, then the expert eye can spot the following shortcomings:
 
-1. The model corresponds to a classification problem, but is encoded as a regression-type [`MiningModel` element](http://dmg.org/pmml/v4-3/MultipleModels.html). This may confuse PMML consumers that employ different query and prediction workflows for different function types. For regression models, the query interface is typically no-op, and the prediction interface returns a single scalar value. Conversely, for classification models, the query interface exposes the universe of classes (eg. class labels and class descriptions), and the prediction interface returns the label of the winning class together with the class probability distribution. The AdaBoost PMML document aims to emulate the behaviour of conventional classification-type models, but does it rather poorly. For example, it completely lacks the the description of the target field (sic!), and class probabilities are calculated using the generic [`transformedValue` output feature](http://dmg.org/pmml/v4-3/Output.html#ResFeat) rather than the special-purpose [`probability` output feature](http://dmg.org/pmml/v4-3/Output.html#ResFeat).
-2. The `functionName` attribute of member [`TreeModel` elements](http://dmg.org/pmml/v4-3/TreeModel.html) has been specified as "regression", but their encoding is consistent with classification-type models instead. Again, this kind of false signalling may confuse standards-compliant PMML consumers.
-3. Bloated [`MiningSchema` elements](http://dmg.org/pmml/v4-3/MiningSchema.html). The idea of ensemble models is that every member model deals with a well-defined subspace of the input space. Unfortunately, the `pmml` package is incapable of filtering out irrelevant active fields, and populates all `MiningSchema` elements with exactly the same set of 72 [`MiningField` elements](http://dmg.org/pmml/v4-3/MiningSchema.html). It isn't just a matter of style. For example, it prevents from conducting custom variable importance analyses using simple XQuery/XPath language queries.
-4. Bloated predicate elements. By default, the `pmml` package encodes splits as [`CompoundPredicate` elements](http://dmg.org/pmml/v4-3/TreeModel.html#xsdElement_CompoundPredicate), even though [`SimplePredicate` elements](http://dmg.org/pmml/v4-3/TreeModel.html#xsdElement_SimplePredicate) would suffice. Digging deeper, there are problems with the `CompoundPredicate` element itself, because it does not convey the functional difference between the "main" split and "alternative" splits.
+1. The model corresponds to a classification problem, but is encoded as a regression-type [`MiningModel` element](http://dmg.org/pmml/v4-3/MultipleModels.html). This may confuse PMML engines that employ different query and prediction workflows for different function types. For regression models, the query interface is typically no-op, and the prediction interface returns a single scalar value. Conversely, for classification models, the query interface exposes the universe of classes (eg. class labels and class descriptions), and the prediction interface returns the label of the winning class together with the class probability distribution. The AdaBoost PMML document aims to emulate the behaviour of conventional classification-type models, but does it rather poorly. For example, it completely lacks the the description of the target field (sic!), and class probabilities are calculated using the generic [`transformedValue` output feature](http://dmg.org/pmml/v4-3/Output.html#ResFeat) rather than the special-purpose [`probability` output feature](http://dmg.org/pmml/v4-3/Output.html#ResFeat).
+2. The `functionName` attribute of member [`TreeModel` elements](http://dmg.org/pmml/v4-3/TreeModel.html) has been specified as `regression`, but their encoding is consistent with classification-type models instead. Again, this kind of false signalling may confuse standards-compliant PMML engines.
+3. Bloated [`MiningSchema` elements](http://dmg.org/pmml/v4-3/MiningSchema.html). The idea of ensemble models is that every member model deals with a well-defined subspace of the input space. Unfortunately, the legacy `pmml` package is incapable of filtering out irrelevant active fields, and populates all `MiningSchema` elements with exactly the same set of 72 [`MiningField` elements](http://dmg.org/pmml/v4-3/MiningSchema.html). It isn't just a matter of style. For example, it prevents from conducting custom variable importance analyses using simple XQuery/XPath language queries.
+4. Bloated predicate elements. By default, the legacy `pmml` package encodes splits as [`CompoundPredicate` elements](http://dmg.org/pmml/v4-3/TreeModel.html#xsdElement_CompoundPredicate), even though [`SimplePredicate` elements](http://dmg.org/pmml/v4-3/TreeModel.html#xsdElement_SimplePredicate) would suffice. Digging deeper, there are problems with the `CompoundPredicate` element itself, because it does not convey the functional difference between the "main" split and "alternative" splits.
 
 ##### Simplifying Predicate elements
 
@@ -60,7 +60,7 @@ ada_compact = ada(y ~ ., data = soldat, control = rpart.control(maxsurrogate = 0
 saveXML(pmml(ada_compact), "ada.pmml")
 ```
 
-If the re-training is not an option (eg. dealing with legacy or third-party models), then exactly the same effect can be achieved using the Visitor API. The `pmml-rattle` module of the [JPMML-Evaluator](https://github.com/jpmml/jpmml-evaluator) library provides Visitor class `org.jpmml.rattle.PredicateTransformer`, which implements two elementary transformations. First, the "unwrap" transformation (recursively-) replaces surrogate-type `CompoundPredicate` elements with their first predicate child element. Second, the "simplify" transform replaces single-value [`SimpleSetPredicate` elements](http://dmg.org/pmml/v4-3/TreeModel.html#xsdElement_SimpleSetPredicate) with `SimplePredicate` elements.
+If the re-training is not an option (eg. dealing with legacy or third-party models), then exactly the same effect can be achieved using the Visitor API. The `pmml-rattle` module of the [JPMML-Evaluator](https://github.com/jpmml/jpmml-evaluator) library provides the `org.jpmml.rattle.PredicateTransformer` Visitor class, which implements two elementary transformations. First, the "unwrap" transformation (recursively-) replaces surrogate-type `CompoundPredicate` elements with their first predicate child element. Second, the "simplify" transform replaces single-value [`SimpleSetPredicate` elements](http://dmg.org/pmml/v4-3/TreeModel.html#xsdElement_SimpleSetPredicate) with `SimplePredicate` elements.
 
 Before transformation:
 
@@ -91,9 +91,9 @@ The same after applying `org.jpmml.rattle.PredicateTransformer`:
 
 ##### Purging unused MiningField elements
 
-The JPMML-Model library provides several Visitor classes for performing static field analyses. First, Visitor class `org.jpmml.model.visitors.FieldReferenceFinder` can collect all field references inside the specified PMML class model fragment. Then, Visitor class `org.jpmml.model.visitors.FieldResolver` can map field references to actual `DataField`, `DerivedField` or `OutputField` elements. Finally, Visitor class `org.jpmml.model.visitors.FieldDependencyResolver` can (recursively-) expand individual `DerivedField` elements into their "constituent" `DataField` and `DerivedField` elements.
+The JPMML-Model library provides several Visitor classes for performing static field analyses. First, the `org.jpmml.model.visitors.FieldReferenceFinder` Visitor class can collect all field references inside the specified PMML class model fragment. Then, the `org.jpmml.model.visitors.FieldResolver` Visitor class can map field references to actual `DataField`, `DerivedField` or `OutputField` elements. Finally, the `org.jpmml.model.visitors.FieldDependencyResolver` Visitor class can (recursively-) expand individual `DerivedField` elements into their constituent `DataField` and `DerivedField` elements.
 
-Visitor class `org.jpmml.model.visitors.MiningSchemaCleaner` combines all of the above functionality. The "clean" transformation first computes the optimal set of field references for the specified model element, and then rewrites its `MiningSchema` element by adding missing and/or removing redundant `MiningField` elements. This transformation is fully compliant with [PMML field scoping rules](http://dmg.org/pmml/v4-3/FieldScope.html), and should be able to handle arbitrary complexity problems.
+The `org.jpmml.model.visitors.MiningSchemaCleaner` Visitor class combines all of the above functionality. The "clean" transformation first computes the optimal set of field references for the specified model element, and then rewrites its `MiningSchema` element by adding missing and/or removing redundant `MiningField` elements. This transformation is fully compliant with [PMML field scoping rules](http://dmg.org/pmml/v4-3/FieldScope.html), and should be able to handle arbitrary complexity problems.
 
 Before transformation:
 
@@ -122,7 +122,7 @@ The same after applying `org.jpmml.model.visitors.MiningSchemaCleaner`:
 
 The cleaning of `MiningSchema` elements makes them processible with less sophisticated tools. For example, it will be possible to use simple XQuery/XPath language queries to compute custom variable importance metrics.
 
-The relevance of an active field is proportional to the total number of `MiningField` elements that invoke it. Additionally, the role of an active field can be inferred from the relative location of invocations. The general rule with gradient boosting methods such as AdaBoost and GBM is that active fields that are more frequently referenced in earlier segments explain the "general case", whereas those that are more frequently referenced in later segments explain the "special case" (eg. outliers).
+The relevance of an active field is proportional to the total number of `MiningField` elements that invoke it. Additionally, the role of an active field can be inferred from the relative location of invocations. The general rule with gradient boosting methods such as AdaBoost and GBM is that active fields that are more frequently referenced in earlier segments explain the general case, whereas those that are more frequently referenced in later segments explain special cases (eg. outliers).
 
 ##### Purging ScoreDistribution elements
 
@@ -130,7 +130,7 @@ The prediction of a `TreeModel` element is extracted from the winning `Node` ele
 
 It follows that AdaBoost PMML documents have no practical need for `ScoreDistribution` elements. The main argument against preserving existing elements is the drain on runtime resources. Grepping shows that `ScoreDistribution` elements outnumber `Node` elements two-to-one, which makes it the most numerous element type. This ratio keeps deteriorating when moving from binary-classification problems to multi-class classification problems.
 
-The `pmml-rattle` module of the JPMML-Evaluator library provides Visitor class `org.jpmml.rattle.ScoreDistributionCleaner`, which cleans `Node` elements by nullifying the value of the `recordCount` attribute and removing all `ScoreDistribution` child elements.
+The `pmml-rattle` module of the JPMML-Evaluator library provides the `org.jpmml.rattle.ScoreDistributionCleaner` Visitor class, which cleans `Node` elements by nullifying the value of the `recordCount` attribute and removing all `ScoreDistribution` child elements.
 
 Before transformation:
 
@@ -156,7 +156,7 @@ The removal of `ScoreDistribution` elements can be easily undone. The idea is to
 
 The JPMML-Model library provides an example command-line application `org.jpmml.model.CopyExample`, which reads a PMML schema version 3.X or 4.X document, applies a list of Visitor classes to the interim PMML class model object, and writes the result as a PMML schema version 4.2 document.
 
-This application comes bundled with Visitor classes of the JPMML-Model library. The use of third-party Visitor classes is possible if their JAR file(s) have been appended to the application classpath. The following command performs the transformation of the PMML document "ada.pmml" to a new PMML document "ada-tidy.pmml" by applying a list of three transformers. It assumes that the snapshot versions of JPMML-Model and JPMML-Evaluator libraries are located in directories `jpmml-model` and `jpmml-evaluator`, respectively.
+This application comes bundled with Visitor classes of the JPMML-Model library. The use of third-party Visitor classes is possible if their JAR file(s) have been appended to the application classpath. The following command performs the transformation of the PMML document `ada.pmml` to a new PMML document `ada-tidy.pmml` by applying a list of three transformers. It assumes that the snapshot versions of JPMML-Model and JPMML-Evaluator libraries are located in directories `jpmml-model` and `jpmml-evaluator`, respectively.
 
 ```
 $ java -cp jpmml-model/pmml-model-example/target/example-1.2-SNAPSHOT.jar:jpmml-evaluator/pmml-rattle/target/pmml-rattle-1.2-SNAPSHOT.jar:jpmml-evaluator/pmml-evaluator-example/target/example-1.2-SNAPSHOT.jar org.jpmml.model.CopyExample --input ada.pmml --output ada-tidy.pmml --visitor-classes org.jpmml.rattle.PredicateTransformer,org.jpmml.model.visitors.MiningSchemaCleaner,org.jpmml.rattle.ScoreDistributionCleaner

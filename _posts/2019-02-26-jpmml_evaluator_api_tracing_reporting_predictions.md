@@ -8,7 +8,7 @@ There are numerous application scenarios which require an ability to "look into"
 
 Most ML frameworks completely overlook this need. For example, Scikit-Learn logistic regression models expose `predict(X)` and `predict_proba(X)` methods, which return plain numeric predictions. The only way to understand how a particular number was computed (eg. active terms and their coefficients, the family and parameterization of the link function) is to open the source code of the logistic regression model class in a text editor, and parse/interpret the body of the prediction method line-by-line. However, if the model operates on a transformed feature space, and the ML framework itself uses low-level abstractions for feature representation (eg. string features are transformed to binary vectors), then it is effectively impossible for a casual observer to make any sense of it all.
 
-This problem has an easy two-step solution. First, the model or pipeline should be translated from the low-level ML framework representation to the high-level Predictive Model Markup Language (PMML) representation, which makes it human readable and interpretable in the original feature space. Second, all the tracing and reporting work should be automated using a PMML engine.
+This problem has an easy two-step solution. First, the model or pipeline should be converted from the low-level ML framework representation to the high-level Predictive Model Markup Language (PMML) representation, which makes it human readable and interpretable in the original feature space. Second, all the tracing and reporting work should be automated using a PMML engine.
 
 ### Reporting Java API
 
@@ -32,9 +32,9 @@ evaluatorBuilder = evaluatorBuilder
 Evaluator reportingEvaluator = evaluatorBuilder.build();
 ```
 
-The reporting Value API captures the computation in Mathematical Markup Language (MathML) representation. MathML is an XML dialect, which can be rendered as image, or translated to other data formats and representations such as LaTeX, or R and Python language expressions.
+The reporting Value API captures the computation in the Mathematical Markup Language (MathML) representation. MathML is an XML dialect, which can be rendered as image, or translated to other data formats and representations such as LaTeX, or R and Python language expressions.
 
-When the reporting Value API is activated, then target field value(s) shall be complex objects that implement the `org.jpmml.evaluator.HasReport` marker interface. This interface declares a single method `HasReport#getReport()`, which gives access to the live `org.jpmml.evaluator.Report` object. The `Report` class is polymorphic, and has several specialized implementation classes available. The simplest way to obtain the final MathML string is to invoke the `org.jpmml.evaluator.ReportUtil#format(Report)` utility method:
+When the reporting Value API is activated, then target field value(s) shall be complex objects that implement the `org.jpmml.evaluator.HasReport` marker interface. This interface declares a sole `HasReport#getReport()` method, which gives access to the live `org.jpmml.evaluator.Report` object. The `Report` class is polymorphic, and has several specialized implementation classes available. The simplest way to obtain the final MathML string is to invoke the `org.jpmml.evaluator.ReportUtil#format(Report)` utility method:
 
 ``` java
 Map<FieldName, ?> arguments = ...;
@@ -75,7 +75,7 @@ for(TargetField targetField : targetFields){
 
 ### Reporting PMML vendor extension
 
-After successfully designing and implementing the reporting Value API, the authors made a suggestion to Data Mining Group (DMG.org) that the PMML standard should incorporate similar functionality in the form of a ["report" result feature](http://mantis.dmg.org/view.php?id=184). Unfortunately, DMG.org decided against doing so, which leaves everything into the status of a vendor extension.
+After successfully designing and implementing the reporting Value API, the authors made a suggestion to Data Mining Group (DMG.org) that the PMML standard should incorporate similar functionality in the form of a [`report` result feature](http://mantis.dmg.org/view.php?id=184). Unfortunately, DMG.org decided against doing so, which leaves everything into the status of a vendor extension.
 
 A reporting `OutputField` element has the following attributes:
 
@@ -127,11 +127,11 @@ pipeline.fit(df, df["Adjusted"])
 sklearn2pmml(pipeline, "XGBoostAudit.pmml")
 ```
 
-The [`sklearn2pmml` package](https://github.com/jpmml/sklearn2pmml) encodes this XGBoost model in the form of a two-segment model chain. The first segment is the "booster", which sums the predictions of 17 member decision tree models. The second segment is the "sigmoid function", which transforms the boosted value to a pair of probability values.
+The [`sklearn2pmml`](https://github.com/jpmml/sklearn2pmml) package encodes this XGBoost model in the form of a two-segment model chain. The first segment is the "booster", which sums the predictions of 17 member decision tree models. The second segment is the "sigmoid function", which transforms the boosted value to a pair of probability values.
 
 The generation of reporting `OutputField` elements could be controlled using a special-purpose conversion option. However, for as long as it is not available, or when dealing with existing and/or third-party PMML documents, then they need to be generated manually.
 
-The newly exported PMML document "XGBoostAudit.pmml" is copied into "XGBoostAudit-reporting.pmml", and modified in a text editor in the following way:
+The newly generated PMML document `XGBoostAudit.pmml` is copied into `XGBoostAudit-reporting.pmml`, and modified in a text editor in the following way:
 
 ``` xml
 <MiningModel>
@@ -234,6 +234,6 @@ The probability of the positive scenario 0.1088706 is obtained by applying the i
 
 ### Resources
 
-* The "audit" dataset: ["audit.csv"]({{ site.baseurl }}/assets/2019-02-09/audit.csv)
-* Python scripts: ["train.py"]({{ site.baseurl }}/assets/2019-02-26/train.py) and ["report.py"]({{ site.baseurl }}/assets/2019-02-26/report.py)
-* A reporting PMML document: ["XGBoostAudit-reporting.pmml"]({{ site.baseurl }}/assets/2019-02-26/XGBoostAudit-reporting.pmml)
+* "Audit" dataset: [`audit.csv`]({{ site.baseurl }}/assets/2019-02-09/audit.csv)
+* Python scripts: [`train.py`]({{ site.baseurl }}/assets/2019-02-26/train.py) and [`report.py`]({{ site.baseurl }}/assets/2019-02-26/report.py)
+* Reporting PMML document: [`XGBoostAudit-reporting.pmml`]({{ site.baseurl }}/assets/2019-02-26/XGBoostAudit-reporting.pmml)

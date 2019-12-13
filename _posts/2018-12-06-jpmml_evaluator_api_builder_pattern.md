@@ -42,7 +42,7 @@ First, the "primary state" is concerned with the PMML class model. Its `#pmml` a
 Second, the "secondary state" is concerned with control and configuration. There are a number of factory-related fields that can be set and reset using mutator methods.
 
 The `ModelEvaluatorBuilder` class is not thread-safe.
-However, it is possible to effectively "freeze" its instances by casting them to instances of the super interface `EvaluatorBuilder`, which does not expose any mutator methods:
+However, it is possible to effectively "freeze" its instances by casting them to instances of the `EvaluatorBuilder` super interface, which does not expose any mutator methods:
 
 ``` java
 EvaluatorBuilder evaluatorBuilder = new ModelEvaluatorBuilder(pmml)

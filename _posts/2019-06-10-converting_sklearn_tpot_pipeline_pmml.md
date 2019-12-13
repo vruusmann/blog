@@ -16,16 +16,16 @@ The algorithm can vary the structure and composition of pipelines, and the param
 This puts AutoML algorithms into a league above conventional hyperparameter tuning algorithms (eg. `sklearn.model_selection.(GridSearchCV, RandomizedSearchCV)`), which can only vary the latter.
 
 Upon success, the AutoML tool returns one or more fitted pipelines.
-Such machine-generated pipelines are identical to human-generated pipelines in all technical and functional aspects. They can be converted to PMML data format using the [`sklearn2pmml` package](https://github.com/jpmml/sklearn2pmml).
+Such machine-generated pipelines are identical to human-generated pipelines in all technical and functional aspects. They can be converted to the PMML representation using the [`sklearn2pmml`](https://github.com/jpmml/sklearn2pmml) package.
 
-TPOT is made available for end users as a Scikit-Learn estimator class.
+TPOT is made available for data scientists as a Scikit-Learn estimator class.
 A TPOT estimator can be fitted and used for prediction using `fit(X, y)` and `predict(X)` methods as usual.
-For more sophisticated application scenarios, the fitted pipeline can be accessed directly as the `fitted_pipeline_` attribute, or exported to Python application code using the `export(path)` method.
+For more sophisticated application scenarios, the fitted pipeline can be accessed directly as the `fitted_pipeline_` attribute, or converted to Python application code using the `export(path)` method.
 
 Fitted [TPOT estimators cannot be pickled](https://github.com/EpistasisLab/tpot/issues/520) by design.
 This poses a serious problem for the `sklearn2pmml` package, which operates on Pickle files rather than on in-memory Python objects.
 
-For example, attempting to fit and export an estimator-only `sklearn2pmml.pipeline.PMMLPipeline`:
+For example, attempting to fit and convert an estimator-only `sklearn2pmml.pipeline.PMMLPipeline`:
 
 ``` python
 from sklearn.datasets import load_iris
@@ -121,7 +121,7 @@ First, there is a feature engineering part, which accepts a raw data matrix, and
 Second, there is a TPOT part, which performs the magic.
 
 These two parts are executed one after another.
-They produce fitted "child" `Pipeline` objects, which are joined programmatically into a fitted "parent" `PMMLPipeline` object for a quick and easy conversion to PMML data format.
+They produce fitted "child" `Pipeline` objects, which are joined programmatically into a fitted "parent" `PMMLPipeline` object for a quick and easy conversion to the PMML representation.
 
 Sample usage:
 
@@ -212,7 +212,7 @@ This estimator is used for prediction, and its `predict(X)` and `predict_proba(X
 Next, another estimator is fitted using the enhanced data matrix.
 If this esimator fails to improve the model (based on predefined evaluation criteria), then the search process is terminated. If it improves, its prediction is appended to data matrix, and the search process continues.
 
-For example, the newly exported PMML document "TPOTAudit.pmml" contains a two-stage model chain, where the initial prediction by a Gaussian Naive Bayes (`sklearn.naive_bayes.GaussianNB`) classifier is refined by a Logistic Regression (`sklearn.linear_model.LogisticRegression`) classifier:
+For example, the newly generated PMML document `TPOTAudit.pmml` contains a two-stage model chain, where the initial prediction by a Gaussian Naive Bayes (`sklearn.naive_bayes.GaussianNB`) classifier is refined by a Logistic Regression (`sklearn.linear_model.LogisticRegression`) classifier:
 
 ``` xml
 <MiningModel>
@@ -257,15 +257,15 @@ For example, the newly exported PMML document "TPOTAudit.pmml" contains a two-st
 ```
 
 Most ML frameworks and libraries do not know or care about the origin and deeper meaning of individual columns in the training dataset.
-When fitted models are translated to PMML representation, then it becomes possible to observe all kinds of bizarre computations, starting from no-op transformations and leading to non-sensical and outright (information-) destructive ones.
+When fitted models are converted to the PMML representation, then it becomes possible to observe all kinds of bizarre computations, starting from no-op transformations and leading to non-sensical and outright (information-) destructive ones.
 
 For example, TPOT is casually generating model chains, where the predictions of earlier estimators are not used by any of subsequent estimators, meaning that all their computation efforts are provably wasted.
 
-Good PMML producers such as all JPMML-family conversion libraries can run static analyses on PMML class model objects and correct many such issues.
+Good PMML converters such as all JPMML-family conversion libraries can run static analyses on PMML class model objects and correct many such issues.
 Corrected PMML documents have lower resource requirements and perform significantly better.
 
 ### Resources
 
-* The "audit" dataset: ["audit.csv"]({{ site.baseurl }}/assets/2019-02-09/audit.csv)
-* Python script: ["train.py"]({{ site.baseurl }}/assets/2019-06-10/train.py)
-* A TPOT PMML document: ["TPOTAudit.pmml"]({{ site.baseurl }}/assets/2019-06-10/TPOTAudit.pmml)
+* "Audit" dataset: [`audit.csv`]({{ site.baseurl }}/assets/2019-02-09/audit.csv)
+* Python script: [`train.py`]({{ site.baseurl }}/assets/2019-06-10/train.py)
+* TPOT PMML document: [`TPOTAudit.pmml`]({{ site.baseurl }}/assets/2019-06-10/TPOTAudit.pmml)

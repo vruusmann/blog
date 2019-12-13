@@ -6,11 +6,11 @@ author: vruusmann
 
 A random forest model is a collection of decision tree models. The final prediction is computed by applying an aggregation function over member predictions. For classification- and clustering-type random forest models, this is typically a majority voting scheme, where the most frequent class label becomes the winner. For regression-type random forest models, this is typically the arithmetic mean.
 
-The PMML specification does not provide a special purpose element for the representation of random forest models, because they are regarded as a subtype of [multiple models](http://www.dmg.org/v4-3/MultipleModels.html). The segmentation approach for the encoding of multiple models was introduced in PMML schema version 4.0. It follows that random forest models require PMML schema version 4.X compliant producer and consumer software to work. One of the most popular PMML producer software for random forest models is the ["pmml" package](https://cran.r-project.org/package=pmml) for the R/Rattle environment. It must be remembered that PMML production and consumption are completely separate functionalities. While the "pmml" package can store a `randomForest` data structure to PMML, it cannot (and probably never will) do the opposite, that is, load a `randomForest` data structure from PMML.
+The PMML specification does not provide a special purpose element for the representation of random forest models, because they are regarded as a subtype of [multiple models](http://www.dmg.org/v4-3/MultipleModels.html). The segmentation approach for the encoding of multiple models was introduced in PMML schema version 4.0. It follows that random forest models require PMML schema version 4.X compliant software to work. One of the most common PMML converters that meets this requirement is the legacy [`pmml`](https://cran.r-project.org/package=pmml) package.
 
-The current blog post details a method for interacting with member decision trees. This method is based on the `segmentId` attribute of the `OutputField` element. The `Output` element, which is simply a container of `OutputField` elements, is a "gatekeeper" that controls which computation results (and how) are exposed to the PMML client application. Getting to know this part of the PMML specification is crucial for PMML developers, because it gives access to some of the most powerful and versatile tools in the toolbox.
+The current blog post details a method for interacting with member decision trees. This method is based on the `segmentId` attribute of the `OutputField` element. The `Output` element, which is simply a container of `OutputField` elements, is a gatekeeper that controls which computation results (and how) are exposed to the PMML client application. Getting to know this part of the PMML specification is crucial for PMML developers, because it gives access to some of the most powerful and versatile tools in the toolbox.
 
-The exercise starts with training a classification-type random forest model for the ["iris" dataset](https://archive.ics.uci.edu/ml/datasets/Iris). The "iris" dataset is rather small and well-behaving. A satisfactory discrimination between iris species can be achieved using a single decision tree model that is two levels deep. The idea of engaging a random forest algorithm is to try to "flatten" its structure. The following R script produces an ensemble of five decision tree models (`ntree = 5`), with every decision tree model being exactly one level deep (`maxnodes = 2`).
+The exercise starts with training a classification-type random forest model for the "iris" dataset. This dataset is rather small and well-behaving. A satisfactory discrimination between iris species can be achieved using a single decision tree model that is two levels deep. The idea of engaging a random forest algorithm is to try to flatten its structure. The following R script produces an ensemble of five decision tree models (`ntree = 5`), with every decision tree model being exactly one level deep (`maxnodes = 2`).
 
 ``` r
 library("pmml")
@@ -21,7 +21,7 @@ iris.randomForest = randomForest(Species ~ ., iris, ntree = 5, maxnodes = 2)
 saveXML(pmml(iris.randomForest), "RandomForestIris.pmml")
 ```
 
-The resulting PMML document ["RandomForestIris.pmml"]({{ site.baseurl }}/assets/2014-04-10/RandomForestIris.pmml) can be opened for inspection in a text editor. The core of the random forest model is the `Segmentation` element. It specifies the `multipleModelMethod` attribute as "majorityVote" and contains five `Segment` elements, one for each member decision tree. Individual `Segment` elements are identified by their `id` attribute. This attribute is optional according to the PMML specification. When the `id` attribute is missing, then the `Segment` element is identified by an implicit 1-based index.
+The newly generated PMML document `RandomForestIris.pmml` can be opened for inspection in a text editor. The core of the random forest model is the `Segmentation` element. It specifies the `multipleModelMethod` attribute as `majorityVote` and contains five `Segment` elements, one for each member decision tree. Individual `Segment` elements are identified by their `id` attribute. This attribute is optional according to the PMML specification. When the `id` attribute is missing, then the `Segment` element is identified by an implicit 1-based index.
 
 The `Output` element contains four `OutputField` elements. The first output field "Predicted\_Species" is not that relevant as it simply generates a copy of the predicted value. The remaining three output fields "Probability\_setosa", "Probability\_versicolor" and "Probability\_virginica" compute the probabilities that the current input records belongs to the specified class.
 
@@ -50,7 +50,7 @@ This input record evaluates the following output record:
 
 Multiplying the computed probabilities with the number of decision trees gives back the frequency of class labels. It is easy to see that this input record scored 4 times as "setosa", one time as "versicolor" and zero times as "virginica". However, it is impossible to find out which decision tree model exactly was the dissenter (i.e. predicted "versicolor" instead of "setosa") and what was the associated probability. Admittedly, this information is rarely needed in the production stage, but it may be a critical factor during development and testing stages.
 
-The "debugging" work starts by declaring an `OutputField` element for every `Segment` element, and mapping the former to the latter using the `segmentId` attribute. When manipulating larger and more complex segmentation models on a regular basis then it will be probably worthwhile to develop custom tooling for this job. The [JPMML-Model](https://github.com/jpmml/jpmml-model) library provides a command-line example application `org.jpmml.model.SegmentationOutputExample` for enhancing the `Output` element of segmentation models.
+The debugging work starts by declaring an `OutputField` element for every `Segment` element, and mapping the former to the latter using the `segmentId` attribute. When manipulating larger and more complex segmentation models on a regular basis then it will be probably worthwhile to develop custom tooling for this job. The [JPMML-Model](https://github.com/jpmml/jpmml-model) library provides an example command-line application `org.jpmml.model.SegmentationOutputExample` for enhancing the `Output` element of segmentation models.
 
 The `Output` element after the first enhancement round:
 
@@ -79,7 +79,7 @@ The output record now becomes:
 
 The dissenter is the fourth decision tree. It stands out from the rest because it is hardwired to output either "versicolor" or "virginica".
 
-Furher inspection of the random forest model reveals that the initial "flattening" idea has failed. There are four `Node` elements for "setosa", one for "versicolor" and five for "virginica". Therefore, this random forest model is unable to make successful predictions about the "versicolor" class, because the fourth decision tree will be always out-voted by two or more other decision trees.
+Furher inspection of the random forest model reveals that the initial flattening idea has failed. There are four `Node` elements for "setosa", one for "versicolor" and five for "virginica". Therefore, this random forest model is unable to make successful predictions about the "versicolor" class, because the fourth decision tree will be always out-voted by two or more other decision trees.
 
 By modifying the `feature` attribute of the `OutputField` element it is possible to get additional details about the specified member model. A member model may return one or more target fields. The selection of a target field is handled using the `targetField` attribute of the `OutputField` element. This attribute is required according to the PMML specification if there are two or more target fields. However, it is recommended to make it explicit even if there is only one target field.
 
@@ -108,4 +108,8 @@ The output record now becomes:
 
 The node identifier may come in handy if the decision tree has more complex structure so that multiple `Node` elements have the same `score` attribute value. It may be the case that one particular `Node` element is known to represent a special condition (e.g. an outlier).
 
-Currently, the fourth decision tree does not compute associated probabilities (i.e. the sum of "tree\_4-Probability\_*" fields is 0), because `Node` elements do not contain `ScoreDistribution` elements. This is a [known limitation](https://stackoverflow.com/questions/21994430/r-pmml-class-distribution) of random forest models that are exported using the "pmml" package.
+Currently, the fourth decision tree does not compute associated probabilities (i.e. the sum of "tree\_4-Probability\_*" fields is 0), because `Node` elements do not contain `ScoreDistribution` elements. This is a [known limitation](https://stackoverflow.com/questions/21994430/r-pmml-class-distribution) of random forest models that are converted using the legacy `pmml` package.
+
+### Resources 
+
+* PMML document: [`RandomForestIris.pmml`]({{ site.baseurl }}/assets/2014-04-10/RandomForestIris.pmml)

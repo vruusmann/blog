@@ -4,11 +4,11 @@ title: "Testing PMML applications"
 author: vruusmann
 ---
 
-The [JPMML-Evaluator](https://github.com/jpmml/jpmml-evaluator) library aims to provide high quality service to its users. The main module contains unit tests that ensure compliance with the PMML specification. Additionally, there are several support modules that contain integration tests that ensure interoperability with popular open-source PMML producer software such as [R/Rattle](https://rattle.togaware.com/), [KNIME](https://knime.com/) and [RapidMiner](https://rapidminer.com/).
+The [JPMML-Evaluator](https://github.com/jpmml/jpmml-evaluator) library aims to provide high quality service to its users. The main module contains unit tests that ensure compliance with the PMML specification. Additionally, there are several support modules that contain integration tests that ensure interoperability with popular third-party PMML converters such as [R/Rattle](https://rattle.togaware.com/), [KNIME](https://knime.com/) and [RapidMiner](https://rapidminer.com/).
 
-However, there can never be too much testing. Application developers are encouraged to create and maintain custom integration test modules that replicate models and datasets from their production environments. Such integration tests lower the risk of change. They make it more secure to keep up with the latest version of the JPMML-Evaluator library (on average, released on a monthly basis) or the PMML producer software, or switch from one PMML producer software to another.
+However, there can never be too much testing. Application developers are encouraged to create and maintain custom integration test modules that replicate models and datasets from their production environments. Such integration tests lower the risk of change. They make it more secure to update and upgrade the ML framework and the PMML layer on top of it.
 
-The current blog post details a batch evaluation method for integration testing purposes. The heavy lifting is handled by the method `org.jpmml.evaluator.BatchUtil#difference(Batch, double, double)`. A test case, which is represented by the `org.jpmml.evaluator.Batch` interface, is a triplet of streaming resources:
+The current blog post details a batch evaluation method for integration testing purposes. The heavy lifting is handled by the `org.jpmml.evaluator.BatchUtil#difference(Batch, double, double)` method. A test case, which is represented by the `org.jpmml.evaluator.Batch` interface, is a triplet of streaming resources:
 
 * PMML.
 * Input CSV. Contains active and group field(s) as specified by the `MiningSchema` element.
@@ -36,7 +36,7 @@ The `org.jpmml.evaluator.ArchiveBatch` class loads resources from the current Ja
 * Input CSV. `/csv/<dataset identifier>.csv`
 * Output CSV. `/csv/<model identifier><dataset identifier>.csv`
 
-The following R script creates a decision tree model for the ["iris" dataset](https://archive.ics.uci.edu/ml/datasets/Iris). The model identifier is "DecisionTree" and the dataset identifier is "Iris". All file paths are prefixed with `src/test/resources`, which is the root directory for test resources in Apache Maven builds.
+The following R script creates a decision tree model for the "iris" dataset. The model identifier is "DecisionTree" and the dataset identifier is "Iris". All file paths are prefixed with `src/test/resources`, which is the root directory for test resources in Apache Maven builds.
 
 ``` r
 library("pmml")
@@ -64,7 +64,7 @@ names(irisOutput) = c("Species", "Predicted_Species", "Probability_setosa", "Pro
 write.table(irisOutput, file = "src/test/resources/csv/DecisionTreeIris.csv", col.names = TRUE, row.names = FALSE, sep = ",", quote = FALSE)
 ```
 
-The generated decision tree model "DecisionTreeIris.pmml" contains a single target field and four output fields. The first output field "Predicted\_Species" is simply a copy of the target field, whereas the remaining three output fields "Probability\_setosa", "Probability\_versicolor" and "Probability\_virginica" give the probabilities for each target category. A thorough test handler will want to check all five fields (a not so thorough test handler could comment out or remove the `Output` element and check only the target field). The method `predict.rpart` of the ["rpart" package](https://cran.r-project.org/package=rpart) is executed twice in order to compile the necessary data table. The first execution (`type = "class"`) predicts class labels. The second execution (`type = "prob"`) computes the associated probabilities.
+The generated decision tree model `DecisionTreeIris.pmml` contains a single target field and four output fields. The first output field "Predicted\_Species" is simply a copy of the target field, whereas the remaining three output fields "Probability\_setosa", "Probability\_versicolor" and "Probability\_virginica" give the probabilities for each target category. A thorough test handler will want to check all five fields (a not so thorough test handler could comment out or remove the `Output` element and check only the target field). The `predict.rpart` function of the [`rpart`](https://cran.r-project.org/package=rpart) package is executed twice in order to compile the necessary data table. The first execution (`type = "class"`) predicts class labels. The second execution (`type = "prob"`) computes the associated probabilities.
 
 The following Java source code runs this batch job using the [JUnit framework](https://junit.org/):
 
@@ -88,7 +88,7 @@ public class ClassificationTest {
 
   @Test
   public void evaluateDecisionTreeIris() throws Exception {
-    // Abstract class ArchiveBatch can be instantiated as an anonymous inner class
+    // The ArchiveBatch class is abstract, and needs to be instantiated as an anonymous inner class
     Batch batch = new ArchiveBatch("DecisionTree", "Iris"){};
 
     List<MapDifference<FieldName, ?>> differences = BatchUtil.difference(batch, 1.e-6, 1.e-6);
@@ -101,7 +101,7 @@ public class ClassificationTest {
 }
 ```
 
-The batch utility class performs value comparisons according to the [model verification](http://www.dmg.org/v4-3/ModelVerification.html) principles. In brief, categorical and ordinal field values must match exactly, whereas continuous field values must fall within the acceptable range. The range checking algorithm is implemented in another utility class `org.jpmml.evaluator.VerificationUtil`. It is controlled by two parameters `precision` and `zeroThreshold`. The acceptable range is defined relative to the expected value. The actual value is acceptable if it satisfies the condition: `(expected value * (1 - precision)) <= actual value <= (expected value * (1 + precision))`. This approach becomes numerically unstable when the expected value is zero or very close to it. In such case the acceptable range is defined in absolute terms. The condition becomes: `-1 * zeroThreshold <= actual value <= zeroThreshold`.
+The batch utility class performs value comparisons according to the [model verification](http://www.dmg.org/v4-3/ModelVerification.html) principles. In brief, categorical and ordinal field values must match exactly, whereas continuous field values must fall within the acceptable range. The range checking algorithm is implemented in the `org.jpmml.evaluator.VerificationUtil` utility class. It is controlled by two parameters `precision` and `zeroThreshold`. The acceptable range is defined relative to the expected value. The actual value is acceptable if it satisfies the condition: `(expected value * (1 - precision)) <= actual value <= (expected value * (1 + precision))`. This approach becomes numerically unstable when the expected value is zero or very close to it. In such case the acceptable range is defined in absolute terms. The condition becomes: `-1 * zeroThreshold <= actual value <= zeroThreshold`.
 
 The above Java source code specifies both parameters as 1.e-6 (that is, one part per million or 0.000001, respectively). This batch job can be broken for demonstration purposes by changing the value of the "Probability\_setosa" field of the first expected output record from "1" to "0.9999989". The failure message is the following:
 
@@ -109,4 +109,6 @@ The above Java source code specifies both parameters as 1.e-6 (that is, one part
 [not equal: value differences={Probability_setosa=(0.9999989, 1.0)}]
 ```
 
-The example Apache Maven project ["DecisionTreeIris.zip"]({{ site.baseurl }}/assets/2014-05-12/DecisionTreeIris.zip) is a good starting point for developing custom integration test modules.
+### Resources
+
+* Demo Apache Maven project: [`DecisionTreeIris.zip`]({{ site.baseurl }}/assets/2014-05-12/DecisionTreeIris.zip)

@@ -14,10 +14,10 @@ There are three main attachment points:
 
 * The [`Annotation` element](http://www.dmg.org/v4-3/Header.html). Document modification history.
 * The [`Extension` element](http://www.dmg.org/v4-3/GeneralStructure.html#extension). Element-specific vendor extensions. Vendor extensions are suitable for adding "depth" to the target element. For example, persisting non-standard data and metadata, which could come in handy during various stages of model life cycle.
-Vendor extensions should not be critical for the successful use of the PMML document. The behaviour of a PMML consumer should not change (at least, materially) if they are filtered out.
+Vendor extensions should not be critical for the successful use of the PMML document. The behaviour of a PMML engine should not change (at least, materially) if they are filtered out.
 * The [`InlineTable` element](http://www.dmg.org/v4-3/Taxonomy.html). Free-form data tables.
 
-The [JPMML-Model](https://github.com/jpmml/jpmml-model) library represents attachment points as List-type fields whose element type is `java.lang.Object`. For example, the `Extension#content` field and the corresponding getter method `Extension#getContent()` are defined as follows:
+The [JPMML-Model](https://github.com/jpmml/jpmml-model) library represents attachment points as List-type fields whose element type is `java.lang.Object`. For example, the `Extension#content` field and the corresponding `Extension#getContent()` getter method are defined as follows:
 
 ``` java
 package org.dmg.pmml;
@@ -43,7 +43,7 @@ The JPMML-Model library provides full support for producing and consuming mixed 
 
 Application developers can choose between two API approaches:
 
-* W3C DOM API. Custom XML content are W3C DOM nodes (ie. instances of class `org.w3c.dom.Node`). This approach is applicable to all XML document types, but the development and maintenance costs are rather high. For example, the application developer must manually take care of managing XML namespace information.
+* W3C DOM API. Custom XML content are W3C DOM nodes (ie. instances of `org.w3c.dom.Node`). This approach is applicable to all XML document types, but the development and maintenance costs are rather high. For example, application developers must manually take care of managing XML namespace information.
 * Java XML Binding (JAXB) API. Custom XML content are JAXB objects. This approach is applicable to XML document types that have a JAXB class model.
 
 The current blog post details a method for working with PMML documents that embed MathML content. [Mathematical Markup Language (MathML)](https://en.wikipedia.org/wiki/MathML) is an XML-based standard for describing mathematical notations and capturing both its structure and content. It is potentially useful for adding human- and machine-readable documentation to data transformations.
@@ -98,7 +98,7 @@ public void addMathML(HasExtensions hasExtensions, Object mathObject){
 
 A PMML class model object that is enriched with custom XML content in the form of W3C DOM nodes can be marshalled to a PMML document using the `org.jpmml.model.JAXBUtil#marshalPMML(org.dmg.pmml.PMML, javax.xml.transform.Result)` utility method.
 
-The resulting mixed PMML document:
+The resulting mixed content PMML document:
 
 ``` xml
 <?xml version="1.0" standalone="yes"?>
@@ -114,7 +114,7 @@ The resulting mixed PMML document:
 
 ##### JAXB approach
 
-The MathML content is captured as a `org.w3c.math.Math` object. The JAXB class model classes are properly annotated with XML namespace information. Therefore, the application developer can focus on high-level work with POJOs.
+The MathML content is captured as a `org.w3c.math.Math` object. The JAXB class model classes are properly annotated with XML namespace information. Therefore, application developers can focus on high-level work with POJOs.
 
 ``` java
 private org.w3c.math.Math createMathML(){
@@ -185,7 +185,7 @@ public Unmarshaller createMixedUnmarshaller() throws JAXBException {
 }
 ```
 
-The resulting mixed PMML document:
+The resulting mixed content PMML document:
 
 ``` xml
 <?xml version="1.0" standalone="yes" ?>

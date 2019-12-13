@@ -4,7 +4,7 @@ title: "Converting Apache Spark ML pipeline models to PMML documents"
 author: vruusmann
 ---
 
-The [JPMML-SparkML](https://github.com/jpmml/jpmml-sparkml) libray converts Apache Spark ML pipelines to PMML data format.
+The [JPMML-SparkML](https://github.com/jpmml/jpmml-sparkml) libray converts Apache Spark ML pipelines to the PMML representation.
 
 The project has been around for more than two years by now.
 The first iteration defined public API entry point in the form of a `org.jpmml.sparkml.ConverterUtil` utility class. Subsequent iterations have been mostly about adding support for more transformer and model types, and expanding Apache Spark version coverage.
@@ -24,7 +24,7 @@ Data schema mutation may involve renaming columns or clarifying their data types
 Apache Spark ML pays little attention to the data type of categorical features, because after string indexing, vector indexing, vector slicing and dicing, they all end up as `double` arrays anyway.
 In contrast, JPMML-SparkML carefully collects and maintains (meta-)information about each and every feature, with the aim of using it to generate more precise and nuanced PMML documents. For example, JPMML-SparkML (just like all other JPMML conversion libraries) eagerly takes note if the data type of a column is indicated as `boolean`, and generates simplified, binary logic PMML language constructs wherever possible.
 
-Pipeline mutation may involve inserting new transformers and models, or removing existing ones. For example, generating a "complete" PMML document, then removing all transformers and generating a "model-only" PMML document.
+Pipeline mutation may involve inserting new transformers and models, or removing existing ones. For example, generating a "full pipeline" PMML document, then removing all transformers and generating a "model-only" PMML document.
 
 The secondary (ie. non-essential) state of the `PMMLBuilder` class includes conversion options and verification data.
 
@@ -40,7 +40,7 @@ JPMML-SparkML exists in two flavours:
 
 The "business logic" of Apache Spark ML transformers and models is version dependent. Major releases (eg. `2.<major>`) introduce new algorithms and parameterization schemes, whereas minor versions (eg. `2.<major>.<minor>`) address their stability and optimization issues.
 
-JPMML-SparkML is versioned after Apache Spark major versions. There is an active JPMML-SparkML development branch for every supported Apache Spark major version. The "conversion logic" for some transformer or model is implemented in the earliest development branch, and is then merged forward to later development branches (with appropriate modifications).
+JPMML-SparkML is versioned after Apache Spark major versions. There is an active JPMML-SparkML development branch for every supported Apache Spark major version. The conversion logic for some transformer or model is implemented in the earliest development branch, and then merged forward to later development branches (all while accumulating customizations and changes)
 
 At the time of writing this (July 2018; updated in January 2019), JPMML-SparkML supports all current Apache Spark 2.X versions:
 
@@ -64,7 +64,7 @@ java.lang.IllegalArgumentException: Expected Apache Spark ML version 2.3, got ve
 
 ##### Library JAR
 
-The library JAR file can be "imported" into Apache Spark version 2.3.0 (and newer) using the `--packages` command-line option. Package coordinates must follow Apache Maven conventions `${groupId}:${artifactId}:${version}`, where the groupId and artifactId are fixed as `org.jpmml` and `jpmml-sparkml`, respectively.
+The library JAR file can be imported into Apache Spark version 2.3.0 (and newer) using the `--packages` command-line option. Package coordinates must follow Apache Maven conventions `${groupId}:${artifactId}:${version}`, where the groupId and artifactId are fixed as `org.jpmml` and `jpmml-sparkml`, respectively.
 
 For example, starting Spark shell with the JPMML-SparkML library JAR:
 
@@ -91,7 +91,7 @@ java.lang.NoSuchMethodError: org.dmg.pmml.Field.setOpType(Lorg/dmg/pmml/OpType;)
 
 ##### Executable uber-JAR
 
-The executable uber-JAR file can be "imported" into any Apache Spark version using the `--jars` command-line option.
+The executable uber-JAR file can be imported into any Apache Spark version using the `--jars` command-line option.
 
 For example, starting PySpark with the JPMML-SparkML executable uber-JAR:
 
@@ -131,7 +131,7 @@ PipelineModel pipelineModel = pipeline.fit(df);
 byte[] pmmlBytes = new PMMLBuilder(schema, pipelineModel).buildByteArray();
 ```
 
-The `org.jpmml.sparkml.PMMLBuilder` builder class currently exposes three builder methods:
+The `org.jpmml.sparkml.PMMLBuilder` class currently exposes three builder methods:
 
 * `#build()` - Returns the PMML document as a live `org.dmg.pmml.PMML` object.
 * `#buildByteArray()` - Returns the PMML document as a byte array.
@@ -145,15 +145,15 @@ The choice between the last two options depends on the approximate size/complexi
 
 ##### Conversion options
 
-The "business logic" of some Apache Spark ML transformer or model can often be translated to PMML in more than one way. Some representations are easier to approach for humans (eg. interpretation and manual modification), whereas some other representations are more compact or faster to execute for machines.
+The "business logic" of some Apache Spark ML transformer or model can often be converted to the PMML representation in more than one way. Some representations are easier to approach for humans (eg. interpretation and manual modification), whereas some other representations are more compact or faster to execute for machines.
 
 The purpose of conversion options is to activate the most optimal representation for the intended application scenario. Granted, the content of PMML documents is well structured and is fairly easy to manipulate using [JPMML-Model](https://github.com/jpmml/jpmml-model) and [JPMML-Converter](https://github.com/jpmml/jpmml-converter) libraries at any later time. However, achieving the desired outcome by toggling high-level controls is much more productive than writing low-level application code.
 
 There is no easy recipe for deciding which conversion options to tweak, and in which way. It could very well be the case that the defaults work fine for everything except for one specific feature/operation/algorithmic detail.
-The recommended way of going about this problematics is generating a "grid" of PMML documents by systematically varying the values of small number of key conversion options, and capturing and analyzing relevant metrics during scoring.
+The recommended way of going about this problematics is generating a grid of PMML documents by systematically varying the values of small number of key conversion options, and capturing and analyzing relevant metrics during scoring.
 
 Conversion options are systematized as Java marker interfaces, which inherit from the `org.jpmml.sparkml.HasOptions` base marker interface.
-A similar convention is being enforced across all JPMML conversion libraries. For example, in the [JPMML-SkLearn](https://github.com/jpmml/jpmml-sklearn) library, which deals with the conversion of Scikit-Learn pipelines to PMML, the class hierarchy is rooted at the `org.jpmml.sklearn.HasOptions` base marker interface.
+A similar convention is being enforced across all JPMML conversion libraries. For example, in the [JPMML-SkLearn](https://github.com/jpmml/jpmml-sklearn) library, which deals with the conversion of Scikit-Learn pipelines to the PMML representation, the class hierarchy is rooted at the `org.jpmml.sklearn.HasOptions` base marker interface.
 
 Unfortunately, the documentation is severely lacking in this area.
 To discover and learn which conversion options are available (in a particular JPMML-SparkML version), simply order the Java IDE to display the class hierarchy starting from the `HasOptions` base marker interface, and browse through it.
@@ -165,7 +165,7 @@ Notable conversion options:
 
 For maximum future-proofness, all conversion option names and values should be given as Java class constants. For example, the name of the decision tree compaction option should be given as `org.jpmml.sparkml.model.HasTreeOptions#OPTION_COMPACT` (instead of a Java string literal `"compact"`). If this conversion options should be renamed, relocated, or removed in some future JPMML-SparkML version, then the Java IDE/compiler would automatically issue a notification about it.
 
-The `PMMLBuilder` builder class currently exposes the following mutator methods:
+The `PMMLBuilder` class exposes the following mutator methods:
 
 * `#putOption(String, Object)`. Sets the conversion option for all pipeline stages.
 * `#putOption(PipelineStage, String, Object)`. Sets the conversion option for the specified pipeline stage only.
@@ -182,7 +182,7 @@ Next to most common cases, the verification dataset should aim to include all so
 The [JPMML-Evaluator](https://github.com/jpmml/jpmml-evaluator) library can be ordered to perform self-checks on the `org.jpmml.evaluator.Evaluator` object by invoking its `#verify()` method.
 JPMML-SparkML integration tests indicate that the JPMML family of software (ie. JPMML-SparkML converter plus JPMML-Evaluator scorer) is consistently able to reproduce Apache Spark predictions (eg. regression targets, classification probabilities) with an abolute/relative error of 1e-14 or less.
 
-The `PMMLBuilder` builder class exposes the following mutator methods:
+The `PMMLBuilder` class exposes the following mutator methods:
 
 * `#verify(Dataset<Row>)`. Embeds the verification dataset.
 * `#verify(Dataset<Row>, double, double)`. Embeds the verification dataset with custom acceptance criteria (precision and zero threshold).
@@ -193,7 +193,7 @@ The JPMML-SparkML library is written in Java. It is very easy to integrate into 
 
 However, there is an even more important audience of data scientists that would like to access this functionality from within their Python (PySpark) and R (SparkR and Sparklyr) scripts.
 
-The JPMML family of software now includes Python and R wrapper libraries for the JPMML-SparkML library. The wrappers are kept as minimal and shallow as possible. Essentially, they provide a language-specific builder class that communicates with the underlying `org.jpmml.sparkml.PMMLBuilder` Java builder class, and handle the conversion of objects between the two environments (eg. converting Python and R strings to Java strings, and vice versa).
+The JPMML family of software now includes Python and R wrapper libraries for the JPMML-SparkML library. The wrappers are kept as minimal and shallow as possible. Essentially, they provide a language-specific class that communicates with the underlying `org.jpmml.sparkml.PMMLBuilder` Java class, and handle the conversion of objects between the two environments (eg. converting Python and R strings to Java strings, and vice versa).
 
 ##### PySpark
 
@@ -237,7 +237,7 @@ Contrary to Java, Scala and Python, object-oriented design and programming is a 
 
 The `sparklyr2pmml::PMMLBuilder` S4 class can only capture the state. It defines two slots `sc` and `java_pmml_builder`, which can be initialized via the two-argument constructor. However, most R users are advised to regard this constructor as private, and heed the three-argument `sparklyr2pmml::PMMLBuilder` S4 helper function instead. This function takes care of initializing a proper `java_pmml_builder` object based on the `sparklyr::tbl_spark` training dataset and `sparklyr::ml_pipeline_model` fitted pipeline objects.
 
-All mutator and builder methods have been "outsourced" to standalone S4 generic functions, which take the `sparklyr2pmml::PMMLBuilder` object as the first argument:
+All mutator and builder methods have been outsourced to standalone S4 generic functions, which take the `sparklyr2pmml::PMMLBuilder` object as the first argument:
 
 * `putOption(PMMLBuilder, ml_pipeline_stage, character, object)`
 * `verify(PMMLBuilder, tbl_spark)`

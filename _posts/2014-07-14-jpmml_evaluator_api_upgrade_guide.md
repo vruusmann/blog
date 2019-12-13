@@ -19,7 +19,7 @@ The JPMML family of software uses a fairly common `<major>.<minor>.<release>` ve
 
 This versioning scheme is easy to exemplify on the basis of the JPMML-Evaluator library. The version 1 of the public API is designed around interfaces `org.jpmml.evaluator.Evaluator`, `org.jpmml.evaluator.Computable` and `org.jpmml.evaluator.ResultFeature` (and its subinterfaces). Versions 1.0 and 1.1 of the private API are very close. The differences are related to the way how classes and interfaces are named and organized into packages. Individual feature versions indicate the completeness and quality of the private API. Typically, a new feature version is released after one or two weeks of development effort.
 
-The application code that relies on public API should be fairly robust towards private API and feature version upgrades. Here, it is worth pointing out that API evolution is performed in a non-defensive way. For example, when a public method is renamed or a public class is moved between packages, then the old location is simply cleared. This may cause occasional compiler errors, which are fairly easy to resolve when working with a capable Java IDE. In any case, all "breaking changes" are documented in release notes.
+Application code that relies on public API should be fairly robust towards private API and feature version upgrades. Here, it is worth pointing out that API evolution is performed in a non-defensive way. For example, when a public method is renamed or a public class is moved between packages, then the old location is simply cleared. This may cause occasional compiler errors, which are fairly easy to resolve when working with a capable Java IDE.
 
 ### Changes between JPMML 1.0.22 and JPMML-Model 1.1.0/JPMML-Evaluator 1.1.0
 
@@ -40,7 +40,7 @@ In contrast, the legal side of the upgrade is much more complicated. AGPLv3 is a
 
 The Java code of the JPMML-Model library was re-packaged. The qualified name of the base package of every library module is now `org.jpmml.<name>`, where `name` is the name of the library module without the `pmml-` prefix. For example, the qualified names of the base packages of `pmml-schema` and `pmml-model` library modules are now `org.jpmml.schema` and `org.jpmml.model`, respectively.
 
-The package `org.dmg.pmml` is reserved for the PMML class model. The majority of the Java code in this package is automatically generated after the underlying XML Schema Definition (XSD) file. There is only a limited number of manually crafted abstract classes and interfaces whose primary purpose is to enforce basic OOP design patterns (e.g. proper inheritance hierarchies).
+The `org.dmg.pmml` package is reserved for the PMML class model. The majority of the Java code in this package is automatically generated after the underlying XML Schema Definition (XSD) file. There is only a limited number of manually crafted abstract classes and interfaces whose primary purpose is to enforce basic OOP design patterns (e.g. proper inheritance hierarchies).
 
 Examples of classes that were moved between packages:
 
@@ -55,7 +55,7 @@ This refactoring can be offset by updating the import statements of affected com
 
 The unmarshalling of a PMML class model object is the first step in any PMML consumption workflow. The JPMML-Model library provides a public utility class for most common use cases. However, application developers who need better control over unmarshalling options or who would like to perform custom pre- or post-processing operations may want to rely on their own implementation.
 
-The main change between versions 1.0 and 1.1 of the private API is that the utility class `org.dmg.pmml.IOUtil` has been superseded by another utility class `org.jpmml.model.JAXBUtil`. As the name suggests, this class only deals with the Java Architecture for XML Binding (JAXB) side of things. The activities related to converting PMML documents between different PMML schema versions were extracted to special purpose Simple API for XML (SAX) filter classes.
+The main change between versions 1.0 and 1.1 of the private API is that the `org.dmg.pmml.IOUtil` utility class has been superseded by the `org.jpmml.model.JAXBUtil` utility class. As the name suggests, this class only deals with the Java Architecture for XML Binding (JAXB) side of things. The activities related to converting PMML documents between different PMML schema versions were extracted to special purpose Simple API for XML (SAX) filter classes.
 
 Unmarshalling a PMML class model object using the version 1.0 of the private API:
 
@@ -84,13 +84,13 @@ For more information about the import and export capabilities of the JPMML-Model
 
 The public API of JPMML-Model and JPMML-Evaluator libraries is kept in sync with the latest PMML schema version in order to prevent terminological confusion.
 
-The main change is that the method `org.jpmml.manager.Consumer#getPredictedFields()` was renamed to `#getTargetFields()`. It was triggered by the fact that starting from the PMML schema version 4.2, the usage type "predicted" is deprecated in favor of "target".
+The main change is that the `org.jpmml.manager.Consumer#getPredictedFields()` method was renamed to `#getTargetFields()`. It was triggered by the fact that starting from the PMML schema version 4.2, the usage type "predicted" is deprecated in favor of "target".
 
 This refactoring can be offset by updating the affected method invocation expressions.
 
 ### Changes between JPMML-Model 1.1.2 and 1.1.3
 
-The annotation class `org.jpmml.schema.Schema` was split into annotation classes `org.jpmml.schema.Added` and `org.jpmml.schema.Removed`.
+The `org.jpmml.schema.Schema` annotation class was split into `org.jpmml.schema.Added` and `org.jpmml.schema.Removed` annotation classes.
 
 Declaring PMML schema version information using the version 1.0 of the private API:
 
@@ -110,9 +110,9 @@ protected Boolean scorable;
 
 ### Changes between JPMML-Evaluator 1.1.0 and 1.1.1
 
-The nested interface `org.jpmml.evaluator.FunctionUtil$Function` was moved to a top-level interface `org.jpmml.evaluator.Function`. Additionally, a package `org.jpmml.evaluator.functions` was created, and all nested classes implementing this interface were moved to top-level classes in that package. For example, the nested class `org.jpmml.evaluator.FunctionUtil$ArithmeticFunction` was moved to a top-level class `org.jpmml.evaluator.functions.ArithmeticFunction`.
+The `org.jpmml.evaluator.FunctionUtil$Function` nested interface was moved to the `org.jpmml.evaluator.Function` top-level interface. Additionally, the `org.jpmml.evaluator.functions` package was created, and all nested classes implementing this interface were moved to top-level classes in that package. For example, the `org.jpmml.evaluator.FunctionUtil$ArithmeticFunction` nested class was moved to the `org.jpmml.evaluator.functions.ArithmeticFunction` top-level class.
 
-The working set of PMML built-in functions and Java user-defined functions (UDF) is managed by the singleton class `org.jpmml.evaluator.FunctionRegistry`. An existing function can be looked up by its name using the method `#getFunction(String)`. A new function can be registered using the method `#putFunction(Function)`.
+The working set of PMML built-in functions and Java user-defined functions (UDF) is managed by the `org.jpmml.evaluator.FunctionRegistry` singleton class. An existing function can be looked up by its name using the `#getFunction(String)` method. A new function can be registered using the `#putFunction(Function)` method.
 
 Defining and registering a Java user-defined function using the version 1.0 of the private API:
 

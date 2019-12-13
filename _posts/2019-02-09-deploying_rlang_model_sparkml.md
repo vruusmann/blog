@@ -38,7 +38,7 @@ The R platform lacks the pipeline concept. Feature engineering can happen either
 
 The model formula approach requires a bit more experience and discipline to pull off. However, it has a clear and major advantage that the resulting R models are self-contained - all feature engineering logic is stored inside the model object, and is automatically executed whenever the model object is used with the standard `stats::predict(..)` function.
 
-The [`r2pmml` package](https://github.com/jpmml/r2pmml) checks R models for model formula information, and if present, will analyze and convert it to the PMML representation as fully as possible.
+The [`r2pmml`](https://github.com/jpmml/r2pmml) package checks R models for model formula information, and if present, will analyze and convert it to the PMML representation as fully as possible.
 
 Supported constructs:
 
@@ -93,7 +93,7 @@ JPMML-Evaluator-Spark exists in two flavours:
 * Library JAR file `jpmml-evaluator-spark-${version}.jar`. Contains `org.jpmml.evaluator.spark.*` classes. Distributed via the Maven Central repository.
 * Runtime uber-JAR file `jpmml-evaluator-spark-runtime-${version}.jar`. Contains all library JAR file classes, plus all transitive dependency (JPMML-Evaluator, JPMML-Model, Google Guava, etc.) classes. Distributed via the [GitHub releases](https://github.com/jpmml/jpmml-evaluator-spark/releases) page.
 
-The library JAR file can be "imported" into Apache Spark version 2.3.0 (and newer) using the `--packages` command-line option. Package coordinates must follow Apache Maven conventions `${groupId}:${artifactId}:${version}`, where the groupId and artifactId are fixed as `org.jpmml` and `jpmml-evaluator-spark`, respectively.
+The library JAR file can be imported into Apache Spark version 2.3.0 (and newer) using the `--packages` command-line option. Package coordinates must follow Apache Maven conventions `${groupId}:${artifactId}:${version}`, where the groupId and artifactId are fixed as `org.jpmml` and `jpmml-evaluator-spark`, respectively.
 
 For example, starting Spark shell with the JPMML-Evaluator-Spark library JAR:
 
@@ -118,7 +118,7 @@ val evaluator = evaluatorBuilder.build()
 evaluator.verify()
 ```
 
-The `Transformer` object can be created manually or using the `org.jpmml.evaluator.spark.TransformerBuilder` builder class. Model fields are typically mapped to Apache Spark dataset columns on a group basis using `TransformerBuilder#withTargetCols()` and `TransformerBuilder#withOutputCols()` configuration methods. However, if the model is known to follow a specific contract, then it is possible to map its fields individually using function-specific configuration methods.
+The `Transformer` object can be created manually or using the `org.jpmml.evaluator.spark.TransformerBuilder` class. Model fields are typically mapped to Apache Spark dataset columns on a group basis using `TransformerBuilder#withTargetCols()` and `TransformerBuilder#withOutputCols()` configuration methods. However, if the model is known to follow a specific contract, then it is possible to map its fields individually using function-specific configuration methods.
 For example, the probability distribution of a probabilistic classification model can be mapped to an Apache Spark ML-style vector column using the `TransformerBuilder#withProbabilityCol(String, List<String>)` configuration method.
 
 ``` scala
@@ -154,12 +154,12 @@ resultDs.printSchema()
 resultDs.show(10)
 ```
 
-For example, if the "audit" dataset is loaded from a CSV file without specifying `option("inferSchema", "true")`, then all columns default to the `java.lang.String` datatype. A dummy or mismatching dataset schema is not a problem, because the underlying PMML engine automatically parses String values to correct PMML datatype values, and proceeds with the rest of input value preparation workflow as usual.
+For example, if the "audit" dataset is loaded from a CSV file without specifying `option("inferSchema", "true")`, then all columns default to the `java.lang.String` data type. A dummy or mismatching dataset schema is not a problem, because the underlying PMML engine automatically parses String values to correct PMML data type values, and proceeds with the rest of input value preparation workflow as usual.
 
-Prediction columns are appended to the input dataset. Depending on the setting of the `TransformerBuilder#exploded(boolean)` configuration method, they are either appended collectively as a single `struct` datatype column, or individually as many scalar datatype columns.
+Prediction columns are appended to the input dataset. Depending on the setting of the `TransformerBuilder#exploded(boolean)` configuration method, they are either appended collectively as a single `struct` column, or individually as many scalar columns.
 
 ### Resources
 
-* The "audit" dataset: ["audit.csv"]({{ site.baseurl }}/assets/2019-02-09/audit.csv)
-* The R script: ["train.R"]({{ site.baseurl }}/assets/2019-02-09/train.R)
-* The Scala script: ["deploy.scala"]({{ site.baseurl }}/assets/2019-02-09/deploy.scala)
+* "Audit" dataset: [`audit.csv`]({{ site.baseurl }}/assets/2019-02-09/audit.csv)
+* R script: [`train.R`]({{ site.baseurl }}/assets/2019-02-09/train.R)
+* Scala script: [`deploy.scala`]({{ site.baseurl }}/assets/2019-02-09/deploy.scala)

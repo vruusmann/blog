@@ -25,7 +25,7 @@ Shallow trees contain short decision paths, which generally lead to easily inter
 A boosting algorithm can be swapped for a bagging algorithm.
 Random forest (RF) algorithms typically grow much deeper decision trees.
 Longer decision paths lead to more complex derived features (eg. interactions between multiple non-linearly transformed features), which lose in interpretability but gain in information content.
-For example, discovering "cliffs" and other anomalies in the decision space by observing which derived features become associated with extreme node scores.
+For example, discovering cliffs and other anomalies in the decision space by observing which derived features become associated with extreme node scores.
 
 ### Scikit-Learn perspective
 
@@ -34,7 +34,7 @@ Scikit-Learn documentation dedicates a separate page to GBDT plus LR ensemble mo
 While the concept and its implementation are discussed in great detail, there is no reusable GBDT+LR estimator class available within the Scikit-Learn framework.
 Interested parties are either expected to copy-paste the example code, or rely on third-party libraries.
 
-The [`sklearn2pmml` package](https://github.com/jpmml/sklearn2pmml) version 0.47.0 introduced class [`sklearn2pmml.ensemble.GBDTLRClassifier`](https://github.com/jpmml/sklearn2pmml/blob/master/sklearn2pmml/ensemble/__init__.py) (together with `sklearn2pmml.ensemble.GBDTLMRegressor`) to address this deficiency.
+The [`sklearn2pmml`](https://github.com/jpmml/sklearn2pmml) package version 0.47.0 introduced class [`sklearn2pmml.ensemble.GBDTLRClassifier`](https://github.com/jpmml/sklearn2pmml/blob/master/sklearn2pmml/ensemble/__init__.py) (together with `sklearn2pmml.ensemble.GBDTLMRegressor`) to address this deficiency.
 
 ### PMML perspective
 
@@ -47,7 +47,7 @@ The reduction is based on the realization that GBDT+LR is a mechanism for replac
 Scikit-Learn does not provide an API for modifying fitted decision trees.
 The workaround is to make individual leaf nodes addressable using the one-hot-encoding approach (the `OneHotEncoder.categories` attribute is a list of arrays; the size of the list equals the number of decision trees in the GBDT; the size of each array equals the number of leaf nodes in the corresponding decision tree), and then assigning a new score to each address (the `LogisticRegression.coef_` attribute is an array whose size equals the flat-mapped size of the `OneHotEncoder.categories` attribute).
 
-The PMML representation does not need such "layer of indirection", because it is possible to replace leaf node scores in place.
+The PMML representation does not need such layer of indirection, because it is possible to replace leaf node scores in place.
 
 The [JPMML-Model](https://github.com/jpmml/jpmml-model) library provides Visitor API for traversing, updating and transforming PMML class model objects.
 In the current case, the Visitor API is used to transform the GBDT side of the GBDT+LR model to a regression-type boosting model. All leaf nodes are assigned new score values as extracted from the LR side.
@@ -167,5 +167,5 @@ When working with sparse datasets, then it is possible to make `make_fit_gbdtlr`
 
 ### Resources
 
-* The "audit" dataset: ["audit.csv"]({{ site.baseurl }}/assets/2019-02-09/audit.csv)
-* Python script: ["train.py"]({{ site.baseurl }}/assets/2019-06-19/train.py)
+* "Audit" dataset: [`audit.csv`]({{ site.baseurl }}/assets/2019-02-09/audit.csv)
+* Python script: [`train.py`]({{ site.baseurl }}/assets/2019-06-19/train.py)

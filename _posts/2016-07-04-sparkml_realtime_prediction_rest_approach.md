@@ -8,21 +8,21 @@ author: vruusmann
 On one hand, the batch processing is suitable for working with true Big Data datasets. Apache Spark splits the task into manageable-size batches and distributes the workfload across a cluster of machines.
 Apache Spark competitors such as R or Python cannot match that, because they typically require the task to fit into the RAM of a single machine.
 
-On the other hand, the batch processing is characterized by high "inertia". Apache Spark falls short in application areas where it is necessary to work with small datasets (eg. single data records) in real time.
+On the other hand, the batch processing is characterized by high inertia. Apache Spark falls short in application areas where it is necessary to work with small datasets (eg. single data records) in real time.
 Essentially, there is a lower bound (instead of an upper bound) to the effective size of a task.
 
-This blog post is about demonstrating a workflow where Apache Spark ML pipeline models are exported in Predictive Model Markup Language (PMML) data format, and then imported into Openscoring REST web service for easy interfacing with third-party applications.
+This blog post is about demonstrating a workflow where Apache Spark ML pipeline models are converted to the Predictive Model Markup Language (PMML) representation, and then deployed using the Openscoring REST web service for easy interfacing with third-party applications.
 
-### Exporting Apache Spark ML pipeline models to PMML
+### Converting Apache Spark ML pipeline models to the PMML representation
 
 The support for PMML was [introduced](https://databricks.com/blog/2015/07/02/pmml-support-in-apache-spark-mllib.html) in Apache Spark MLlib version 1.4.0 in the form of a `org.apache.spark.mllib.pmml.PMMLExportable` trait. The invocation of the `PMMLExportable#toPMML()` method (or one of its overloaded variants) produces a PMML document withich contains the symbolic description of the fitted model.
 
 Unfortunately, this solution is not very relevant anymore.
-First, Apache Spark ML is organized around the pipeline formalization. A pipeline can be regarded as a directed graph of data transformations and models. When exporting a model, then it will be necessary to include all the preceding pipeline stages to the dump.
+First, Apache Spark ML is organized around the pipeline formalization. A pipeline can be regarded as a directed graph of data transformations and models. When converting a model, then it will be necessary to include all the preceding pipeline stages to the dump.
 Second, Apache Spark ML comes with rich metadata. The `DataFrame` representation of a dataset is associated with a static schema, which can be queried for column names, data types and more.
 Finally, Apache Spark ML has replaced and/or abstracted away a great deal of Apache Spark MLlib APIs. Newer versions of Apache Spark ML have almost completely ceased to rely on Apache Spark MLlib classes that implement the `PMMLExportable` trait.
 
-The [JPMML-SparkML](https://github.com/jpmml/jpmml-sparkml) library is an independent effort to provide a fully-featured PMML exporter for Apache Spark ML pipelines.
+The [JPMML-SparkML](https://github.com/jpmml/jpmml-sparkml) library is an independent effort to provide a fully-featured PMML converter for Apache Spark ML pipelines.
 
 The main interaction point is the `org.jpmml.sparkml.ConverterUtil#toPMML(StructType, PipelineModel)` utility method.
 The conversion engine initializes a PMML document based on the `StructType` argument, and fills it with relevant content by iterating over all the pipeline stages of the `PipelineModel` argument.
@@ -64,12 +64,12 @@ spark-submit \
 
 The resulting `wine-color.pmml` file can be opened for inspection in a text editor.
 
-### The essentials of PMML representation
+### The essentials of the PMML representation
 
 A PMML document specifies a workflow for transforming an input data record to an output data record.
 The end user interacts with the entry and exit interfaces of the workflow, and can completely disregard its internals.
 
-The design and implementation of these two interfaces is PMML engine specific. The [JPMML-Evaluator](https://github.com/jpmml/jpmml-evaluator) library is geared towards maximum automation. The entry interface exposes complete description of active fields. Similarly, the exit interface exposes complete description of the primary target field and secondary output fields. A capable end user agent can use this information to format input data record and parse output data records without any external help.
+The design and implementation of these two interfaces is PMML engine-specific. The [JPMML-Evaluator](https://github.com/jpmml/jpmml-evaluator) library is geared towards maximum automation. The entry interface exposes complete description of active fields. Similarly, the exit interface exposes complete description of the primary target field and secondary output fields. A capable agent can use this information to format input data record and parse output data records without any external help.
 
 ##### Input
 
@@ -77,7 +77,7 @@ The decision tree model is represented as the `/PMML/TreeModel` element. Its sch
 
 A `MiningField` element serves as a collection of "import" and "export" statements. It refers to some field, and stipulates its role and requirements in the context of the current model element. The fields themselves are declared as `/PMML/DataDictionary/DataField` and `/PMML/TransformationDictionary/DerivedField` elements.
 
-The wine color model defines eight input fields ("fixed_acidity", "volatile_acidity", .., "sulphates"). The values of input fields are prepared by performing type conversion from user-specified representation to PMML representation, which is followed by categorization into valid, invalid or missing subspaces, and application of subspace-specific treatments.
+The wine color model defines eight input fields ("fixed_acidity", "volatile_acidity", .., "sulphates"). The values of input fields are prepared by performing type conversion from the user-specified representation to the PMML representation, which is followed by categorization into valid, invalid or missing subspaces, and application of subspace-specific treatments.
 
 The default definition of the "fixed_acidity" input field:
 
@@ -191,7 +191,7 @@ Binarizer sweetnessBinarizer = new Binarizer()
   .setOutputColumn("sweet_indicator");
 ```
 
-The above, after conversion to PMML:
+The above, after conversion to the PMML representation:
 
 ``` xml
 <PMML>
@@ -230,8 +230,8 @@ The conversion engine takes notice of that and omits all the related data transf
 
 ### Importing PMML to Openscoring REST web service
 
-[Openscoring](https://github.com/openscoring/openscoring) provides a way to expose a predictive model as a REST web service.
-The primary design consideration is to make predictive models easily discoverable and usable (a variation of the [HATEOAS](https://en.wikipedia.org/wiki/HATEOAS) theme) for human and machine agents alike. 
+[Openscoring](https://github.com/openscoring/openscoring) provides a way to expose a machine learning model as a REST web service.
+The primary design consideration is to make machine learning models easily discoverable and usable (a variation of the [HATEOAS](https://en.wikipedia.org/wiki/HATEOAS) theme) for human and machine agents alike. 
 The PMML representation is perfect fit thanks to the availability of rich descriptive metadata. Other representations can be plugged into the framework with the help of wrappers that satisfy the requested metadata query needs.
 
 Openscoring is minimalistic Java web application that conforms to Servlet and JAX-RS specifications.
@@ -336,7 +336,7 @@ The response body is an [`org.openscoring.common.ModelResponse`](https://github.
 
 The pattern is to move all model-related logic to the server side, so that Openscoring client applications could be developed and used on a wide variety of platforms by people with varying degrees of experience.
 
-All agents should be able to "parse" the above object at the basic model identification and schema level.
+All agents should be able to parse the above object at the basic model identification and schema level.
 For example, understanding that the REST endpoint `/model/wine-color` holds a classification-type decision tree model, which consumes an eight-element input data record, and produces a three-element output data record. 
 
 More sophisticated agents could rise to elevated model verification and field schema levels.

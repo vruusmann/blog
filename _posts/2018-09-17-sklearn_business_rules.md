@@ -36,7 +36,7 @@ The solution is to develop a custom model type, which has the following behaviou
 The main technical challenge is related to the representation of business rules.
 First and foremost, they should be easy for the data scientist to compose and maintain. Secondly, they should be easy to implement with the underlying ML framework.
 
-There are many 3rd party business rules solutions available for the Python platform. After some tinkering they were all pushed aside in favour of Python predicates. The reasoning goes that data scientists are well versed with the language, and would prefer programming in "native" Python to programming in some obscure dialect, or learning a completely new tool.
+There are many third-party business rules solutions available for the Python platform. After some tinkering they were all pushed aside in favour of Python predicates. The reasoning goes that data scientists are well versed with the language, and would prefer programming in Python to programming in some obscure dialect, or learning a completely new tool.
 
 ### PMML perspective
 
@@ -54,13 +54,13 @@ The expressive power of primary predicates seems rather limiting at first glance
 
 ### `RuleSetClassifier` model type
 
-The [`sklearn2pmml` package](https://github.com/jpmml/sklearn2pmml) version 0.38.0 introduced class [`sklearn2pmml.ruleset.RuleSetClassifier`](https://github.com/jpmml/sklearn2pmml/blob/master/sklearn2pmml/ruleset/__init__.py), which allows data scientists to implement a business rules model as a regular Scikit-Learn classifier.
+The [`sklearn2pmml`](https://github.com/jpmml/sklearn2pmml) package version 0.38.0 introduced class [`sklearn2pmml.ruleset.RuleSetClassifier`](https://github.com/jpmml/sklearn2pmml/blob/master/sklearn2pmml/ruleset/__init__.py), which allows data scientists to implement a business rules model as a regular Scikit-Learn classifier.
 
 The complete set of user-specified business rules is presented as an iterable of tuples. The first element is a Python predicate, and the second element is the associated (ie. to be predicted) class label. It is likely that future `sklearn2pmml` package versions add support for more elements, such as the associated class probability distribution.
 
 The search for a matching business rule takes place using the simplest "first hit" strategy. If there is no match, then the default class label (could be `None` to indicate a missing result) is returned instead.
 
-The Python side evaluates business rules using the built-in [`eval()` method](https://docs.python.org/3/library/functions.html#eval). The data record is presented as `X` row array (ie. the shape is `(1, )`). Depending on the backing Scikit-Learn workflow, the cells of this row array may be referentiable by name and/or by position. Wherever technically feasible, name-based cell references should be preferred over positional ones. They are easier to read and write, and do not break if the workflow is reorganized.
+The Python side evaluates business rules using Python's built-in [`eval()` function](https://docs.python.org/3/library/functions.html#eval). The data record is presented as `X` row array (ie. the shape is `(1, )`). Depending on the backing Scikit-Learn workflow, the cells of this row array may be referentiable by name and/or by position. Wherever technically feasible, name-based cell references should be preferred over positional ones. They are easier to read and write, and do not break if the workflow is reorganized.
 
 Python predicates involving continuous features:
 
@@ -73,16 +73,16 @@ Python predicates involving categorical features:
 * `X['Species'] != 'setosa'`
 * `X['Species'] in ['versicolor', 'virginica']`
 
-If the `RuleSetClassifier` model will be used only in Scikit-Learn runtime environment, then Python predicates may take advantage of full language and library/platform features. However, if the `RuleSetClassifier` model is eventually going to be converted to PMML data format, then some limitations and restrictions apply. A great deal of them are temporary, and will be lifted as the Python-to-PMML [expression](https://github.com/jpmml/jpmml-sklearn/blob/master/src/main/javacc/expression.jj) and [predicate translation components](https://github.com/jpmml/jpmml-sklearn/blob/master/src/main/javacc/predicate.jj) of the JPMML-SkLearn library evolve.
+If the `RuleSetClassifier` model will be used only in Scikit-Learn runtime environment, then Python predicates may take advantage of full language and library/platform features. However, if the `RuleSetClassifier` model is eventually going to be converted to the PMML representation, then some limitations and restrictions apply. A great deal of them are temporary, and will be lifted as the Python-to-PMML [expression](https://github.com/jpmml/jpmml-sklearn/blob/master/src/main/javacc/expression.jj) and [predicate translation components](https://github.com/jpmml/jpmml-sklearn/blob/master/src/main/javacc/predicate.jj) of the JPMML-SkLearn library evolve.
 
 ### Example workflow
 
-The "iris" dataset is loaded using the `sklearn.datasets.load_iris()` utility function. However, the default representation of Scikit-Learn datasets (class `sklearn.utils.Bunch`) is too cumbersome for actual work, and needs to be re-packaged.
+The "iris" dataset is loaded using the `sklearn.datasets.load_iris()` utility function. However, the default representation of Scikit-Learn datasets (instance of `sklearn.utils.Bunch`) is too cumbersome for actual work, and needs to be re-packaged.
 
-Feature data (the `Bunch.data` attribute) is renamed (eg. from `sepal length (cm)` to `Sepal.Length`) and converted from a 2-D Numpy array to a `pandas.DataFrame` object in order to make name-based cell referencing possible.
+Feature data (the `Bunch.data` attribute) is renamed (eg. from "sepal length (cm)" to "Sepal.Length") and converted from a 2-D Numpy array to a `pandas.DataFrame` object in order to make name-based cell referencing possible.
 
 The business rules model type can be regarded as a pseudo-unsupervised learning method, because user-specified class labels are completely ignored during training.
-This is demonstrated by skipping target data (the `Bunch.target` attribute), and constructing a `pandas.Series` object that is entirely comprised of `None` values (as opposed to `setosa`, `versicolor` or `virginica` string values).
+This is demonstrated by skipping target data (the `Bunch.target` attribute), and constructing a `pandas.Series` object that is entirely comprised of `None` values (as opposed to "setosa", "versicolor" or "virginica" string values).
 The `RuleSetClassifier.fit(X, y)` method would be perfecty fine to accept `y = None`. The one and only benefit of supplying `y = Series(..)` instead is about customizing the name of the target field in the resulting PMML document.
 
 ``` python
@@ -108,7 +108,7 @@ classifier = RuleSetClassifier([
 ], default_score = "virginica")
 ```
 
-Exporting this model to a PMML document:
+Converting this model to a PMML document:
 
 ``` python
 from sklearn2pmml import sklearn2pmml
@@ -137,7 +137,7 @@ The PMML representation of the "core" of this model as a [`RuleSet` element](htt
 ```
 
 Real-life workflows tend to include feature engineering steps that revert the `DataFrame` object back to a Numpy array, thereby enforcing positional cell references.
-For example, the following `sklearn_pandas.DataFrameMapper` step transforms the "named" four-fimensional feature space to an "anonymized" two-dimensional feature space (average flower dimensions), which must be addressed using `X[<column>]`-style field references:
+For example, the following `sklearn_pandas.DataFrameMapper` step transforms the "named" four-fimensional feature space into an "anonymized" two-dimensional feature space (average flower dimensions), which must be addressed using `X[<column>]`-style field references:
 
 ``` python
 from sklearn_pandas import DataFrameMapper
