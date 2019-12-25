@@ -129,7 +129,7 @@ sklearn2pmml(pipeline, "XGBoostAudit.pmml")
 
 The [`sklearn2pmml`](https://github.com/jpmml/sklearn2pmml) package encodes this XGBoost model in the form of a two-segment model chain. The first segment is the "booster", which sums the predictions of 17 member decision tree models. The second segment is the "sigmoid function", which transforms the boosted value to a pair of probability values.
 
-The generation of reporting `OutputField` elements could be controlled using a special-purpose conversion option. However, for as long as it is not available, or when dealing with existing and/or third-party PMML documents, then they need to be generated manually.
+The generation of reporting `OutputField` elements could be controlled using a special-purpose conversion option. However, for as long as it is not available, or when working with existing and/or third-party PMML documents, then they need to be generated manually.
 
 The newly generated PMML document `XGBoostAudit.pmml` is copied into `XGBoostAudit-reporting.pmml`, and modified in a text editor in the following way:
 

@@ -60,7 +60,7 @@ ada_compact = ada(y ~ ., data = soldat, control = rpart.control(maxsurrogate = 0
 saveXML(pmml(ada_compact), "ada.pmml")
 ```
 
-If the re-training is not an option (eg. dealing with legacy or third-party models), then exactly the same effect can be achieved using the Visitor API. The `pmml-rattle` module of the [JPMML-Evaluator](https://github.com/jpmml/jpmml-evaluator) library provides the `org.jpmml.rattle.PredicateTransformer` Visitor class, which implements two elementary transformations. First, the "unwrap" transformation (recursively-) replaces surrogate-type `CompoundPredicate` elements with their first predicate child element. Second, the "simplify" transform replaces single-value [`SimpleSetPredicate` elements](http://dmg.org/pmml/v4-3/TreeModel.html#xsdElement_SimpleSetPredicate) with `SimplePredicate` elements.
+If the re-training is not an option (eg. working with legacy and/or third-party models), then exactly the same effect can be achieved using the Visitor API. The `pmml-rattle` module of the [JPMML-Evaluator](https://github.com/jpmml/jpmml-evaluator) library provides the `org.jpmml.rattle.PredicateTransformer` Visitor class, which implements two elementary transformations. First, the "unwrap" transformation (recursively-) replaces surrogate-type `CompoundPredicate` elements with their first predicate child element. Second, the "simplify" transform replaces single-value [`SimpleSetPredicate` elements](http://dmg.org/pmml/v4-3/TreeModel.html#xsdElement_SimpleSetPredicate) with `SimplePredicate` elements.
 
 Before transformation:
 

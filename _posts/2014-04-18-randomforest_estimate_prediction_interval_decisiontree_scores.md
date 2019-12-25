@@ -98,7 +98,7 @@ The following Java source code iterates over all 20 values of the field "medv":
 public void printMedvValues(Map<FieldName, ?> result){
   FieldName medv = new FieldName("medv");
 
-  // This unchecked cast is rather aggressive, but should be always good when dealing with regression-type models
+  // This unchecked cast is rather aggressive, but should be always good when working with regression-type models
   Collection<? extends Number> values = (Collection<? extends Number>)result.get(medv);
   for(Number value : values){
     System.out.println(value);

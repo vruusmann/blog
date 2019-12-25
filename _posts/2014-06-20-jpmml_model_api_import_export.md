@@ -14,7 +14,7 @@ The class model is generated after an XML Schema Definition (XSD) file. This XSD
 * `org.jpmml.schema.Deprecated` (not to be confused with Java's `java.lang.Deprecated`). Marks a feature that has been deprecated in the specified version.
 * `org.jpmml.schema.Removed`. Marks a feature that has been removed in the specified version.
 
-When dealing with version annotations then it is worth stressing over that the `@Added` includes the value, whereas `@Deprecated` and `@Removed` exclude it. For example, the class model defines the `ruleFeature` attribute of the `OutputField` element as follows:
+When working with version annotations, then it is worth stressing over that the `@Added` includes the value, whereas `@Deprecated` and `@Removed` exclude it. For example, the class model defines the `ruleFeature` attribute of the `OutputField` element as follows:
 
 ``` java
 @Added(Version.PMML_4_0)

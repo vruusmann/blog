@@ -50,7 +50,7 @@ This input record evaluates the following output record:
 
 Multiplying the computed probabilities with the number of decision trees gives back the frequency of class labels. It is easy to see that this input record scored 4 times as "setosa", one time as "versicolor" and zero times as "virginica". However, it is impossible to find out which decision tree model exactly was the dissenter (i.e. predicted "versicolor" instead of "setosa") and what was the associated probability. Admittedly, this information is rarely needed in the production stage, but it may be a critical factor during development and testing stages.
 
-The debugging work starts by declaring an `OutputField` element for every `Segment` element, and mapping the former to the latter using the `segmentId` attribute. When manipulating larger and more complex segmentation models on a regular basis then it will be probably worthwhile to develop custom tooling for this job. The [JPMML-Model](https://github.com/jpmml/jpmml-model) library provides an example command-line application `org.jpmml.model.SegmentationOutputExample` for enhancing the `Output` element of segmentation models.
+The debugging work starts by declaring an `OutputField` element for every `Segment` element, and mapping the former to the latter using the `segmentId` attribute. When manipulating larger and more complex segmentation models on a regular basis, then it will be probably worthwhile to develop custom tooling for this job. The [JPMML-Model](https://github.com/jpmml/jpmml-model) library provides an example command-line application `org.jpmml.model.SegmentationOutputExample` for enhancing the `Output` element of segmentation models.
 
 The `Output` element after the first enhancement round:
 
