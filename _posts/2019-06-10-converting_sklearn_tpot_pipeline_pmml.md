@@ -205,7 +205,7 @@ del tpot_pmml_config["sklearn.neighbors.KNeighborsClassifier"]
 
 ### Interpreting results
 
-TPOT defines and uses the `tpot.builtins.StackingEstimator` meta-estimator class to chain multiple elementary estimator objects together.
+TPOT defines and uses the `tpot.builtins.StackingEstimator` meta-estimator class to chain multiple estimator objects together.
 
 First, an estimator is fitted using the user-supplied data matrix.
 This estimator is used for prediction, and its `predict(X)` and `predict_proba(X)` result columns are appended to the data matrix.

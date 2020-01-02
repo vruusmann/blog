@@ -203,7 +203,7 @@ The resulting mixed content PMML document:
 
 The "completeness" of unmarshalling operation depends on which JAXB class models are known to the JAXB runtime. In brief, known XML content is returned in the form of JAXB objects, whereas unknown XML content is returned in the form of W3C DOM nodes.
 
-The `JAXBUtil#unmarshalPMML(javax.xml.transform.Source)` utility method is only aware of the PMML class model. Therefore, all custom XML content is returned in the form of W3C DOM nodes. In that sense, `JAXBUtil#marshalPMML(PMML, Result)` and `JAXBUtil#unmarshal(Source)` utility methods are reciprocal to one another.
+The `JAXBUtil#unmarshalPMML(javax.xml.transform.Source)` utility method is only aware of the PMML class model. Therefore, all custom XML content is returned in the form of W3C DOM nodes. In that sense, `JAXBUtil#marshalPMML(PMML, Result)` and `JAXBUtil#unmarshal(Source)` utility methods are reciprocal to each other.
 
 Sometimes it may be desirable to defer the unmarshalling of custom XML content. For example, the PMML content is unmarshalled completely during the first pass, whereas MathML content is unmarshalled either completely or on an XML node basis (eg. rendering a tooltip) during subsequent passes.
 
