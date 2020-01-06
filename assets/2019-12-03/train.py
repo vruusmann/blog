@@ -34,11 +34,3 @@ pipeline.fit(df_X, df_y, classifier__categorical_feature = categorical_feature)
 from sklearn2pmml import sklearn2pmml
 
 sklearn2pmml(pipeline, "LightGBMAudit.pmml")
-
-from sklearn2pmml import pmml2jar
-
-# Automatic transpilation
-# sklearn2pmml(pipeline, "LightGBMAudit.pmml", with_jar = True)
-
-# Manual transpilation
-pmml2jar("LightGBMAudit.pmml", "LightGBMAudit.pmml.jar")

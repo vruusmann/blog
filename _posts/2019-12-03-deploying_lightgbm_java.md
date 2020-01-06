@@ -86,16 +86,10 @@ sklearn2pmml(pipeline, "LightGBMAudit.pmml")
 The PMML converter collects and combines information from Scikit-Learn front-end (feature names, data types, transformations) and LighGBM back-end (the mathematical relationship between the features and the label).
 The resulting "big picture" view is then analyzed, simplified and compacted.
 
-The `sklearn2pmml` package version 0.50.0 introduced the `sklearn2pmml.pmml2jar` utility function, which transpiles (ie. translates + compiles) a PMML XML file to a PMML service provider JAR file using the [JPMML-Transpiler](https://github.com/vruusmann/jpmml-transpiler) REST web service:
+A PMML XML file can be further transpiled (ie. translated + compiled) to a PMML service provider JAR file using the [JPMML-Transpiler](https://github.com/jpmml/jpmml-transpiler) command-line application:
 
-``` python
-from sklearn2pmml import pmml2jar
-
-# Automatic transpilation
-sklearn2pmml(pipeline, "LightGBMAudit.pmml", with_jar = True)
-
-# Manual transpilation
-# pmml2jar("LightGBMAudit.pmml", "LightGBMAudit.pmml.jar")
+```
+$ java -jar jpmml-transpiler-executable-1.0-SNAPSHOT.jar --xml-input LightGBMAudit.pmml --jar-output LightGBMAudit.pmml.jar
 ```
 
 A PMML service provider JAR file contains a single `org.dmg.pmml.PMML` subclass (source plus bytecode) that can be located and instantiated using [Java's service-provider loading facility](https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html).
@@ -105,7 +99,7 @@ First, all the object construction and initialization logic is embedded into cla
 There is no need to ship around XML parsing and binding libraries, which simplifies deployment on limited or restricted runtime environments.
 Second, dummy XML-backed elements are replaced with smart and optimized Java-backed elements.
 The improvement in performance numbers depends on the model type and complexity.
-At the time of writing this (December 2019), [LightGBM models should see around 15(!) times speed-up from transpilation](https://github.com/jpmml/jpmml-transpiler-service#benchmarking).
+At the time of writing this (December 2019), [LightGBM models should see around 15(!) times speed-up from transpilation](https://github.com/jpmml/jpmml-transpiler#benchmarking).
 
 Nothing good comes without sacrifice.
 Replacing static data structures with dynamic code leads to coupling with fairly narrow range of JPMML-Model and JPMML-Evaluator library versions.
@@ -141,10 +135,12 @@ Obtaining an `Evaluator` object for a PMML service provider JAR file:
 ``` java
 import org.jpmml.evaluator.ServiceLoadingModelEvaluatorBuilder;
 
-URL pmmlURL = (pmmlFile.toURI()).toURL();
+File pmmlJarFile = new File("LightGBMAudit.pmml.jar");
+
+URL pmmlJarURL = (pmmlJarFile.toURI()).toURL();
 
 Evaluator evaluator = new ServiceLoadingModelEvaluatorBuilder()
-	.loadService(pmmlURL)
+	.loadService(pmmlJarURL)
 	.build();
 ```
 
