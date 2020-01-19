@@ -29,7 +29,7 @@ Pipeline mutation may involve inserting new transformers and models, or removing
 The secondary (ie. non-essential) state of the `PMMLBuilder` class includes conversion options and verification data.
 
 Application code should treat `PMMLBuilder` objects as local throwaway objects.
-Due to the tight coupling to the Apache Spark runtime environment, they are not suitable for persistence, or exchanging between applications and runtime environments.
+Due to the tight coupling to the Apache Spark environment, they are not suitable for persistence, or exchanging between applications and environments.
 
 ### Choosing the right JPMML-SparkML flavour and version
 

@@ -60,22 +60,22 @@ pipeline = PMMLPipeline([
 ])
 ```
 
-The qualifier "homogeneous" means that all child estimators have the same feature pre-processing requirements.
-The opposite of "homogeneous" is "heterogeneous", which means that different child estimators have different feature pre-processing requirements.
+The qualifier "homogeneous" means that all child estimators have the same data pre-processing requirements.
+The opposite of "homogeneous" is "heterogeneous", which means that different child estimators have different data pre-processing requirements.
 
-Consider, for example, the pre-processing of continuous features.
+Consider, for example, the preparation of continuous features.
 Linear models assume that the magnitude of continuous feature values is roughly the same.
 Decision tree models do not make such an assumption, because they can identify an optimal split threshold value for a continuous feature irrespective of its transformation status (original scale vs. transformed scale).
 Owing to this discrepany, linear models and decision tree models (and ensembles thereof) are incompatible with each other by default.
 
-It is often possible to simplify a "heterogeneous" collection of estimators to a "homogeneous" one by performing feature pre-processing following the strictest requirements.
+It is often possible to simplify a "heterogeneous" collection of estimators to a "homogeneous" one by performing data pre-processing following the strictest requirements.
 Linear models and decision tree models become compatible with each other after all continuous features have been scaled (ie. a requirement of linear models, which does not make any difference for decision tree models).
 
 ### Stacking heterogeneous estimators
 
 The pipeline needs considerable redesign when dealing with heterogeneous estimators.
 
-Stacking LightGBM and XGBoost estimators is challenging due to their different categorical feature pre-processing requirements.
+Stacking LightGBM and XGBoost estimators is challenging due to their different categorical data pre-processing requirements.
 
 LightGBM performs the histogram-based binning of categorical values internally, and therefore expects categorical features to be kept as-is, or at most be encoded into categorical integer features using the `LabelEncoder` transformer class.
 XGBoost does not have such capabilities, and therefore expects categorical features to be binarized using either `LabelBinarizer` or `OneHotEncoder` transformer classes.
@@ -167,7 +167,7 @@ xgboost_pipeline = Pipeline([
 ])
 ```
 
-The Scikit-Learn child pipeline has exactly the same feature pre-processing requirements as the XGBoost one (ie. continuous features should be kept as-is, whereas categorical features should be binarized).
+The Scikit-Learn child pipeline has exactly the same data pre-processing requirements as the XGBoost one (ie. continuous features should be kept as-is, whereas categorical features should be binarized).
 Currently, the corresponding column transformer needs to be set up manually.
 In future Scikit-Learn releases, when the fit methods of `HistGradientBoostingClassifier` and `HistGradientBoostingRegressor` classes add support for sparse datasets, then it should be possible to reuse the `make_xgboost_column_transformer` utility method here.
 

@@ -22,7 +22,7 @@ This blog post details an alternative route for deploying LightGBM models on the
 
 LightGBM has built-in support for categorical features and missing values.
 This functionality often remains unused, because end users simply do not know about it, or cannot find a way to implement it in practice.
-For example, the Scikit-Learn framework version 0.22 still does not provide [missing value aware label encoders](https://github.com/scikit-learn/scikit-learn/pull/15009).
+For example, Scikit-Learn version 0.22 still does not provide [missing value aware label encoders](https://github.com/scikit-learn/scikit-learn/pull/15009).
 
 The [`sklearn2pmml`](https://github.com/jpmml/sklearn2pmml) package version 0.50.1 introduced utility functions `sklearn2pmml.preprocessing.lightgbm.make_lightgbm_dataframe_mapper` and `make_lightgbm_column_transformer` that take care of constructing column mapper transformations for complex datasets.
 
@@ -67,7 +67,7 @@ It is possible to force any column to become categorical by casting its data typ
 df_X["Age"] = df_X["Age"].astype("category")
 ```
 
-The indices of categorical columns (in the mapper output) must be passed to the `LGBMModel.fit(X, y, **fit_params)` method as the `categorical_feature` fit parameter.
+The indices of categorical features (in the mapper output) must be passed to the `LGBMModel.fit(X, y, **fit_params)` method as the `categorical_feature` fit parameter.
 By Scikit-Learn conventions, if the fit method is called via the `(PMML)Pipeline.fit(X, y, **fit_params)` method, then fit parameters need to be prefixed with the name of the step followed by two underscore characters.
 
 ### Model conversion

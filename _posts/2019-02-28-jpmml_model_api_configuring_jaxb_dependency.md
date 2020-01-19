@@ -2,7 +2,7 @@
 layout: post
 title: "JPMML-Model: Configuring JAXB dependency for Java SE versions 8, 9, 10 and 11"
 author: vruusmann
---- 
+---
 
 The [JPMML-Model](https://github.com/jpmml/jpmml-model) library provides a Java class model for the Predictive Model Markup Language (PMML) standard.
 The core set of JPMML-Model classes have been generated based on the PMML XML Schema Definition (XSD) file using the XJC binding compiler technology. As such, they are heavily dependent on the Java XML Binding (JAXB) runtime.

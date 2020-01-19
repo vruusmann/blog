@@ -19,7 +19,7 @@ The JPMML family of software uses a fairly common `<major>.<minor>.<release>` ve
 
 This versioning scheme is easy to exemplify on the basis of the JPMML-Evaluator library. The version 1 of the public API is designed around interfaces `org.jpmml.evaluator.Evaluator`, `org.jpmml.evaluator.Computable` and `org.jpmml.evaluator.ResultFeature` (and its subinterfaces). Versions 1.0 and 1.1 of the private API are very close. The differences are related to the way how classes and interfaces are named and organized into packages. Individual feature versions indicate the completeness and quality of the private API. Typically, a new feature version is released after one or two weeks of development effort.
 
-Application code that relies on public API should be fairly robust towards private API and feature version upgrades. Here, it is worth pointing out that API evolution is performed in a non-defensive way. For example, when a public method is renamed or a public class is moved between packages, then the old location is simply cleared. This may cause occasional compiler errors, which are fairly easy to resolve when working with a capable Java IDE.
+Application code that relies on public API should be fairly robust towards private API and feature version upgrades. Here, it is worth pointing out that API evolution is performed in a non-defensive manner. For example, when a public method is renamed or a public class is moved between packages, then the old location is simply cleared. This may cause occasional compiler errors, which are fairly easy to resolve when working with a capable Java IDE.
 
 ### Changes between JPMML 1.0.22 and JPMML-Model 1.1.0/JPMML-Evaluator 1.1.0
 
