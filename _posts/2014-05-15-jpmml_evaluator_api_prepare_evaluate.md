@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "JPMML-Evaluator: Preparing arguments for evaluation"
-excerpt: "A Primer of Java PMML Evaluator API"
 author: vruusmann
 ---
 
