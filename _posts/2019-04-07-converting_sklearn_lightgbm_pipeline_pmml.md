@@ -39,14 +39,14 @@ cat_columns = ["Education", "Employment", "Marital", "Occupation"]
 cont_columns = ["Age", "Hours", "Income"]
 
 mapper = DataFrameMapper(
-	[([cat_column], [CategoricalDomain(), LabelBinarizer()]) for cat_column in cat_columns] +
-	[(cont_columns, ContinuousDomain())]
+  [([cat_column], [CategoricalDomain(), LabelBinarizer()]) for cat_column in cat_columns] +
+  [(cont_columns, ContinuousDomain())]
 )
 classifier = LGBMClassifier(objective = "binary", n_estimators = 31, random_state = 42)
 
 pipeline = PMMLPipeline([
-	("mapper", mapper),
-	("classifier", classifier)
+  ("mapper", mapper),
+  ("classifier", classifier)
 ])
 pipeline.fit(df, df["Adjusted"])
 
@@ -101,8 +101,8 @@ Since the LightGBM classifier is contained inside a pipeline object and the inte
 from sklearn.preprocessing import LabelBinarizer
 
 mapper = DataFrameMapper(
-	[([cat_column], [CategoricalDomain(), LabelBinarizer()]) for cat_column in cat_columns] +
-	[(cont_columns, ContinuousDomain())]
+  [([cat_column], [CategoricalDomain(), LabelBinarizer()]) for cat_column in cat_columns] +
+  [(cont_columns, ContinuousDomain())]
 )
 
 # A categorical feature transforms to a variable number of binary features.
@@ -139,8 +139,8 @@ The `LabelEncoder` transformer class provides this exact functionality:
 from sklearn.preprocessing import LabelEncoder
 
 mapper = DataFrameMapper(
-	[([cat_column], [CategoricalDomain(), LabelEncoder()]) for cat_column in cat_columns] +
-	[(cont_columns, ContinuousDomain())]
+  [([cat_column], [CategoricalDomain(), LabelEncoder()]) for cat_column in cat_columns] +
+  [(cont_columns, ContinuousDomain())]
 )
 
 # A categorical string feature transforms to exactly one categorical integer feature.
@@ -222,8 +222,8 @@ The `SimpleImputer` transformer class transforms a sparse dataset to dense datas
 from sklearn.impute import SimpleImputer
 
 mapper = DataFrameMapper(
-	[([cat_column], [CategoricalDomain(), SimpleImputer(strategy = "most_frequent"), LabelEncoder()]) for cat_column in cat_columns] +
-	[(cont_columns, ContinuousDomain())]
+  [([cat_column], [CategoricalDomain(), SimpleImputer(strategy = "most_frequent"), LabelEncoder()]) for cat_column in cat_columns] +
+  [(cont_columns, ContinuousDomain())]
 )
 
 pipeline = PMMLPipeline([...])
@@ -243,8 +243,8 @@ The `sklearn2pmml` package provides a `sklearn2pmml.preprocessing.PMMLLabelEncod
 from sklearn2pmml.preprocessing import PMMLLabelEncoder
 
 mapper = DataFrameMapper(
-	[([cat_column], [CategoricalDomain(), PMMLLabelEncoder()]) for cat_column in cat_columns] +
-	[(cont_columns, ContinuousDomain())]
+  [([cat_column], [CategoricalDomain(), PMMLLabelEncoder()]) for cat_column in cat_columns] +
+  [(cont_columns, ContinuousDomain())]
 )
 
 pipeline = PMMLPipeline([...])

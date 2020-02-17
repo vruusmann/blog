@@ -54,8 +54,8 @@ mapper, categorical_feature = make_lightgbm_dataframe_mapper(df_X.dtypes, missin
 classifier = LGBMClassifier(random_state = 13)
 
 pipeline = PMMLPipeline([
-	("mapper", mapper),
-	("classifier", classifier)
+  ("mapper", mapper),
+  ("classifier", classifier)
 ])
 pipeline.fit(df_X, df_y, classifier__categorical_feature = categorical_feature)
 ```
@@ -122,12 +122,12 @@ import org.jpmml.evaluator.visitors.DefaultVisitorBattery;
 File pmmlFile = new File("LightGBMAudit.pmml");
 
 Evaluator result = new LoadingModelEvaluatorBuilder()
-	// Ignore SAX Locator information to reduce memory consumption
-	.setLocatable(false)
-	// Pre-parse and intern PMML markup to improve performance and reduce memory consumption
-	.setVisitors(new DefaultVisitorBattery())
-	.load(pmmlFile)
-	.build();
+  // Ignore SAX Locator information to reduce memory consumption
+  .setLocatable(false)
+  // Pre-parse and intern PMML markup to improve performance and reduce memory consumption
+  .setVisitors(new DefaultVisitorBattery())
+  .load(pmmlFile)
+  .build();
 ```
 
 Obtaining an `Evaluator` object for a PMML service provider JAR file:
@@ -140,8 +140,8 @@ File pmmlJarFile = new File("LightGBMAudit.pmml.jar");
 URL pmmlJarURL = (pmmlJarFile.toURI()).toURL();
 
 Evaluator evaluator = new ServiceLoadingModelEvaluatorBuilder()
-	.loadService(pmmlJarURL)
-	.build();
+  .loadService(pmmlJarURL)
+  .build();
 ```
 
 Querying and displaying the data schema of the model:

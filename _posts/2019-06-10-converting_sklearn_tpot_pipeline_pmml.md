@@ -36,7 +36,7 @@ from tpot import TPOTClassifier
 iris = load_iris()
 
 pmml_pipeline = PMMLPipeline([
-	("classifier", TPOTClassifier(generations = 3, population_size = 11, random_state = 13, verbosity = 2))
+  ("classifier", TPOTClassifier(generations = 3, population_size = 11, random_state = 13, verbosity = 2))
 ])
 pmml_pipeline.fit(iris.data, iris.target)
 
@@ -143,11 +143,11 @@ X = df[cat_columns + cont_columns]
 y = df["Adjusted"]
 
 feature_eng_pipeline = Pipeline([
-	("mapper", DataFrameMapper(
-		[([cat_column], [CategoricalDomain(), LabelBinarizer()]) for cat_column in cat_columns] +
-		[(cont_columns, ContinuousDomain())] +
-		[(["Income", "Hours"], Alias(ExpressionTransformer("X[0] / (X[1] * 52)"), "Hourly_Income", prefit = True))]
-	))
+  ("mapper", DataFrameMapper(
+    [([cat_column], [CategoricalDomain(), LabelBinarizer()]) for cat_column in cat_columns] +
+    [(cont_columns, ContinuousDomain())] +
+    [(["Income", "Hours"], Alias(ExpressionTransformer("X[0] / (X[1] * 52)"), "Hourly_Income", prefit = True))]
+  ))
 ])
 Xt = feature_eng_pipeline.fit_transform(X)
 Xt = Xt.astype(float)

@@ -71,9 +71,9 @@ from pyspark.ml.feature import RFormula, SQLTransformer
 df = spark.read.option("delimiter", ";").csv("winequality-red.csv", header = True, inferSchema = True)
 
 statement = """
-	SELECT *,
-	(`free sulfur dioxide` / `total sulfur dioxide`) AS `ratio of free sulfur dioxide`
-	FROM __THIS__
+  SELECT *,
+  (`free sulfur dioxide` / `total sulfur dioxide`) AS `ratio of free sulfur dioxide`
+  FROM __THIS__
 """
 sqlTransformer = SQLTransformer(statement = statement)
 formula = "quality ~ ."
@@ -89,7 +89,7 @@ The conversion of pipeline models is essentially a one-liner:
 from pyspark2pmml import PMMLBuilder
 
 PMMLBuilder(sc, df, pipelineModel) \
-	.buildFile("RedWineQuality.pmml")
+  .buildFile("RedWineQuality.pmml")
 ```
 
 The `pyspark2pmml.PMMLBuilder` Python class is a thin wrapper around the `org.jpmml.sparkml.PMMLBuilder` Java class, and "inherits" the majority of its public API methods unchanged. 
@@ -101,10 +101,10 @@ For demonstration purposes, disabling decision tree compaction (replaces binary 
 from pyspark2pmml import PMMLBuilder
 
 PMMLBuilder(sc, df, pipelineModel) \
-	.putOption(classifier, "compact", False) \
-	.putOption(classifier, "keep_predictionCol", False) \
-	.verify(df.sample(False, 0.005).limit(5)) \
-	.buildFile("RedWineQuality.pmml"))
+  .putOption(classifier, "compact", False) \
+  .putOption(classifier, "keep_predictionCol", False) \
+  .verify(df.sample(False, 0.005).limit(5)) \
+  .buildFile("RedWineQuality.pmml"))
 ```
 
 Unlike any other ML persistence or serialization data format, the PMML data format is text based and designed to be human-readable.
@@ -167,17 +167,17 @@ The mappings for these input fields may be safely omitted when making evaluation
 
 ``` python
 dictRequest = {
-	#"fixed acidity" : 7.4,
-	"volatile acidity" : 0.7,
-	#"citric acid" : 0,
-	"residual sugar" : 1.9,
-	#"chlorides" : 0.076,
-	"free sulfur dioxide" : 11,
-	"total sulfur dioxide" : 34,
-	#"density" : 0.9978,
-	"pH" : 3.51,
-	"sulphates" : 0.56,
-	"alcohol" : 9.4,
+  #"fixed acidity" : 7.4,
+  "volatile acidity" : 0.7,
+  #"citric acid" : 0,
+  "residual sugar" : 1.9,
+  #"chlorides" : 0.076,
+  "free sulfur dioxide" : 11,
+  "total sulfur dioxide" : 34,
+  #"density" : 0.9978,
+  "pH" : 3.51,
+  "sulphates" : 0.56,
+  "alcohol" : 9.4,
 }
 
 dictResponse = os.evaluate("RedWineQuality", dictRequest)

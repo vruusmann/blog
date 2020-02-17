@@ -46,7 +46,7 @@ However, it is possible to effectively "freeze" its instances by casting them to
 
 ``` java
 EvaluatorBuilder evaluatorBuilder = new ModelEvaluatorBuilder(pmml)
-	.setValueFactoryFactory(ReportingValueFactoryFactory.newInstance());
+  .setValueFactoryFactory(ReportingValueFactoryFactory.newInstance());
 
 Evaluator evaluator = evaluatorBuilder.build();
 ```
@@ -63,7 +63,7 @@ The `LoadingModelEvaluatorBuilder` class aims to reduce complexity in this area.
 InputStream pmmlIs = ...;
 
 EvaluatorBuilder evaluatorBuilder = new LoadingModelEvaluatorBuilder()
-	.load(pmmlIs);
+  .load(pmmlIs);
 
 Evaluator evaluator = evaluatorBuilder.build();
 ```
@@ -84,14 +84,14 @@ visitorBattery.addAll(new ElementInternerBattery());
 visitorBattery.addAll(new ListFinalizerBattery());
 
 LoadingModelEvaluatorBuilder loadingModelEvaluatorBuilder = new LoadingModelEvaluatorBuilder()
-	// Activate XML schema validation
-	.setSchema(jpmmlSchema)
-	// Discard SAX Locator information (line and column numbers for PMML elements)
-	// This can reduce memory consumption up to 25%
-	.setLocatable(false)
-	// Intern and optimize PMML elements and attributes
-	// This can reduce memory consumption up to 50%, and increase scoring speeds up to several hundred percent
-	.setVisitors(visitorBattery);
+  // Activate XML schema validation
+  .setSchema(jpmmlSchema)
+  // Discard SAX Locator information (line and column numbers for PMML elements)
+  // This can reduce memory consumption up to 25%
+  .setLocatable(false)
+  // Intern and optimize PMML elements and attributes
+  // This can reduce memory consumption up to 50%, and increase scoring speeds up to several hundred percent
+  .setVisitors(visitorBattery);
 ```
 
 Just like its super class, the `LoadingModelEvaluatorBuilder` class is not thread-safe either. A good workaround for parallel-processing applications is to maintain a template object, and make copies of it (one per worker thread) using the `Cloneable#clone()` method:
@@ -100,7 +100,7 @@ Just like its super class, the `LoadingModelEvaluatorBuilder` class is not threa
 File pmmlFile = ...;
 
 EvaluatorBuilder evaluatorBuilder = loadingModelEvaluatorBuilder.clone()
-	.load(pmmlFile);
+  .load(pmmlFile);
 
 Evaluator evaluator = evaluatorBuilder.build();
 ```

@@ -45,18 +45,18 @@ df_X = df[cat_columns + cont_columns]
 df_y = df["mpg"]
 
 mapper = DataFrameMapper(
-	[([cat_column], [CategoricalDomain(), OneHotEncoder()]) for cat_column in cat_columns] +
-	[([cont_column], [ContinuousDomain(), StandardScaler()]) for cont_column in cont_columns]
+  [([cat_column], [CategoricalDomain(), OneHotEncoder()]) for cat_column in cat_columns] +
+  [([cont_column], [ContinuousDomain(), StandardScaler()]) for cont_column in cont_columns]
 )
 
 estimator = StackingRegressor([
-	("dt", DecisionTreeRegressor(max_depth = 7, random_state = 13)),
-	("mlp", MLPRegressor(hidden_layer_sizes = (7), solver = "lbfgs", max_iter = 2000, random_state = 13))
+  ("dt", DecisionTreeRegressor(max_depth = 7, random_state = 13)),
+  ("mlp", MLPRegressor(hidden_layer_sizes = (7), solver = "lbfgs", max_iter = 2000, random_state = 13))
 ], final_estimator = LinearRegression(), passthrough = True)
 
 pipeline = PMMLPipeline([
-	("mapper", mapper),
-	("estimator", estimator)
+  ("mapper", mapper),
+  ("estimator", estimator)
 ])
 ```
 
@@ -95,14 +95,14 @@ from sklearn2pmml.pipeline import PMMLPipeline
 mapper = DataFrameMapper(..)
 
 estimator = StackingClassifier([
-	("first", Pipeline(..)),
-	("second", Pipeline(..)),
-	("third", Pipeline(..))
+  ("first", Pipeline(..)),
+  ("second", Pipeline(..)),
+  ("third", Pipeline(..))
 ], final_estimator = Pipeline(..))
 
 pipeline = PMMLPipeline([
-	("mapper", mapper),
-	("estimator", estimator)
+  ("mapper", mapper),
+  ("estimator", estimator)
 ])
 ```
 
@@ -126,8 +126,8 @@ df_y = df["Adjusted"]
 dtypes = df_X.dtypes
 
 mapper = ColumnTransformer(
-	[(cat_column, CategoricalDomain(), [cat_column]) for cat_column in cat_columns] +
-	[(cont_column, ContinuousDomain(), [cont_column]) for cont_column in cont_columns]
+  [(cat_column, CategoricalDomain(), [cat_column]) for cat_column in cat_columns] +
+  [(cont_column, ContinuousDomain(), [cont_column]) for cont_column in cont_columns]
 )
 
 dtypes = Series(dtypes.values, index = [0, 1, 2, 3, 4, 5, 6])
@@ -149,8 +149,8 @@ from sklearn2pmml.preprocessing.lightgbm import make_lightgbm_column_transformer
 
 lightgbm_mapper, lightgbm_categorical_feature = make_lightgbm_column_transformer(dtypes, missing_value_aware = True)
 lightgbm_pipeline = Pipeline([
-	("mapper", lightgbm_mapper),
-	("classifier", LGBMClassifier(n_estimators = 31, max_depth = 3, random_state = 13, categorical_feature = lightgbm_categorical_feature))
+  ("mapper", lightgbm_mapper),
+  ("classifier", LGBMClassifier(n_estimators = 31, max_depth = 3, random_state = 13, categorical_feature = lightgbm_categorical_feature))
 ])
 ```
 
@@ -162,8 +162,8 @@ from xgboost import XGBClassifier
 
 xgboost_mapper = make_xgboost_column_transformer(dtypes, missing_value_aware = True)
 xgboost_pipeline = Pipeline([
-	("mapper", xgboost_mapper),
-	("classifier", XGBClassifier(n_estimators = 31, max_depth = 3, random_state = 13))
+  ("mapper", xgboost_mapper),
+  ("classifier", XGBClassifier(n_estimators = 31, max_depth = 3, random_state = 13))
 ])
 ```
 
@@ -178,12 +178,12 @@ from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn2pmml.preprocessing import PMMLLabelBinarizer
 
 sklearn_mapper = ColumnTransformer(
-	[(str(cat_index), PMMLLabelBinarizer(sparse_output = False), [cat_index]) for cat_index in range(0, len(cat_columns))] +
-	[(str(cont_index), "passthrough", [cont_index]) for cont_index in range(len(cat_columns), len(cat_columns + cont_columns))]
+  [(str(cat_index), PMMLLabelBinarizer(sparse_output = False), [cat_index]) for cat_index in range(0, len(cat_columns))] +
+  [(str(cont_index), "passthrough", [cont_index]) for cont_index in range(len(cat_columns), len(cat_columns + cont_columns))]
 , remainder = "drop")
 sklearn_pipeline = Pipeline([
-	("mapper", sklearn_mapper),
-	("classifier", HistGradientBoostingClassifier(max_iter = 31, max_depth = 3, random_state = 13))
+  ("mapper", sklearn_mapper),
+  ("classifier", HistGradientBoostingClassifier(max_iter = 31, max_depth = 3, random_state = 13))
 ])
 ```
 
@@ -199,24 +199,24 @@ from sklearn.linear_model import LogisticRegression
 # See https://stackoverflow.com/a/55326439
 class DisabledCV:
 
-	def __init__(self):
-		self.n_splits = 1
+  def __init__(self):
+    self.n_splits = 1
 
-	def split(self, X, y, groups = None):
-		yield (numpy.arange(len(X)), numpy.arange(len(y)))
+  def split(self, X, y, groups = None):
+    yield (numpy.arange(len(X)), numpy.arange(len(y)))
 
-	def get_n_splits(self, X, y, groups=None):
-		return self.n_splits
+  def get_n_splits(self, X, y, groups=None):
+    return self.n_splits
 
 final_estimator = LogisticRegression(multi_class = "ovr", random_state = 13)
 
 pipeline = PMMLPipeline([
-	("mapper", mapper),
-	("ensemble", StackingClassifier([
-		("lightgbm", lightgbm_pipeline),
-		("xgboost", xgboost_pipeline),
-		("sklearn", sklearn_pipeline)
-	], final_estimator = final_estimator, cv = DisabledCV(), passthrough = False))
+  ("mapper", mapper),
+  ("ensemble", StackingClassifier([
+    ("lightgbm", lightgbm_pipeline),
+    ("xgboost", xgboost_pipeline),
+    ("sklearn", sklearn_pipeline)
+  ], final_estimator = final_estimator, cv = DisabledCV(), passthrough = False))
 ])
 ```
 

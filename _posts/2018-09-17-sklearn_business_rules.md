@@ -103,8 +103,8 @@ The implementation of the aforementioned decision tree as a business rules model
 from sklearn2pmml.ruleset import RuleSetClassifier
 
 classifier = RuleSetClassifier([
-	("X['Petal_Length'] < 2.45", "setosa"),
-	("X['Petal_Width'] < 1.75", "versicolor"),
+  ("X['Petal_Length'] < 2.45", "setosa"),
+  ("X['Petal_Width'] < 1.75", "versicolor"),
 ], default_score = "virginica")
 ```
 
@@ -115,7 +115,7 @@ from sklearn2pmml import sklearn2pmml
 from sklearn2pmml.pipeline import PMMLPipeline
 
 pipeline = PMMLPipeline([
-	("classifier", classifier)
+  ("classifier", classifier)
 ])
 pipeline.fit(iris_X, iris_y)
 
@@ -145,14 +145,14 @@ from sklearn2pmml.decoration import Alias, ContinuousDomain
 from sklearn2pmml.preprocessing import ExpressionTransformer
 
 pipeline = PMMLPipeline([
-	("mapper", DataFrameMapper([
-		(["Sepal_Length", "Petal_Length"], [ContinuousDomain(), Alias(ExpressionTransformer("(X[0] + X[1]) / 2"), "avg(Sepal.Length, Petal.Length)")]),
-		(["Sepal_Width", "Petal_Width"], [ContinuousDomain(), Alias(ExpressionTransformer("(X[0] + X[1]) / 2"), "avg(Sepal.Width, Petal.Width)")])
-	])),
-	("classifier", RuleSetClassifier([
-		("X[0] < 3.875", "setosa"),
-		("X[1] < 2.275", "versicolor")
-	], default_score = "virginica"))
+  ("mapper", DataFrameMapper([
+    (["Sepal_Length", "Petal_Length"], [ContinuousDomain(), Alias(ExpressionTransformer("(X[0] + X[1]) / 2"), "avg(Sepal.Length, Petal.Length)")]),
+    (["Sepal_Width", "Petal_Width"], [ContinuousDomain(), Alias(ExpressionTransformer("(X[0] + X[1]) / 2"), "avg(Sepal.Width, Petal.Width)")])
+  ])),
+  ("classifier", RuleSetClassifier([
+    ("X[0] < 3.875", "setosa"),
+    ("X[1] < 2.275", "versicolor")
+  ], default_score = "virginica"))
 ])
 pipeline.fit(iris_X, iris_y)
 

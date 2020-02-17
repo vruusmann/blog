@@ -78,17 +78,17 @@ cont_columns = [..]
 label_column = ..
 
 def make_fit_gbdtlr(gbdt, lr):
-	mapper = DataFrameMapper(
-		[([cat_column], [CategoricalDomain(), LabelBinarizer()]) for cat_column in cat_columns] +
-		[(cont_columns, ContinuousDomain())]
-	)
-	classifier = GBDTLRClassifier(gbdt, lr)
-	pipeline = PMMLPipeline([
-		("mapper", mapper),
-		("classifier", classifier)
-	])
-	pipeline.fit(df[cat_columns + cont_columns], df[label_column])
-	return pipeline
+  mapper = DataFrameMapper(
+    [([cat_column], [CategoricalDomain(), LabelBinarizer()]) for cat_column in cat_columns] +
+    [(cont_columns, ContinuousDomain())]
+  )
+  classifier = GBDTLRClassifier(gbdt, lr)
+  pipeline = PMMLPipeline([
+    ("mapper", mapper),
+    ("classifier", classifier)
+  ])
+  pipeline.fit(df[cat_columns + cont_columns], df[label_column])
+  return pipeline
 ```
 
 The most common configuration is to use `GradientBoostingClassifier` as the `gbdt` component.
@@ -138,19 +138,19 @@ Boilerplate for assembling and fitting an LightGBM+LR pipeline:
 from sklearn.preprocessing import LabelEncoder
 
 def make_fit_lgbmlr(gbdt, lr):
-	mapper = DataFrameMapper(
-		[([cat_column], [CategoricalDomain(), LabelEncoder()]) for cat_column in cat_columns] +
-		[(cont_columns, ContinuousDomain())]
-	)
-	classifier = GBDTLRClassifier(gbdt, lr)
-	pipeline = PMMLPipeline([
-		("mapper", mapper),
-		("classifier", classifier)
-	])
-	# The 'gbdt' component can be addressed using the `classifier__gbdt` prefix
-	# The 'lr' component can be addressed using the `classifier__lr` prefix
-	pipeline.fit(df[cat_columns + cont_columns], df[label_column], classifier__gbdt__categorical_feature = range(0, len(cat_columns)))
-	return pipeline
+  mapper = DataFrameMapper(
+    [([cat_column], [CategoricalDomain(), LabelEncoder()]) for cat_column in cat_columns] +
+    [(cont_columns, ContinuousDomain())]
+  )
+  classifier = GBDTLRClassifier(gbdt, lr)
+  pipeline = PMMLPipeline([
+    ("mapper", mapper),
+    ("classifier", classifier)
+  ])
+  # The 'gbdt' component can be addressed using the `classifier__gbdt` prefix
+  # The 'lr' component can be addressed using the `classifier__lr` prefix
+  pipeline.fit(df[cat_columns + cont_columns], df[label_column], classifier__gbdt__categorical_feature = range(0, len(cat_columns)))
+  return pipeline
 ```
 
 Sample usage:

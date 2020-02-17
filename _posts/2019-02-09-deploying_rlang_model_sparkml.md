@@ -17,18 +17,18 @@ audit = read.csv("audit.csv")
 audit$Adjusted = as.factor(audit$Adjusted)
 
 audit.formula = as.formula(
-	Adjusted
-	~
-	# Include all raw columns as a starting point
-	.
-	# Append interactions
-	+ Gender:Marital + Gender:Hours
-	# Append the estimated hourly wage
-	+ I(Income / (Hours * 52))
-	# Take out the raw "Age" column, and append a binned one
-	- Age + base::cut(Age, breaks = c(0, 18, 65, 120))
-	# Take out the raw "Employment" column, and append a re-mapped one
-	- Employment + plyr::mapvalues(Employment, c("PSFederal", "PSState", "PSLocal"), c("Public", "Public", "Public"))
+  Adjusted
+  ~
+  # Include all raw columns as a starting point
+  .
+  # Append interactions
+  + Gender:Marital + Gender:Hours
+  # Append the estimated hourly wage
+  + I(Income / (Hours * 52))
+  # Take out the raw "Age" column, and append a binned one
+  - Age + base::cut(Age, breaks = c(0, 18, 65, 120))
+  # Take out the raw "Employment" column, and append a re-mapped one
+  - Employment + plyr::mapvalues(Employment, c("PSFederal", "PSState", "PSLocal"), c("Public", "Public", "Public"))
 )
 
 audit.glm = glm(audit.formula, data = audit, family = "binomial")
@@ -111,7 +111,7 @@ import java.io.File
 import org.jpmml.evaluator.LoadingModelEvaluatorBuilder
 
 val evaluatorBuilder = new LoadingModelEvaluatorBuilder() \
-	.load(new File("LogisticRegressionAudit.pmml"))
+  .load(new File("LogisticRegressionAudit.pmml"))
 
 val evaluator = evaluatorBuilder.build()
 
@@ -125,9 +125,9 @@ For example, the probability distribution of a probabilistic classification mode
 import org.jpmml.evaluator.spark.TransformerBuilder
 
 val transformerBuilder = new TransformerBuilder(evaluator) \
-	.withTargetCols() \
-	.withOutputCols() \
-	.exploded(true)
+  .withTargetCols() \
+  .withOutputCols() \
+  .exploded(true)
 
 val transformer = transformerBuilder.build()
 ```
@@ -138,8 +138,8 @@ The `Transformer` object holds the complete "business logic" of the above R scri
 
 ``` scala
 var inputDs = spark.read.format("csv") \
-	.option("header", "true") \
-	.load("audit.csv")
+  .option("header", "true") \
+  .load("audit.csv")
 
 // Drop the raw target column
 inputDs = inputDs.drop("Adjusted")

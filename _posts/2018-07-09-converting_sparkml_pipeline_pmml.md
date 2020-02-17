@@ -222,8 +222,8 @@ pipelineModel = pipeline.fit(df)
 from pyspark2pmml import PMMLBuilder
 
 pmmlBuilder = PMMLBuilder(sc, df, pipelineModel) \
-	.putOption(None, sc._jvm.org.jpmml.sparkml.model.HasTreeOptions.OPTION_COMPACT, True) \
-	.verify(df.sample(False, 0.01))
+  .putOption(None, sc._jvm.org.jpmml.sparkml.model.HasTreeOptions.OPTION_COMPACT, True) \
+  .verify(df.sample(False, 0.01))
 
 pmmlBuilder.buildFile("pipeline.pmml")
 ```
@@ -253,7 +253,7 @@ library("sparklyr")
 
 df = ...
 pipeline = ml_pipeline(sc) %>%
-	...
+  ...
 
 pipeline_model = ml_fit(pipeline, df)
 
@@ -261,8 +261,8 @@ library("sparklyr2pmml")
 
 # Use `magrittr`-style %>% operators for chaining the constructor helper function and subsequent mutator functions together
 pmml_builder = PMMLBuilder(sc, df, pipeline_model) %>%
-	putOption(NULL, invoke_static(sc, "org.jpmml.sparkml.model.HasTreeOptions", "OPTION_COMPACT"), TRUE) %>%
-	verify(sdf_sample(df, 0.01, replacement = FALSE))
+  putOption(NULL, invoke_static(sc, "org.jpmml.sparkml.model.HasTreeOptions", "OPTION_COMPACT"), TRUE) %>%
+  verify(sdf_sample(df, 0.01, replacement = FALSE))
 
 buildFile(pmml_builder, "pipeline.pmml")
 ```

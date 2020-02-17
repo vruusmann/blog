@@ -65,13 +65,13 @@ All arguments to the function call must be formatted as strings so that they cou
 ``` r
 # Declare the replacement table as a named vector
 employment.newlevels = c(
-	"Consultant" = "Private",
-	"Private" = "Private",
-	"PSFederal" = "Public",
-	"PSLocal" = "Public",
-	"PSState" = "Public",
-	"SelfEmp" = "Private",
-	"Volunteer" = "Other"
+  "Consultant" = "Private",
+  "Private" = "Private",
+  "PSFederal" = "Public",
+  "PSLocal" = "Public",
+  "PSState" = "Public",
+  "SelfEmp" = "Private",
+  "Volunteer" = "Other"
 )
 
 # Format the named vector as a string
@@ -132,22 +132,22 @@ from sklearn2pmml.preprocessing import ExpressionTransformer, LookupTransformer
 import numpy
 
 employment_mapping = {
-	"Consultant" : "Private",
-	"Private" : "Private",
-	"PSFederal" : "Public",
-	"PSLocal" : "Public",
-	"PSState" : "Public",
-	"SelfEmp" : "Private",
-	"Volunteer" : "Other"
+  "Consultant" : "Private",
+  "Private" : "Private",
+  "PSFederal" : "Public",
+  "PSLocal" : "Public",
+  "PSState" : "Public",
+  "SelfEmp" : "Private",
+  "Volunteer" : "Other"
 }
 
 mapper = DataFrameMapper([
-	(["Income"], [ContinuousDomain(), ExpressionTransformer("numpy.log(X[0])", dtype = numpy.float64)]),
-	(["Employment"], [CategoricalDomain(), LookupTransformer(employment_mapping, default_value = None), OneHotEncoder(drop = "first")]),
-	(["Gender", "Marital"], [MultiDomain([CategoricalDomain(), CategoricalDomain()]), OneHotEncoder(), PolynomialFeatures(degree = 2, interaction_only = True, include_bias = False)]),
-	(["Age", "Hours"], [ContinuousDomain(), StandardScaler()]), 
-	("Education", [CategoricalDomain(), OneHotEncoder(drop = "first")]),
-	("Occupation", [CategoricalDomain(), OneHotEncoder(drop = "first")])
+  (["Income"], [ContinuousDomain(), ExpressionTransformer("numpy.log(X[0])", dtype = numpy.float64)]),
+  (["Employment"], [CategoricalDomain(), LookupTransformer(employment_mapping, default_value = None), OneHotEncoder(drop = "first")]),
+  (["Gender", "Marital"], [MultiDomain([CategoricalDomain(), CategoricalDomain()]), OneHotEncoder(), PolynomialFeatures(degree = 2, interaction_only = True, include_bias = False)]),
+  (["Age", "Hours"], [ContinuousDomain(), StandardScaler()]), 
+  ("Education", [CategoricalDomain(), OneHotEncoder(drop = "first")]),
+  ("Occupation", [CategoricalDomain(), OneHotEncoder(drop = "first")])
 ])
 
 df_Xt = mapper.fit_transform(df_X)
@@ -187,8 +187,8 @@ from sklearn2pmml import sklearn2pmml
 from sklearn2pmml.pipeline import PMMLPipeline
 
 pipeline = PMMLPipeline([
-	("mapper", mapper),
-	("classifier", LogisticRegression(multi_class = "ovr", max_iter = 1000))
+  ("mapper", mapper),
+  ("classifier", LogisticRegression(multi_class = "ovr", max_iter = 1000))
 ])
 pipeline.fit(df_X, df_y)
 
@@ -251,8 +251,8 @@ from pyspark2pmml import PMMLBuilder
 pipelineModel = pipeline.fit(df)
 
 pmmlBuilder = PMMLBuilder(sc, df, pipelineModel) \
-	.verify(df.sample(False, 0.005)) \
-	.putOption(classifier, "representation", "RegressionModel")
+  .putOption(classifier, "representation", "RegressionModel") \
+  .verify(df.sample(False, 0.005))
 
 pmmlBuilder.buildFile("PySparkAudit.pmml")
 ```

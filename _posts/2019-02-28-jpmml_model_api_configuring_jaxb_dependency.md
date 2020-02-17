@@ -40,9 +40,9 @@ The default JAXB runtime does not collect and propagate SAX Locator information,
 
 ``` xml
 <dependency>
-	<groupId>org.glassfish.jaxb</groupId>
-	<artifactId>jaxb-runtime</artifactId>
-	<version>2.3.2</version>
+  <groupId>org.glassfish.jaxb</groupId>
+  <artifactId>jaxb-runtime</artifactId>
+  <version>2.3.2</version>
 </dependency>
 ```
 
@@ -54,12 +54,12 @@ However, now and in the future, the `org.glassfish.jaxb:jaxb-runtime` library ha
 
 ```
 Exception in thread "main" java.lang.NoClassDefFoundError: javax/xml/bind/JAXBContext
-        at jaxb_demo.MarshalDemo.main(MarshalDemo.java:16)
+  at jaxb_demo.MarshalDemo.main(MarshalDemo.java:16)
 Caused by: java.lang.ClassNotFoundException: javax.xml.bind.JAXBContext
-        at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:582)
-        at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:185)
-        at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:496)
-        ... 1 more
+  at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:582)
+  at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:185)
+  at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:496)
+  ... 1 more
 ```
 
 The `org.glassfish.jaxb:jaxb-runtime` library currently depends on six other Java libraries:
@@ -93,23 +93,23 @@ For example, declaring a minimal GlassFish Metro dependency:
 
 ``` xml
 <dependency>
-	<groupId>org.glassfish.jaxb</groupId>
-	<artifactId>jaxb-runtime</artifactId>
-	<version>2.3.2</version>
-	<exclusions>
-		<exclusion>
-			<groupId>com.sun.xml.fastinfoset</groupId>
-			<artifactId>FastInfoset</artifactId>
-		</exclusion>
-		<exclusion>
-			<groupId>org.glassfish.jaxb</groupId>
-			<artifactId>txw2</artifactId>
-		</exclusion>
-		<exclusion>
-			<groupId>org.jvnet.staxex</groupId>
-			<artifactId>stax-ex</artifactId>
-		</exclusion>
-	</exclusions>
+  <groupId>org.glassfish.jaxb</groupId>
+  <artifactId>jaxb-runtime</artifactId>
+  <version>2.3.2</version>
+  <exclusions>
+    <exclusion>
+      <groupId>com.sun.xml.fastinfoset</groupId>
+      <artifactId>FastInfoset</artifactId>
+    </exclusion>
+    <exclusion>
+      <groupId>org.glassfish.jaxb</groupId>
+      <artifactId>txw2</artifactId>
+    </exclusion>
+    <exclusion>
+      <groupId>org.jvnet.staxex</groupId>
+      <artifactId>stax-ex</artifactId>
+    </exclusion>
+  </exclusions>
 </dependency>
 ```
 

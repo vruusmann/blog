@@ -37,19 +37,19 @@ from sklearn2pmml.decoration import CategoricalDomain, ContinuousDomain
 from sklearn2pmml.pipeline import PMMLPipeline
 
 mapper = DataFrameMapper(
-	[(cat_column, [CategoricalDomain(), LabelBinarizer()]) for cat_column in cat_columns] +
-	[([cont_column], [ContinuousDomain(), StandardScaler()]) for cont_column in cont_columns]
+  [(cat_column, [CategoricalDomain(), LabelBinarizer()]) for cat_column in cat_columns] +
+  [([cont_column], [ContinuousDomain(), StandardScaler()]) for cont_column in cont_columns]
 )
 
 classifier = LogisticRegression(multi_class = "ovr", penalty = "elasticnet", solver = "saga", max_iter = 1000)
 
 param_grid = {
-	"l1_ratio" : [0.7, 0.8, 0.9]
+  "l1_ratio" : [0.7, 0.8, 0.9]
 }
 
 pipeline = PMMLPipeline([
-	("mapper", mapper),
-	("classifier", GridSearchCV(estimator = classifier, param_grid = param_grid))
+  ("mapper", mapper),
+  ("classifier", GridSearchCV(estimator = classifier, param_grid = param_grid))
 ])
 pipeline.fit(df_X, df_y)
 pipeline.verify(df_X.sample(n = 5))
@@ -70,8 +70,8 @@ If the pipeline contains multiple tuneable estimators, then the tuning work shou
 from sklearn.feature_selection import SelectKBest
 
 mapper = DataFrameMapper(
-	[(cat_column, [CategoricalDomain(invalid_value_treatment = "as_is"), LabelBinarizer()]) for cat_column in cat_columns] +
-	[([cont_column], [ContinuousDomain(invalid_value_treatment = "as_is"), StandardScaler()]) for cont_column in cont_columns]
+  [(cat_column, [CategoricalDomain(invalid_value_treatment = "as_is"), LabelBinarizer()]) for cat_column in cat_columns] +
+  [([cont_column], [ContinuousDomain(invalid_value_treatment = "as_is"), StandardScaler()]) for cont_column in cont_columns]
 )
 
 selector = SelectKBest()
@@ -79,14 +79,14 @@ selector = SelectKBest()
 classifier = LogisticRegression(multi_class = "ovr", penalty = "elasticnet", solver = "saga", max_iter = 1000)
 
 pipeline = PMMLPipeline([
-	("mapper", mapper),
-	("selector", selector),
-	("classifier", classifier)
+  ("mapper", mapper),
+  ("selector", selector),
+  ("classifier", classifier)
 ])
 
 param_grid = {
-	"selector__k" : [10, 20, 30],
-	"classifier__l1_ratio" : [0.7, 0.8, 0.9]
+  "selector__k" : [10, 20, 30],
+  "classifier__l1_ratio" : [0.7, 0.8, 0.9]
 }
 
 searcher = GridSearchCV(estimator = pipeline, param_grid = param_grid)

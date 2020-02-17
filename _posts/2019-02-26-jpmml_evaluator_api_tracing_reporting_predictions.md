@@ -26,8 +26,8 @@ Evaluator defaultEvaluator = evaluatorBuilder.build();
 
 // Activate the reporting Value API
 evaluatorBuilder = evaluatorBuilder
-	.setValueFactoryFactory(ReportingValueFactoryFactory.newInstance());
-	
+  .setValueFactoryFactory(ReportingValueFactoryFactory.newInstance());
+
 // Uses the reporting Value API
 Evaluator reportingEvaluator = evaluatorBuilder.build();
 ```
@@ -42,34 +42,34 @@ Map<FieldName, ?> results = reportingEvaluator.evaluate(arguments);
 
 List<TargetField> targetFields = reportingEvaluator.getTargetFields();
 for(TargetField targetField : targetFields){
-	Object targetValue = results.get(targetField.getName());
-	System.out.println("target=" + EvaluatorUtil.decode(targetValue));
+  Object targetValue = results.get(targetField.getName());
+  System.out.println("target=" + EvaluatorUtil.decode(targetValue));
 
-	// The target field (aka label) of regression and classification models
-	if(targetValue instanceof HasReport){
-		HasReport hasReport = (HasReport)targetValue;
+  // The target field (aka label) of regression and classification models
+  if(targetValue instanceof HasReport){
+    HasReport hasReport = (HasReport)targetValue;
 
-		Report report = hasReport.getReport();
-		if(report != null){
-			System.out.println("target=" + ReportUtil.format(report));
-		}
-	} // End if
+    Report report = hasReport.getReport();
+    if(report != null){
+      System.out.println("target=" + ReportUtil.format(report));
+    }
+  } // End if
 
-	// The target field of probabilistic classification models
-	if(targetValue instanceof HasProbability){
-		HasProbability hasProbability = (HasProbability)targetValue;
+  // The target field of probabilistic classification models
+  if(targetValue instanceof HasProbability){
+    HasProbability hasProbability = (HasProbability)targetValue;
 
-		Set<String> targetCategories = hasProbability.getTargetCategories();
-		for(String targetCategory : targetCategories){
-			Double probability = hasProbability.getProbability(targetCategory);
-			System.out.println("probability(" + targetCategory + ")=" + probability);
+    Set<String> targetCategories = hasProbability.getTargetCategories();
+    for(String targetCategory : targetCategories){
+      Double probability = hasProbability.getProbability(targetCategory);
+      System.out.println("probability(" + targetCategory + ")=" + probability);
 
-			Report probabilityReport = hasProbability.getProbabilityReport(targetCategory);
-			if(probabilityReport != null){
-				System.out.println("probability(" + targetCategory + ")=" + ReportUtil.format(probabilityReport));
-			}
-		}
-	}
+      Report probabilityReport = hasProbability.getProbabilityReport(targetCategory);
+      if(probabilityReport != null){
+        System.out.println("probability(" + targetCategory + ")=" + ReportUtil.format(probabilityReport));
+      }
+    }
+  }
 }
 ```
 
@@ -116,11 +116,11 @@ import pandas
 df = pandas.read_csv("audit.csv")
 
 pipeline = PMMLPipeline([
-	("mapper", DataFrameMapper(
-		[(cat_column, [CategoricalDomain(with_statistics = False), LabelBinarizer()]) for cat_column in ["Education", "Employment", "Marital", "Occupation", "Gender"]] +
-		[(cont_column, [ContinuousDomain(with_statistics = False)]) for cont_column in ["Age", "Income"]]
-	)),
-	("classifier", XGBClassifier(objective = "binary:logistic", n_estimators = 17, seed = 13))
+  ("mapper", DataFrameMapper(
+    [(cat_column, [CategoricalDomain(with_statistics = False), LabelBinarizer()]) for cat_column in ["Education", "Employment", "Marital", "Occupation", "Gender"]] +
+    [(cont_column, [ContinuousDomain(with_statistics = False)]) for cont_column in ["Age", "Income"]]
+  )),
+  ("classifier", XGBClassifier(objective = "binary:logistic", n_estimators = 17, seed = 13))
 ])
 pipeline.fit(df, df["Adjusted"])
 
@@ -194,18 +194,18 @@ gateway = launch_gateway()
 backend = Py4JBackend(gateway)
 
 evaluator = make_evaluator(backend, "XGBoostAudit-reporting.pmml", reporting = True) \
-	.verify()
+  .verify()
 
 arguments = {
-	"Age" : 38,
-	"Employment" : "Private",
-	"Education" : "College",
-	"Marital" : "Unmarried",
-	"Occupation" : "Service",
-	"Income" : 81838,
-	"Gender" : "Female",
-	"Deductions" : False,
-	"Hours" : 72
+  "Age" : 38,
+  "Employment" : "Private",
+  "Education" : "College",
+  "Marital" : "Unmarried",
+  "Occupation" : "Service",
+  "Income" : 81838,
+  "Gender" : "Female",
+  "Deductions" : False,
+  "Hours" : 72
 }
 print(arguments)
 
@@ -220,12 +220,12 @@ The scoring result is a `dict` object with six items:
 
 ``` python
 {
-	"Adjusted" : 0,
-	"ref(report(xgbValue))" : "<math><apply><plus/><cn>-0.17968129</cn><cn>-0.16313718</cn><cn>-0.15570186</cn><cn>-0.14460582</cn><cn>-0.13957009</cn><cn>-0.12399502</cn><cn>-0.12931323</cn><cn>-0.12063908</cn><cn>-0.11913132</cn><cn>-0.11191886</cn><cn>-0.11103699</cn><cn>-0.110534586</cn><cn>-0.101101674</cn><cn>-0.104573585</cn><cn>-0.09484299</cn><cn>-0.095708475</cn><cn>-0.09683787</cn></apply></math>",
-	"probability(0)": 0.8911294,
-	"probability(1)": 0.1088706,
-	"report(probability(0))": "<math><apply><minus/><cn>1</cn><cn>0.1088706</cn></apply></math>",
-	"report(probability(1))": "<math><apply><apply><inverse/><ci>logit</ci></apply><apply><plus/><apply><times/><cn>1.0</cn><cn>-2.1023297</cn></apply><cn>0.0</cn></apply></apply></math>"
+  "Adjusted" : 0,
+  "ref(report(xgbValue))" : "<math><apply><plus/><cn>-0.17968129</cn><cn>-0.16313718</cn><cn>-0.15570186</cn><cn>-0.14460582</cn><cn>-0.13957009</cn><cn>-0.12399502</cn><cn>-0.12931323</cn><cn>-0.12063908</cn><cn>-0.11913132</cn><cn>-0.11191886</cn><cn>-0.11103699</cn><cn>-0.110534586</cn><cn>-0.101101674</cn><cn>-0.104573585</cn><cn>-0.09484299</cn><cn>-0.095708475</cn><cn>-0.09683787</cn></apply></math>",
+  "probability(0)": 0.8911294,
+  "probability(1)": 0.1088706,
+  "report(probability(0))": "<math><apply><minus/><cn>1</cn><cn>0.1088706</cn></apply></math>",
+  "report(probability(1))": "<math><apply><apply><inverse/><ci>logit</ci></apply><apply><plus/><apply><times/><cn>1.0</cn><cn>-2.1023297</cn></apply><cn>0.0</cn></apply></apply></math>"
 }
 ```
 
