@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Deploying Apache Spark ML pipelines models on Openscoring REST web service"
+title: "Deploying Apache Spark ML pipeline models on Openscoring REST web service"
 author: vruusmann
 --- 
 
