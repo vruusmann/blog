@@ -46,14 +46,14 @@ At the time of writing this (July 2018; updated in January 2019), JPMML-SparkML 
 
 | Apache Spark version | JPMML-SparkML development branch | JPMML-SparkML latest release version |
 |----------------------|----------------------------------|--------------------------------------|
-| 2.0.X | [`1.1.X`](https://github.com/jpmml/jpmml-sparkml/tree/1.1.X) | [`1.1.22`](https://github.com/jpmml/jpmml-sparkml/releases/tag/1.1.22) |
-| 2.1.X | [`1.2.X`](https://github.com/jpmml/jpmml-sparkml/tree/1.2.X) | [`1.2.14`](https://github.com/jpmml/jpmml-sparkml/releases/tag/1.2.14) |
-| 2.2.X | [`1.3.X`](https://github.com/jpmml/jpmml-sparkml/tree/1.3.X) | [`1.3.10`](https://github.com/jpmml/jpmml-sparkml/releases/tag/1.3.10) |
-| 2.3.X | [`1.4.X`](https://github.com/jpmml/jpmml-sparkml/tree/1.4.X) | [`1.4.7`](https://github.com/jpmml/jpmml-sparkml/releases/tag/1.4.7) |
-| 2.4.X | [`master`](https://github.com/jpmml/jpmml-sparkml/tree/master) | [`1.5.0`](https://github.com/jpmml/jpmml-sparkml/releases/tag/1.5.0) |
+| 2.0.X | [`1.1.X`](https://github.com/jpmml/jpmml-sparkml/tree/1.1.X) | [`1.1.23`](https://github.com/jpmml/jpmml-sparkml/releases/tag/1.1.23) |
+| 2.1.X | [`1.2.X`](https://github.com/jpmml/jpmml-sparkml/tree/1.2.X) | [`1.2.15`](https://github.com/jpmml/jpmml-sparkml/releases/tag/1.2.15) |
+| 2.2.X | [`1.3.X`](https://github.com/jpmml/jpmml-sparkml/tree/1.3.X) | [`1.3.15`](https://github.com/jpmml/jpmml-sparkml/releases/tag/1.3.15) |
+| 2.3.X | [`1.4.X`](https://github.com/jpmml/jpmml-sparkml/tree/1.4.X) | [`1.4.14`](https://github.com/jpmml/jpmml-sparkml/releases/tag/1.4.14) |
+| 2.4.X | [`master`](https://github.com/jpmml/jpmml-sparkml/tree/master) | [`1.5.7`](https://github.com/jpmml/jpmml-sparkml/releases/tag/1.5.7) |
 
 JPMML-SparkML checks the version of Apache Spark runtime environment before doing any conversion work.
-For example, the following exception is thrown when JPMML-SparkML version 1.4(.7) discovers that it has been improperly paired with Apache Spark version 2.2:
+For example, the following exception is thrown when JPMML-SparkML version 1.4(.14) discovers that it has been improperly paired with Apache Spark version 2.2:
 
 ```
 java.lang.IllegalArgumentException: Expected Apache Spark ML version 2.3, got version 2.2 (2.2.0)
