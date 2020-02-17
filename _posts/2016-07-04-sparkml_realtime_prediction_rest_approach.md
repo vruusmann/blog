@@ -53,7 +53,7 @@ The `org.jpmml.sparkml.bootstrap.Main` application class demonstrates a two-stag
 The exercise starts with training a classification-type decision tree model for the ["wine quality" dataset](https://archive.ics.uci.edu/ml/datasets/Wine+Quality):
 
 ```
-spark-submit \
+$ $SPARK_HOME/bin/spark-submit \
   --class org.jpmml.sparkml.bootstrap.Main \
   /path/to/jpmml-sparkml-bootstrap/target/bootstrap-1.0-SNAPSHOT.jar \
   --formula "color ~ . -quality" \
@@ -175,12 +175,12 @@ A "real" transformation performs a computation on a feature or a feature vector.
 
 Examples of "real" transformer classes:
 
-* Binarizer
-* Bucketizer
-* MinMaxScaler
-* PCA
-* QuantileDiscretizer
-* StandardScaler
+* `Binarizer`
+* `Bucketizer`
+* `MinMaxScaler`
+* `PCA`
+* `QuantileDiscretizer`
+* `StandardScaler`
 
 A `Binarizer` transformer for "discretizing" wine samples based on their sweetness:
 
@@ -214,13 +214,13 @@ A "pseudo" transformation performs Apache Spark ML-specific housekeeping work su
 
 Examples of "pseudo" transformer classes:
 
-* ChiSqSelector
-* IndexToString
-* OneHotEncoder
-* RFormula
-* StringIndexer
-* VectorAssembler
-* VectorSlicer
+* `ChiSqSelector`
+* `IndexToString`
+* `OneHotEncoder`
+* `RFormula`
+* `StringIndexer`
+* `VectorAssembler`
+* `VectorSlicer`
 
 The conversion engine is capable of performing smart analyses and optimizations in order to produce a maximally compact and expressive PMML document.
 The case in point is the identification and pruning of unused field declarations, which improves the robustness and performance of production workflows
@@ -239,9 +239,9 @@ Openscoring is minimalistic Java web application that conforms to Servlet and JA
 It can be built from the source checkout using [Apache Maven](https://maven.apache.org/):
 
 ```
-git clone https://github.com/openscoring/openscoring.git
-ch openscoring
-mvn clean package
+$ git clone https://github.com/openscoring/openscoring.git
+$ cd openscoring
+$ mvn clean package
 ```
 
 Openscoring exists in two variants. First, the standalone command-line application variant `openscoring-server/target/server-executable-${version}.jar` is based on Jetty web server. Easy configuration and almost instant startup and shutdown times make it suitable for local development and testing use cases. The web application (WAR) variant `openscoring-webapp/target/openscoring-webapp-${version}.war` is more suitable for production use cases. It can be deployed on any standards-compliant Java web- or application container, and secured and scaled according to organization's preferences.
@@ -265,12 +265,12 @@ This basic access and authorization control can be overriden at the Java web con
 Adding the wine color model:
 
 ```
-curl -X PUT --data-binary @/path/to/wine-color.pmml -H "Content-type: text/xml" http://localhost:8080/openscoring/model/wine-color
+$ curl -X PUT --data-binary @/path/to/wine-color.pmml -H "Content-type: text/xml" http://localhost:8080/openscoring/model/wine-color
 ```
 
 The response body is an [`org.openscoring.common.ModelResponse`](https://github.com/openscoring/openscoring/blob/master/openscoring-common/src/main/java/org/openscoring/common/ModelResponse.java) object:
 
-```json
+``` json
 {
   "id" : "wine-color",
   "miningFunction" : "classification",
@@ -347,7 +347,7 @@ For example, checking that the reported file size and MD5 checksum are correct, 
 Evaluating the wine color model in single prediction mode:
 
 ```
-curl -X POST --data-binary @/path/to/data_record.json -H "Content-type: application/json" http://localhost:8080/openscoring/model/wine-color
+$ curl -X POST --data-binary @/path/to/data_record.json -H "Content-type: application/json" http://localhost:8080/openscoring/model/wine-color
 ```
 
 The request body is an [`org.openscoring.common.EvaluationRequest`](https://github.com/openscoring/openscoring/blob/master/openscoring-common/src/main/java/org/openscoring/common/EvaluationRequest.java) object:
@@ -384,7 +384,7 @@ The response body is an [`org.openscoring.common.EvaluationResponse`](https://gi
 Evaluating the wine color model in CSV mode:
 
 ```
-curl -X POST --data-binary @/path/to/wine.csv -H "Content-type: text/plain; charset=UTF-8" http://localhost:8080/openscoring/model/wine-color/csv > /path/to/wine-color.csv
+$ curl -X POST --data-binary @/path/to/wine.csv -H "Content-type: text/plain; charset=UTF-8" http://localhost:8080/openscoring/model/wine-color/csv > /path/to/wine-color.csv
 ```
 
 ##### Undeployment
@@ -392,7 +392,7 @@ curl -X POST --data-binary @/path/to/wine.csv -H "Content-type: text/plain; char
 Removing the wine color model:
 
 ```
-curl -X DELETE http://localhost:8080/openscoring/model/wine-color
+$ curl -X DELETE http://localhost:8080/openscoring/model/wine-color
 ```
 
 ##### Openscoring client libraries

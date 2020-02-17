@@ -96,7 +96,7 @@ The legacy `pmml` package supports model formulae only partially, and should be 
 Right before the conversion, the logistic regression model object is enhanced with verification data using the `r2pmml::verify.glm()` function.
 The `audit.glm` variable is re-assigned, because this function returns a modified copy of the input (rather than modifying the input in place).
 
-```r
+``` r
 library("dplyr")
 library("r2pmml")
 
@@ -181,7 +181,7 @@ Most data scientist habitually drop the first category level.
 The logistic regression model is associated with transformations by constructing a two-step pipeline.
 The `PMMLPipeline` object is enhanced with verification data and converted to PMML representation using the [`sklearn2pmml`](https://github.com/jpmml/sklearn2pmml) package:
 
-```python
+``` python
 from sklearn.linear_model import LogisticRegression
 from sklearn2pmml import sklearn2pmml
 from sklearn2pmml.pipeline import PMMLPipeline

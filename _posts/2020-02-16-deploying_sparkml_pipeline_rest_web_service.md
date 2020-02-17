@@ -63,7 +63,7 @@ The exercise starts with training two separate classification-type decision tree
 
 For demonstration purposes, the original dataset is enriched with a "ratio of free sulfur dioxide" column by dividing the "free sulfur dioxide" column with the "total sulfur dioxide" column using Apache Spark SQL (by convention, column names must be surrounded with backticks if they contain whitespace):
 
-```python
+``` python
 from pyspark.ml import Pipeline
 from pyspark.ml.classification import DecisionTreeClassifier
 from pyspark.ml.feature import RFormula, SQLTransformer
@@ -85,7 +85,7 @@ pipelineModel = pipeline.fit(df)
 
 The conversion of pipeline models is essentially a one-liner:
 
-```python
+``` python
 from pyspark2pmml import PMMLBuilder
 
 PMMLBuilder(sc, df, pipelineModel) \
@@ -97,7 +97,7 @@ It is possible to use `PMMLBuilder.putOption(stage: ml.PipelineStage, name, valu
 
 For demonstration purposes, disabling decision tree compaction (replaces binary splits with multi-way splits), and embedding five randomly chosen data records as model verification data:
 
-```python
+``` python
 from pyspark2pmml import PMMLBuilder
 
 PMMLBuilder(sc, df, pipelineModel) \
@@ -142,7 +142,7 @@ The base URL is this part of URL that is shared between all endpoints.
 It typically follows the pattern `http://<server>:<port>/<context path>`.
 The Openscoring standalone server uses a non-empty context path `openscoring` for disambiguation purposes, so the default base URL is `http://localhost:8080/openscoring`.
 
-```python
+``` python
 from openscoring import Openscoring
 
 os = Openscoring("https://localhost:8080/openscoring")
@@ -151,7 +151,7 @@ os = Openscoring("https://localhost:8080/openscoring")
 A single Openscoring application instance can host multiple models.
 Individual models are directly addressable in the REST API by appending a slash and their alphanumeric identifier to the URL of the Model REST API endpoint.
 
-```python
+``` python
 # Shall be available at http://localhost:8080/openscoring/model/RedWineQuality
 os.deployFile("RedWineQuality", "RedWineQuality.pmml")
 
@@ -189,7 +189,7 @@ Openscoring uses the [JPMML-Evaluator](https://github.com/jpmml/jpmml-evaluator)
 
 The "batch prediction" mode is intended for application scenarios, where new data becomes available at regular intervals, or where the cost of transporting data over the computer network (eg. calling a service from remote locations) is the limiting factor:
 
-```python
+``` python
 import pandas
 
 dfRequest = pandas.read_csv("winequality-white.csv", sep = ";")
@@ -200,7 +200,7 @@ print(dfResponse.head(5))
 
 When a model is no longer needed, then it should be undeployed to free up server resources:
 
-```python
+``` python
 os.undeploy("RedWineQuality")
 os.undeploy("WhiteWineQuality")
 ```
