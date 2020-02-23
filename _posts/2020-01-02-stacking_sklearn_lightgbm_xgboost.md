@@ -64,7 +64,7 @@ The qualifier "homogeneous" means that all child estimators have the same data p
 The opposite of "homogeneous" is "heterogeneous", which means that different child estimators have different data pre-processing requirements.
 
 Consider, for example, the preparation of continuous features.
-Linear models assume that the magnitude of continuous feature values is roughly the same.
+Linear models assume that the magnitude of continuous values is roughly the same.
 Decision tree models do not make such an assumption, because they can identify an optimal split threshold value for a continuous feature irrespective of its transformation status (original scale vs. transformed scale).
 Owing to this discrepany, linear models and decision tree models (and ensembles thereof) are incompatible with each other by default.
 
