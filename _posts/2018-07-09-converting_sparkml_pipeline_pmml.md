@@ -167,8 +167,8 @@ For maximum future-proofness, all conversion option names and values should be g
 
 The `PMMLBuilder` class exposes the following mutator methods:
 
-* `#putOption(String, Object)`. Sets the conversion option for all pipeline stages.
-* `#putOption(PipelineStage, String, Object)`. Sets the conversion option for the specified pipeline stage only.
+* `#putOption(String, Object)` - Sets the conversion option for all pipeline stages.
+* `#putOption(PipelineStage, String, Object)` - Sets the conversion option for the specified pipeline stage only.
 
 ##### Verification
 
@@ -184,8 +184,8 @@ JPMML-SparkML integration tests indicate that the JPMML family of software (ie. 
 
 The `PMMLBuilder` class exposes the following mutator methods:
 
-* `#verify(Dataset<Row>)`. Embeds the verification dataset.
-* `#verify(Dataset<Row>, double, double)`. Embeds the verification dataset with custom acceptance criteria (precision and zero threshold).
+* `#verify(Dataset<Row>)` - Embeds the verification dataset.
+* `#verify(Dataset<Row>, double, double)` - Embeds the verification dataset with custom acceptance criteria (precision and zero threshold).
 
 ### JPMML-SparkML wrappers
 

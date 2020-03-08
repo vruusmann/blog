@@ -87,12 +87,13 @@ By analogy with invalid value treatment, missing values can be rejected by chang
 The [`sklearn2pmml`](https://github.com/jpmml/sklearn2pmml) package provides several domain decorator classes for customizing the content of `DataField` and `MiningField` elements:
 
 * `Domain(BaseEstimator, TransformerMixin)`
-  * `CategoricalDomain`
   * `ContinuousDomain`
-  * `OrdinalDomain`
-    * `TemporalDomain`
-      * `DateDomain`
-      * `DateTimeDomain`
+  * `DicreteDomain`
+    * `CategoricalDomain`
+    * `OrdinalDomain`
+  * `TemporalDomain`
+    * `DateDomain`
+    * `DateTimeDomain`
 * `MultiDomain`
 
 The PMML data type is derived from the Python data type, but it can be overriden using the `dtype` parameter.
