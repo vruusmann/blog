@@ -6,7 +6,9 @@ author: vruusmann
 
 The central piece of the [JPMML-Evaluator](https://github.com/jpmml/jpmml-evaluator) library is the `org.jpmml.evaluator.Evaluator` interface, which declares `#prepare(FieldName, Object)` and `#evaluate(Map<FieldName, ?>)` methods. This API dates back to earliest versions (i.e. 1.0.2) and is still going strong.
 
-The current blog post aims to clarify the relationship between those two methods. Quite naturally, data preparation precedes data evaluation. It involves three activities:
+This blog post details the relationship between those two methods.
+
+Quite naturally, data preparation precedes data evaluation. It involves three activities:
 
 * Conversion of values from the Java type system to the PMML type system. PMML has a two-tier type system, where the first level relates to data type (enumeration `org.dmg.pmml.DataType`) and the second level relates to operational type (enumeration `org.dmg.pmml.OpType`). For example, a Java string could either become a categorical PMML string or an ordinal PMML string, which exhibit different behavior in comparison operations.
 * Validation of values as specified by the `DataField` element.

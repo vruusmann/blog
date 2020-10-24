@@ -21,7 +21,7 @@ The JPMML-Model library declares a compile-time dependency ("provided" Apache Ma
 If a Java application declares a run-time dependency ("compile" and "runtime" Apache Maven scopes) only on the JPMML-Model library, then it is limited to the first deployment scenario.
 However, if the Java application declares a run-time dependency on the JPMML-Model library **plus** one or more JAXB runtimes, then it can follow either development scenario.
 
-This blog post aims to nail down the configuration of GlassFish Metro runtime. The analysis is based on a `jaxb_demo` demo application, which deals with marshalling and unmarshalling an empty PMML class model object.
+This blog post details the proper configuration of GlassFish Metro runtime. The analysis is based on a `jaxb_demo` demo application, which deals with marshalling and unmarshalling an empty PMML class model object.
 
 The project is built and deployed throughout this exercise using the following sequence of commands:
 

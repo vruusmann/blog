@@ -13,7 +13,7 @@ Scikit-Learn can be extended with custom features by building extension layers o
 Custom features allow data scientists to represent and manipulate data using more realistic concepts, thereby improving their productivity (reducing cognitive load, eliminating whole categories of systematic errors).
 For example, compare working with temporal data in the form of Unix timestamps (number of seconds since the Unix Epoch) versus ISO 8601 strings.
 
-This blog post shows how the [`sklearn2pmml`](https://github.com/jpmml/sklearn2pmml) package extends Scikit-Learn with PMML-compatible date and datetime features.
+This blog post demonstrates how the [`sklearn2pmml`](https://github.com/jpmml/sklearn2pmml) package extends Scikit-Learn with PMML-compatible date and datetime features.
 
 # Temporal data
 

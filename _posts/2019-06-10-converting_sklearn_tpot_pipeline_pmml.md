@@ -43,7 +43,7 @@ pmml_pipeline.fit(iris.data, iris.target)
 sklearn2pmml(pmml_pipeline, "TPOTIris.pmml", with_repr = True)
 ```
 
-This attempt fails with a pickling error inside the `sklearn2pmml.sklearn2pmml(PMMLPipeline: pmml_pipeline, str: path)` utility function:
+This attempt fails with a pickling error inside the `sklearn2pmml.sklearn2pmml(Pipeline: pipeline, str: pmml_output_path)` utility function:
 
 ```
 Generation 1 - Current best internal CV score: 0.9733333333333334               

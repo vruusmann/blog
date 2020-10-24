@@ -10,7 +10,7 @@ The project has been around for more than two years by now.
 The first iteration defined public API entry point in the form of a `org.jpmml.sparkml.ConverterUtil` utility class. Subsequent iterations have been mostly about adding support for more transformer and model types, and expanding Apache Spark version coverage.
 However, recent iterations have been gradually introducing new public API building blocks, and the last iteration (26 June, 2018) made them official.
 
-The current blog post details this breaking API change, and all the new features and functionality that it entails.
+This blog post details this breaking API change, and all the new features and functionality that it entails.
 
 ### API overview
 

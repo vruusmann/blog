@@ -15,7 +15,7 @@ To illustrate, given a model object, one should be able to confidently answer qu
 Much of this (meta-)information is readily available during model training.
 JPMML family conversion tools and libraries aim to capture, systematize and store it automatically, with minimal intrusion to existing workflows.
 
-This blog post details how Scikit-Learn users should approach the "model-data fit" problematics.
+This blog post demonstrates how Scikit-Learn users should approach the "model-data fit" problematics.
 
 ### Overview
 
@@ -228,7 +228,7 @@ mapper = DataFrameMapper([
 
 Decision trees are quite robust towards input values that were not present in the training dataset.
 For example, continuous splits send the data record to the left or to the right by comparing the input value against the split threshold value.
-These decisions do not carry any weight (eg. "weak left" vs "strong right") that would depend on the distance between them.
+These decisions do not carry any weight (eg. "weak left" vs. "strong right") that would depend on the distance between them.
 
 Invalid and missing value spaces are often merged for convenience reasons.
 No matter if the "Employment" column contains an invalid value or a missing value, it will be replaced with "Private" (the most frequent value in the training dataset).

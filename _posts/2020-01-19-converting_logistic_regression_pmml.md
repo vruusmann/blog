@@ -6,7 +6,7 @@ author: vruusmann
 
 Logistic regression is often the go-to algorithm for binary classification problems.
 
-This blog post details how to perform feature engineering and train a logistic regression model in a way that allows for quick productionization using the Predective Model Markup Language (PMML) standard.
+This blog post demonstrates how to perform feature engineering and train a logistic regression model in a way that allows for quick productionization using the Predective Model Markup Language (PMML) standard.
 The same workflow is implemented using R, Scikit-Learn and Apache Spark frameworks to demostrate their particularities.
 
 Summary of the workflow:
@@ -90,7 +90,7 @@ Feature interactions (between all feature types) can declared using the `:` oper
 audit.terms = c(audit.terms, "+ Gender:Marital")
 ```
 
-The logistic regression model together with the embedded formula is converted to PMML representation using the [`r2pmml`](https://github.com/jpmml/r2pmml) package.
+The logistic regression model together with the embedded formula is converted to the PMML representation using the [`r2pmml`](https://github.com/jpmml/r2pmml) package.
 The legacy `pmml` package supports model formulae only partially, and should be avoided.
 
 Right before the conversion, the logistic regression model object is enhanced with verification data using the `r2pmml::verify.glm()` function.
@@ -179,7 +179,7 @@ The `OneHotEncoder` transformer class fixes this by allowing one category level 
 Most data scientist habitually drop the first category level.
 
 The logistic regression model is associated with transformations by constructing a two-step pipeline.
-The `PMMLPipeline` object is enhanced with verification data and converted to PMML representation using the [`sklearn2pmml`](https://github.com/jpmml/sklearn2pmml) package:
+The `PMMLPipeline` object is enhanced with verification data and converted to the PMML representation using the [`sklearn2pmml`](https://github.com/jpmml/sklearn2pmml) package:
 
 ``` python
 from sklearn.linear_model import LogisticRegression
@@ -243,7 +243,7 @@ The [`RegressionModel`](http://dmg.org/pmml/v4-3/Regression.html) elements loses
 
 The JPMML-SparkML library allows the end user to choose between them by setting the value of the `org.jpmml.sparkml.model.HasRegressionTableOptions#OPTION_REPRESENTATION` conversion option to `GeneralRegressionModel` or `RegressionModel` string literals, respectively.
 
-The pipeline model is enhanced with verification data and converted to PMML representation using the [`pyspark2pmml`](https://github.com/jpmml/pyspark2pmml) package:
+The pipeline model is enhanced with verification data and converted to the PMML representation using the [`pyspark2pmml`](https://github.com/jpmml/pyspark2pmml) package:
 
 ``` python
 from pyspark2pmml import PMMLBuilder

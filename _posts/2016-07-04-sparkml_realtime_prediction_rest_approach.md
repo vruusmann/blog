@@ -5,13 +5,13 @@ author: vruusmann
 ---
 
 [Apache Spark](https://spark.apache.org/) follows the batch data processing paradigm, which has its strengths and weaknesses.
-On one hand, the batch processing is suitable for working with true Big Data datasets. Apache Spark splits the task into manageable-size batches and distributes the workfload across a cluster of machines.
+On one hand, the batch processing is suitable for working with Big Data-scale datasets. Apache Spark splits the task into manageable-size batches and distributes the workfload across a cluster of machines.
 Apache Spark competitors such as R or Python cannot match that, because they typically require the task to fit into the RAM of a single machine.
 
 On the other hand, the batch processing is characterized by high inertia. Apache Spark falls short in application areas where it is necessary to work with small datasets (eg. single data records) in real time.
 Essentially, there is a lower bound (instead of an upper bound) to the effective size of a task.
 
-This blog post is about demonstrating a workflow where Apache Spark ML pipeline models are converted to the Predictive Model Markup Language (PMML) representation, and then deployed using the Openscoring REST web service for easy interfacing with third-party applications.
+This blog post details a workflow where Apache Spark ML pipeline models are converted to the Predictive Model Markup Language (PMML) representation, and then deployed using the Openscoring REST web service for easy interfacing with third-party applications.
 
 ### Converting Apache Spark ML pipeline models to the PMML representation
 
