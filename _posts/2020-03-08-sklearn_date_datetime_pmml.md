@@ -55,7 +55,7 @@ PMML further defines two sets of temporal data types for representing durations 
 2. `dateTimeSecondsSince[<year>]` - Distance from the epoch in seconds
 
 The epoch can take values `0`, `1960`, `1970` or `1980`.
-The JPMML family of libraries extends this range with values `1990`, `2000`, `2010` and `2020` as proposed in [http://mantis.dmg.org/view.php?id=234](http://mantis.dmg.org/view.php?id=234).
+The JPMML ecosystem extends this range with values `1990`, `2000`, `2010` and `2020` as proposed in [http://mantis.dmg.org/view.php?id=234](http://mantis.dmg.org/view.php?id=234).
 
 Durations should be regarded as continuous integers.
 

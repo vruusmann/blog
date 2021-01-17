@@ -180,7 +180,7 @@ PMML engines are expected to perform self-checks using the verification data bef
 Next to most common cases, the verification dataset should aim to include all sorts of fringe cases (eg. missing, outlier, invalid values) in order to increase the confidence.
 
 The [JPMML-Evaluator](https://github.com/jpmml/jpmml-evaluator) library can be ordered to perform self-checks on the `org.jpmml.evaluator.Evaluator` object by invoking its `#verify()` method.
-JPMML-SparkML integration tests indicate that the JPMML family of software (ie. JPMML-SparkML converter plus JPMML-Evaluator scorer) is consistently able to reproduce Apache Spark predictions (eg. regression targets, classification probabilities) with an abolute/relative error of 1e-14 or less.
+JPMML-SparkML integration tests indicate that the JPMML ecosystem (ie. JPMML-SparkML converter plus JPMML-Evaluator scorer) is consistently able to reproduce Apache Spark predictions (eg. regression targets, classification probabilities) with an abolute/relative error of 1e-14 or less.
 
 The `PMMLBuilder` class exposes the following mutator methods:
 
@@ -193,7 +193,7 @@ The JPMML-SparkML library is written in Java. It is very easy to integrate into 
 
 However, there is an even more important audience of data scientists that would like to access this functionality from within their Python (PySpark) and R (SparkR and Sparklyr) scripts.
 
-The JPMML family of software now includes Python and R wrapper libraries for the JPMML-SparkML library. The wrappers are kept as minimal and shallow as possible. Essentially, they provide a language-specific class that communicates with the underlying `org.jpmml.sparkml.PMMLBuilder` Java class, and handle the conversion of objects between the two environments (eg. converting Python and R strings to Java strings, and vice versa).
+The JPMML ecosystem now includes Python and R wrapper libraries for the JPMML-SparkML library. The wrappers are kept as minimal and shallow as possible. Essentially, they provide a language-specific class that communicates with the underlying `org.jpmml.sparkml.PMMLBuilder` Java class, and handle the conversion of objects between the two environments (eg. converting Python and R strings to Java strings, and vice versa).
 
 ##### PySpark
 
