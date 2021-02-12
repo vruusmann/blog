@@ -15,7 +15,7 @@ For example, compare working with temporal data in the form of Unix timestamps (
 
 This blog post demonstrates how the [`sklearn2pmml`](https://github.com/jpmml/sklearn2pmml) package extends Scikit-Learn with PMML-compatible date and datetime features.
 
-# Temporal data
+### Temporal data
 
 A datetime is a data structure that represents an instant (point in time) according to some calendar and time zone.
 
@@ -34,7 +34,7 @@ Datetimes should be formatted as strings following the [ISO 8601](https://en.wik
 * `<date part>T<time part>±<time zone offset part>` - Local datetime with explicit time zone offset
 * `<date part>T<time part>Z` - UTC datetime
 
-# PMML
+### PMML
 
 PMML defines four temporal data types for representing instants (points in time):
 
@@ -72,7 +72,7 @@ A good choice is the minimum year of the training dataset (restricts values to `
 In principle, subtracting one instant from another should yield a duration, and adding a duration to an instant should yield another instant.
 The PMML specification does not clarify the behaviour of temporal values in the context of arithmetic operations so, while technically feasible, it should be avoided for the time being.
 
-# Data pre-processing
+### Data pre-processing
 
 The sample dataset is a list of crewed lunar missions under the [Apollo program](https://en.wikipedia.org/wiki/List_of_Apollo_missions).
 In years 1968 thorugh 1972 there were nine flights.
@@ -139,7 +139,7 @@ print(df)
 For example, the first cell of the dataset is converted from `1968-12-21T12:51:00Z` to `1968-12-21T15:51:00`.
 The hour of day has been incremented by three hours (representing the time zone offset between UTC and Estonia/Tallinn time zone on 21st of December, 1968), and the `Z` suffix has been truncated.
 
-# Feature specification and engineering
+### Feature specification and engineering
 
 The `sklearn2pmml` package provides domain decorator and transformer classes for working with pre-processed temporal values.
 
@@ -208,6 +208,6 @@ hour_of_day = mapper.fit_transform(df)
 print(hour_of_day)
 ```
 
-# Resources
+### Resources
 
 * Python script: [`train.py`]({{ site.baseurl }}/assets/2020-03-08/train.py)
