@@ -8,7 +8,7 @@ There are numerous application scenarios which require an ability to "look into"
 
 Most ML frameworks completely overlook this need. For example, Scikit-Learn logistic regression models expose `predict(X)` and `predict_proba(X)` methods, which return plain numeric predictions. The only way to understand how a particular number was computed (eg. active terms and their coefficients, the family and parameterization of the link function) is to open the source code of the logistic regression model class in a text editor, and parse/interpret the body of the prediction method line-by-line. However, if the model operates on a transformed feature space, and the ML framework itself uses low-level abstractions for feature representation (eg. string features are transformed to binary vectors), then it is effectively impossible for a casual observer to make any sense of it all.
 
-This problem has an easy two-step solution. First, the model or pipeline should be converted from the low-level ML framework representation to the high-level Predictive Model Markup Language (PMML) representation, which makes it human readable and interpretable in the original feature space. Second, all the tracing and reporting work should be automated using a PMML engine.
+This problem has an easy two-step solution. First, the model or pipeline should be converted from the low-level ML framework representation to the high-level Predictive Model Markup Language (PMML) representation, which makes it human-readable and -interpretable in the original feature space. Second, all the tracing and reporting work should be automated using a PMML engine.
 
 ### Reporting Java API
 

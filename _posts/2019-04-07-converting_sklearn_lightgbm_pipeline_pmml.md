@@ -213,7 +213,7 @@ Traceback (most recent call last):
 TypeError: unorderable types: str() < float()
 ```
 
-If the sparsity of the dataset is not too high, then it can be made whole by imputing missing values based on available evidence.
+If data sparsity is not too high, then it can be made whole by imputing missing values based on available evidence.
 For continuous features, the replacement value is typically the mean or median. For categorical features, the replacement value is typically the mode or some predefined constant (eg. "N/A").
 
 The `SimpleImputer` transformer class transforms a sparse dataset to dense dataset:

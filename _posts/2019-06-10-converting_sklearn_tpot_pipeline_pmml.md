@@ -12,7 +12,7 @@ The better the algorithm and the longer its running time, the higher the likelih
 
 An AutoML tool assembles candidate pipelines from scratch, using whatever building blocks the underlying ML framework and library collection provides.
 In Scikit-Learn, they are feature transformers, feature selectors and estimators.
-The algorithm can vary the structure and composition of pipelines, and the parametrization of individual pipeline steps.
+The algorithm can vary the structure and composition of pipelines, and the parameterization of individual pipeline steps.
 This puts AutoML algorithms into a league above conventional hyperparameter tuning algorithms (eg. `sklearn.model_selection.(GridSearchCV, RandomizedSearchCV)`), which can only vary the latter.
 
 Upon success, the AutoML tool returns one or more fitted pipelines.
@@ -195,7 +195,7 @@ tpot_pmml_config = make_tpot_pmml_config(tpot_config)
 
 Expert users may drop further mappings from the config dictionary.
 For example, AutoML algorithms tend to prefer ensemble methods for fitting.
-If the goal is to obtain human interpretable models, then it is easy to disable ensemble methods by simply dropping all mappings where the key starts with "sklearn.ensemble".
+If the goal is to obtain human-interpretable models, then it is easy to disable ensemble methods by simply dropping all mappings where the key starts with "sklearn.ensemble".
 
 ``` python
 tpot_pmml_config = { key: value for key, value in tpot_pmml_config.items() if not (key.startswith("sklearn.ensemble.") or key.startswith("xgboost.")) }

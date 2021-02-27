@@ -13,7 +13,7 @@ The PMML document type is a top-level XML document type. It does not limit the n
 There are three main attachment points:
 
 * The [`Annotation`](http://www.dmg.org/v4-3/Header.html) element. Document modification history.
-* The [`Extension`](http://www.dmg.org/v4-3/GeneralStructure.html#extension) element. Element-specific vendor extensions. Vendor extensions are suitable for adding "depth" to the target element. For example, persisting non-standard data and metadata, which could come in handy during various stages of model life cycle.
+* The [`Extension`](http://www.dmg.org/v4-3/GeneralStructure.html#extension) element. Element-specific vendor extensions. Vendor extensions are suitable for adding "depth" to the target element. For example, persisting non-standard data and metadata, which could come in handy during various stages of model life-cycle.
 Vendor extensions should not be critical for the successful use of the PMML document. The behaviour of a PMML engine should not change (at least, materially) if they are filtered out.
 * The [`InlineTable`](http://www.dmg.org/v4-3/Taxonomy.html) element. Free-form data tables.
 
