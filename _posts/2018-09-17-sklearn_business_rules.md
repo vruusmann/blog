@@ -77,7 +77,7 @@ If the `RuleSetClassifier` model will be used only in Scikit-Learn environment, 
 
 ### Example workflow
 
-The "iris" dataset is loaded using the `sklearn.datasets.load_iris()` utility function. However, the default representation of Scikit-Learn datasets (instance of `sklearn.utils.Bunch`) is too cumbersome for actual work, and needs to be re-packaged.
+The "iris" dataset is loaded using the [`sklearn.datasets.load_iris()`](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_iris.html) utility function. However, the default representation of Scikit-Learn datasets (instance of `sklearn.utils.Bunch`) is too cumbersome for actual work, and needs to be re-packaged.
 
 Feature data (the `Bunch.data` attribute) is renamed (eg. from "sepal length (cm)" to "Sepal.Length") and converted from a 2-D Numpy array to a `pandas.DataFrame` object in order to make name-based cell referencing possible.
 

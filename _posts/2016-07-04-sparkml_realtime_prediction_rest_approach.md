@@ -225,7 +225,7 @@ Examples of "pseudo" transformer classes:
 The conversion engine is capable of performing smart analyses and optimizations in order to produce a maximally compact and expressive PMML document.
 The case in point is the identification and pruning of unused field declarations, which improves the robustness and performance of production workflows
 
-For example, the `wine.csv` CSV data file contains 11 feature columns, but the wine color model reveals that three of them ("residual_sugar", "free_sulfur_dioxide" and "alcohol") do not contribute to the discrimination between white and red wines in any way.
+For example, the `wine.csv` CSV document contains 11 feature columns, but the wine color model reveals that three of them ("residual_sugar", "free_sulfur_dioxide" and "alcohol") do not contribute to the discrimination between white and red wines in any way.
 The conversion engine takes notice of that and omits all the related data transformations from the workflow, thereby eliminating three-elevenths of the complexity.
 
 ### Importing PMML to Openscoring REST web service

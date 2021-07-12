@@ -154,7 +154,7 @@ resultDs.printSchema()
 resultDs.show(10)
 ```
 
-For example, if the "audit" dataset is loaded from a CSV file without specifying `option("inferSchema", "true")`, then all columns default to the `java.lang.String` data type. A dummy or mismatching dataset schema is not a problem, because the underlying PMML engine automatically parses String values to correct PMML data type values, and proceeds with the rest of input value preparation workflow as usual.
+For example, if the "audit" dataset is loaded from a CSV document without specifying `option("inferSchema", "true")`, then all columns default to the `java.lang.String` data type. A dummy or mismatching dataset schema is not a problem, because the underlying PMML engine automatically parses String values to correct PMML data type values, and proceeds with the rest of input value preparation workflow as usual.
 
 Prediction columns are appended to the input dataset. Depending on the setting of the `TransformerBuilder#exploded(boolean)` configuration method, they are either appended collectively as a single `struct` column, or individually as many scalar columns.
 
