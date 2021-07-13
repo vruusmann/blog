@@ -97,7 +97,7 @@ pipeline = make_fit_pmml_pipeline(rfc)
 
 rfc.pmml_feature_importances_ = rfc.feature_importances_
 for rfc_dtc in rfc.estimators_:
-	rfc_dtc.pmml_feature_importances_ = rfc_dtc.feature_importances_
+  rfc_dtc.pmml_feature_importances_ = rfc_dtc.feature_importances_
 
 sklearn2pmml(pipeline, "RandomForestAudit.pmml")
 ```
