@@ -54,7 +54,7 @@ The expressive power of primary predicates seems rather limiting at first glance
 
 ### `RuleSetClassifier` model type
 
-The [`sklearn2pmml`](https://github.com/jpmml/sklearn2pmml) package version 0.38.0 introduced class [`sklearn2pmml.ruleset.RuleSetClassifier`](https://github.com/jpmml/sklearn2pmml/blob/master/sklearn2pmml/ruleset/__init__.py), which allows data scientists to implement a business rules model as a regular Scikit-Learn classifier.
+The [`sklearn2pmml`](https://github.com/jpmml/sklearn2pmml) package version 0.38.0 introduced the [`sklearn2pmml.ruleset.RuleSetClassifier`](https://github.com/jpmml/sklearn2pmml/blob/master/sklearn2pmml/ruleset/__init__.py) model type, which allows data scientists to implement a business rules model as a regular Scikit-Learn classifier.
 
 The complete set of user-specified business rules is presented as an iterable of tuples. The first element is a Python predicate, and the second element is the associated (ie. to be predicted) class label. It is likely that future `sklearn2pmml` package versions add support for more elements, such as the associated class probability distribution.
 
@@ -159,9 +159,9 @@ pipeline.fit(iris_X, iris_y)
 sklearn2pmml(pipeline, "RuleSetIris-complex.pmml")
 ```
 
-The averages are calculated using the `sklearn2pmml.preprocessing.ExpressionTransformer` transformer class.
+The averages are calculated using the `sklearn2pmml.preprocessing.ExpressionTransformer` transformer.
 
-By default, the expression string (ie. `(X[0] + X[1]) / 2`) becomes the name of the corresponding derived field. Data scientists can rename derived fields using the `sklearn2pmml.decoration.Alias` pseudo-transformation class as they see fit.
+By default, the expression string (ie. `(X[0] + X[1]) / 2`) becomes the name of the corresponding derived field. Data scientists can rename derived fields using the `sklearn2pmml.decoration.Alias` decorator as they see fit.
 However, in this example, the renaming is required, because the two derived fields use identical expression strings.
 
 Just for the record, expression strings can also be made unique by reordering terms (`X[0] + X[1]` vs. `X[1] + X[0]`) or surrounding them with redundant parentheses (`X[0] + X[1]` vs. `(X[0]) + (X[1])`).

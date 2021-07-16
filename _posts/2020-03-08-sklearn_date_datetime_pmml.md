@@ -141,35 +141,35 @@ The hour of day has been incremented by three hours (representing the time zone 
 
 ### Feature specification and engineering
 
-The `sklearn2pmml` package provides domain decorator and transformer classes for working with pre-processed temporal values.
+The `sklearn2pmml` package provides domain decorators and transformers for working with pre-processed temporal values.
 
 Domain decorators are meant for declaring the type and behaviour of individual features.
 They were discussed in full detail in an earlier blog post about [extending Scikit-Learn with feature specifications]({{ site.baseurl }}{% post_url 2020-02-23-sklearn_feature_specification_pmml %}).
 
-The `sklearn2pmml.decoration` module provides three domain decorator classes:
+The `sklearn2pmml.decoration` module provides three domain decorators:
 
 * `TemporalDomain`
   * `DateDomain` - Default date
   * `DateTimeDomain` - Default datetime
 * `OrdinalDomain` - Custom date or datetime
 
-Domain decorator classes take care of parsing or casting input values to appropriate temporal values.
+Domain decorators take care of parsing or casting input values to appropriate temporal values.
 
-`TemporalDomain` subclasses can be applied to multiple columns at once.
+`TemporalDomain` decorators can be applied to multiple columns at once.
 Their core configuration is hard-coded to prevent the collection and storage of valid value space information (ie. `Domain(with_data = False, with_statistics = False)`).
 The main assumption is that the temporal feature(s) is likely to take previously unseen values.
 
-In contrast, the `OrdinalDomain` class can only be applied to one column at once, but is fully configurable.
+In contrast, the `OrdinalDomain` decorator can only be applied to one column at once, but is fully configurable.
 It may come in handy when a temporal feature must be restricted in a certain way.
 
 A datetime is a complex data structure which needs to be "flattened" to a scalar before it can be fed to Scikit-Learn algorithms.
-The `sklearn2pmml.preprocessing` module provides three transformer classes, which correspond to previously discussed PMML built-in functions:
+The `sklearn2pmml.preprocessing` module provides three transformers, which correspond to previously discussed PMML built-in functions:
 
 * `DaysSinceYearTransformer`
 * `SecondsSinceYearTransformer`
 * `SecondsSinceMidnightTransformer`
 
-Further transformations are possible using the good old `ExpressionTransformer` transformer class.
+Further transformations are possible using the good old `ExpressionTransformer` transformer.
 
 For example, calculating the duration of a mission in seconds:
 

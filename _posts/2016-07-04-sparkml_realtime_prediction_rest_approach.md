@@ -173,7 +173,7 @@ The JPMML-Evaluator and JPMML-Model libraries provides rich APIs that can resolv
 From the PMML perspective, Apache Spark ML data transformations can be classified as "real" or "pseudo".
 A "real" transformation performs a computation on a feature or a feature vector. It is encoded as one or more `/PMML/DataDictionary/DerivedField` elements.
 
-Examples of "real" transformer classes:
+Examples of "real" transformers:
 
 * `Binarizer`
 * `Bucketizer`
@@ -212,7 +212,7 @@ The above, after conversion to the PMML representation:
 
 A "pseudo" transformation performs Apache Spark ML-specific housekeeping work such as assembling, disassembling or subsetting feature vectors.
 
-Examples of "pseudo" transformer classes:
+Examples of "pseudo" transformers:
 
 * `ChiSqSelector`
 * `IndexToString`

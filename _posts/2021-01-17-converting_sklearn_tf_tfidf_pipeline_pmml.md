@@ -31,7 +31,7 @@ pipeline = Pipeline([
 pipeline.fit(df["Sentence"], df["Score"])
 ```
 
-Scikit-Learn packs TF(-IDF) workflow operations 1 through 4 into a single transformer class - [`CountVectorizer`](https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.CountVectorizer.html) for TF, and [`TfidfVectorizer`](https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html) for TF-IDF:
+Scikit-Learn packs TF(-IDF) workflow operations 1 through 4 into a single transformer - [`CountVectorizer`](https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.CountVectorizer.html) for TF, and [`TfidfVectorizer`](https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html) for TF-IDF:
 
 1. Text tokenization is controlled using one of `tokenizer` or `token_pattern` attributes.
 2. Token normalization is controlled using `lowercase` and `strip_accents` attributes.

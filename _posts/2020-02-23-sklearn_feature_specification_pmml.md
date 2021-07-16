@@ -82,9 +82,9 @@ By analogy with invalid value treatment, missing values can be rejected by chang
 
 **Important**: The IEEE 754 constant NaN ("Not a Number") is assigned to invalid value space (not to missing value space).
 
-### SkLearn2PMML domain decorator classes
+### SkLearn2PMML domain decorators
 
-The [`sklearn2pmml`](https://github.com/jpmml/sklearn2pmml) package provides several domain decorator classes for customizing the content of `DataField` and `MiningField` elements:
+The [`sklearn2pmml`](https://github.com/jpmml/sklearn2pmml) package provides several domain decorators for customizing the content of `DataField` and `MiningField` elements:
 
 * `Domain(BaseEstimator, TransformerMixin)`
   * `ContinuousDomain`
@@ -127,7 +127,7 @@ The `Domain.transform(X)` method uses all this information to prepare the datase
 
 ### Scikit-Learn examples
 
-Domain decorator classes bring most value when working with heterogeneous datasets.
+Domain decorators bring most value when working with heterogeneous datasets.
 
 The simplest way to go about such workflows is to assemble a two-step pipeline, where the first step is either a `sklearn_pandas.DataFrameMapper` or `sklearn.compose.ColumnTransformer` meta-transformer for performing column-oriented feature engineering work, and the second step is an estimator:
 
@@ -202,7 +202,7 @@ mapper = DataFrameMapper([
 
 In the above Python code, transformations have been grouped by input columns, whereas simple transformations ("Income", "Employment") have been moved in front of complex tranformations ("Hourly_Income", "Employment_Sector").
 The "Hours" column does not make a standalone appearance.
-It is decorated using the `MultiDomain` meta-decorator class when the data enters the "Hourly_Income" transformers list.
+It is decorated using the `MultiDomain` meta-decorator when the data enters the "Hourly_Income" transformers list.
 
 Restricing the range of valid values:
 

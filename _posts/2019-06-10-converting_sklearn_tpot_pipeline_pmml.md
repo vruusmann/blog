@@ -18,8 +18,7 @@ This puts AutoML algorithms into a league above conventional hyperparameter tuni
 Upon success, the AutoML tool returns one or more fitted pipelines.
 Such machine-generated pipelines are identical to human-generated pipelines in all technical and functional aspects. They can be converted to the PMML representation using the [`sklearn2pmml`](https://github.com/jpmml/sklearn2pmml) package.
 
-TPOT is made available for data scientists as a Scikit-Learn estimator class.
-A TPOT estimator can be fitted and used for prediction using `fit(X, y)` and `predict(X)` methods as usual.
+TPOT is made available for data scientists as a Scikit-Learn estimator, which can be fitted and used for prediction using `fit(X, y)` and `predict(X)` methods as usual.
 For more sophisticated application scenarios, the fitted pipeline can be accessed directly as the `fitted_pipeline_` attribute, or converted to Python application code using the `export(path)` method.
 
 Fitted [TPOT estimators cannot be pickled](https://github.com/EpistasisLab/tpot/issues/520) by design.
@@ -173,7 +172,7 @@ sklearn2pmml(pmml_pipeline, "TPOTAudit.pmml", with_repr = True)
 
 The [JPMML-SkLearn](https://github.com/jpmml/jpmml-sklearn) library (that powers the `sklearn2pmml` package) must recognize and support all pipeline steps for the conversion to succeed.
 
-The list of [supported Scikit-Learn and third-party library transformer and estimator classes](https://github.com/jpmml/jpmml-sklearn/blob/master/src/main/resources/META-INF/sklearn2pmml.properties) is long and keeps growing longer with each new release.
+The list of [supported Scikit-Learn and third-party library transformers and estimators](https://github.com/jpmml/jpmml-sklearn/blob/master/src/main/resources/META-INF/sklearn2pmml.properties) is long and keeps growing longer with each new release.
 However, there is still a fair chance that TPOT wants to use some unsupported classes here and there.
 It can be frustrating to see great compute efforts go to waste only because the JPMML-SkLearn library rejects one pipeline step out of hundreds.
 
@@ -205,7 +204,7 @@ del tpot_pmml_config["sklearn.neighbors.KNeighborsClassifier"]
 
 ### Interpreting results
 
-TPOT defines and uses the `tpot.builtins.StackingEstimator` meta-estimator class to chain multiple estimator objects together.
+TPOT defines and uses the `tpot.builtins.StackingEstimator` meta-estimator to chain multiple estimators together.
 
 First, an estimator is fitted using the user-supplied data matrix.
 This estimator is used for prediction, and its `predict(X)` and `predict_proba(X)` result columns are appended to the data matrix.

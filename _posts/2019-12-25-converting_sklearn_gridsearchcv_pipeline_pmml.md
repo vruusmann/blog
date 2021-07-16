@@ -20,8 +20,8 @@ The [Model Selection](https://scikit-learn.org/stable/modules/classes.html#modul
 
 In brief, a data scientist defines the template pipeline and the associated hyperparameter space.
 The latter is a mapping between parameter names and parameter value ranges (a list of preselected values, or a distribution function).
-If the dimensionality of the hyperparameter space is low, and the gradation of all individual dimensions is directly enumerable, then it is possible to perform exhaustive search using the `GridSearchCV` meta-estimator class.
-In all other cases, it is possible to perform random sampling using the `RandomizedSearchCV` meta-estimator class.
+If the dimensionality of the hyperparameter space is low, and the gradation of all individual dimensions is directly enumerable, then it is possible to perform exhaustive search using the `GridSearchCV` meta-estimator.
+In all other cases, it is possible to perform random sampling using the `RandomizedSearchCV` meta-estimator.
 
 ### Single estimator (aka local) tuning
 
@@ -57,7 +57,7 @@ pipeline.verify(df_X.sample(n = 5))
 sklearn2pmml(pipeline, "GridSearchAudit.pmml")
 ```
 
-Both `GridSearchCV` and `RandomizedSearchCV` meta-estimator classes split the original dataset into training and validation subsets.
+Both `GridSearchCV` and `RandomizedSearchCV` meta-estimators split the original dataset into training and validation subsets.
 As a result, the fit method of the tuneable estimator is exposed to less data records than the fit methods of all the other estimators in the pipeline.
 For example, in the above Python code, the `LogisticRegression.fit(X, y)` method is called with roughly 80% of data records (the training subset of the original dataset), whereas `LabelBinarizer.fit(X)` and `StandardScaler.fit(X)` methods are called with 100% of data records (full original dataset).
 Data scientists may want to compensate for this effect, especially when working with smaller and more heterogeneous datasets.
@@ -98,7 +98,7 @@ best_pipeline.verify(df_X.sample(n = 5))
 sklearn2pmml(best_pipeline, "GridSearchAudit.pmml")
 ```
 
-The `GridSearchCV` class can be regarded as a workflow execution engine.
+The `GridSearchCV` meta-estimator can be regarded as a workflow execution engine.
 It takes a template pipeline, performs the search, and returns a hyperparameter-tuned clone of this template pipeline as a `best_estimator_` attribute.
 
 All hyperparameter spaces are collected into a single map.

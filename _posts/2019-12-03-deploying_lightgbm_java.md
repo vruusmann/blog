@@ -27,9 +27,9 @@ For example, Scikit-Learn version 0.22 still does not provide [missing value awa
 The [`sklearn2pmml`](https://github.com/jpmml/sklearn2pmml) package version 0.50.1 introduced utility functions `sklearn2pmml.preprocessing.lightgbm.make_lightgbm_dataframe_mapper` and `make_lightgbm_column_transformer` that take care of constructing column mapper transformations for complex datasets.
 
 These two utility functions have identical signatures.
-They accept the description of a dataset in the form of `dtypes` (iterable of tuples `(column, dtype)`) and `missing_value_aware` (boolean) parameters, and return a tuple `(mapper, categorical_feature)`.
+They accept the description of a dataset in the form of `dtypes` (iterable of `(column, dtype)` tuples) and `missing_value_aware` (boolean) parameters, and return a tuple `(mapper, categorical_feature)`.
 
-The `sklearn_pandas.DataFrameMapper` mapper class is slightly more compact and computationally efficient than the `sklearn.compose.ColumnTransformer` mapper class. However, the former can only be applied to datasets where the column are referentiable by name (eg. `pandas.DataFrame`), whereas the latter can be applied to almost anything.
+The `sklearn_pandas.DataFrameMapper` meta-transformer is slightly more compact and computationally efficient than the `sklearn.compose.ColumnTransformer` meta-transformer. However, the former can only be applied to datasets where the column are referentiable by name (eg. `pandas.DataFrame`), whereas the latter can be applied to almost anything.
 
 Training a model on a sparse mixed data type dataset:
 
@@ -154,7 +154,7 @@ System.out.println("Secondary result (aka output) fields: " + evaluator.getOutpu
 
 The print-out displays eight input fields, one target field ("Adjusted") and two output fields ("probability(0)" and "probability(1)").
 All fields are expressed in terms of the training dataset.
-For example, the "Employment" input field is defined as a categorical string, whose valid value space contains seven elements (the PMML converter has completely reversed the effect of `LabelEncoder` or `PMMLLabelEncoder` transformer classes that are necessary for feeding string values into Scikit-Learn estimators).
+For example, the "Employment" input field is defined as a categorical string, whose valid value space contains seven elements (the PMML converter has completely reversed the effect of `LabelEncoder` or `PMMLLabelEncoder` transformers that are necessary for feeding string values into Scikit-Learn estimators).
 
 Evaluating the model:
 

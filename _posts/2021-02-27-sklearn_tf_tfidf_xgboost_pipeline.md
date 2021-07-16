@@ -37,8 +37,8 @@ However, behind the scenes, they are all converted to a proprietary `xgboost.DMa
 
 It is possible to reduce complexity in the contact area by explicitly converting the document-term matrix from sparse to dense representation.
 
-The `CountVectorizer` transformation class does not provide any controls (eg. a "sparse" constructor parameter) for that.
-A good workaround is to use the `mlxtend.preprocessing.DenseTransformer` pseudo-transformer class from the [`mlxtend`](https://github.com/rasbt/mlxtend) package:
+The `CountVectorizer` transformer does not provide any controls (eg. a "sparse" constructor parameter) for that.
+A good workaround is to use the `mlxtend.preprocessing.DenseTransformer` pseudo-transformer from the [`mlxtend`](https://github.com/rasbt/mlxtend) package:
 
 ``` python
 from mlxtend.preprocessing import DenseTransformer
@@ -155,7 +155,7 @@ yt_proba = classifier.predict_proba(Xt_df_sparse)
 
 The above TF(-IDF) plus XGBoost sequence is correct in a sense that unset cell values are interpreted as zero count values.
 
-The only problem is that this sequence cannot be "formatted" as a `Pipeline` object, because there is no reusable (pseudo-)transformer class that would implement the intermediate `DataFrame.sparse.from_spmatrix(data)` method invocation.
+The only problem is that this sequence cannot be "formatted" as a `Pipeline` object, because there is no reusable (pseudo-)transformer that would implement the intermediate `DataFrame.sparse.from_spmatrix(data)` method invocation.
 
 However, fitted pipeline steps can be combined into a temporary pipeline for PMML conversion purposes:
 

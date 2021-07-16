@@ -17,7 +17,7 @@ The `imblearn` package provides samplers and sampling-aware classifiers.
 Imbalanced-Learn samplers are similar to Scikit-Learn selectors, except they operate on data matrix rows rather than columns.
 A sampler may lower the height of a data matrix by removing undesired rows, or increase it by inserting desired rows (either by duplicating existing rows or generating new rows from scratch).
 
-There are popular ensemble classification algorithms that perform extra re-sampling as part of their business logic.
+There are popular ensemble classification algorithms that perform extra re-sampling as part of their "business logic".
 For example, the random forest algorithm draws a unique subsample for training each member decision tree as a means to improve the predictive accuracy and control over-fitting.
 
 Imbalanced-Learn classifiers such as `imblearn.ensemble.BalancedBaggingClassifier` and `imblearn.ensemble.BalancedRandomForestClassifier` extend Scikit-Learn classifiers with basic re-sampling functionality.
@@ -25,7 +25,7 @@ Imbalanced-Learn classifiers such as `imblearn.ensemble.BalancedBaggingClassifie
 This blog post demonstrates how to incorporate Imbalanced-Learn samplers into PMML pipelines.
 
 The "audit" dataset contains 1899 data records; 447 of them are labeled as "event" and 1452 as "no-event".
-In this exercise, the dataset shall be enriched from the initial ~1/4 event ratio to 1/3 event ratio by randomly sampling 1000 "event" data records and 2000 "no-event" data records using the `imblearn.over_sampling.RandomOverSampler` sampler class.
+In this exercise, the dataset shall be enriched from the initial ~1/4 event ratio to 1/3 event ratio by randomly sampling 1000 "event" data records and 2000 "no-event" data records using the `imblearn.over_sampling.RandomOverSampler` sampler.
 
 The sampler step is typically placed between feature engineering and classifier steps:
 
@@ -70,7 +70,7 @@ Traceback (most recent call last):
 TypeError: All intermediate steps should be transformers and implement fit and transform or be the string 'passthrough' 'RandomUnderSampler(sampling_strategy={0: 1000, 1: 500})' (type <class 'imblearn.under_sampling._prototype_selection._random_under_sampler.RandomUnderSampler'>) doesn't
 ```
 
-Imbalanced-Learn sampler classes are completely separate from Scikit-Learn transformer classes.
+Imbalanced-Learn samplers are completely separate from Scikit-Learn transformers.
 They inherit from the `imblearn.base.SamplerMixing` base class, and their API is centered around the `fit_resample(X, y)` method that operates both on feature and label data.
 
 The `imblearn` package provides the `imblearn.pipeline.Pipeline` class, which extends the `sklearn.pipeline.Pipeline` class with support for sampler steps.
@@ -134,9 +134,9 @@ sklearn2pmml(pmml_pipeline, "ImbLearnAudit.pmml", with_repr = True)
 ```
 
 Re-sampling is solely a training-time phenomenon.
-Imbalanced-Learn sampler classes act as identity transformers during prediction. It means that they pass through testing and validation datasets unchanged.
+Imbalanced-Learn samplers act as identity transformers during prediction. It means that they pass through testing and validation datasets unchanged.
 
-Consequently, sampler classes are functionally void in the PMML representation.
+Consequently, samplers are functionally void in the PMML representation.
 The only trace left of them are differing data record counts as reported by different pipeline steps.
 For example, the initial domain decorator steps (eg. `ContinuousDomain` and `CategoricalDomain` classes) report a record count of 1899, whereas the final estimator step (ie. the `DecisionTreeClassifier`  class) reports it as 3000.
 

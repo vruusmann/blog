@@ -11,7 +11,7 @@ The idea is to use the underlying ML framework for generic activities such as lo
 As a specialized library, LightGBM offers much better performance (eg. distributed and hardware-accelerated backends) and richer parameterization options.
 
 Getting started with third-party libraries is fairly easy on Scikit-Learn, because everything is organized around the pipeline concept, and the roles and responsibilities of individual pipeline steps are formalized via an API.
-For example, a Scikit-Learn pipeline that was constructed around the `sklearn.ensemble.GradientBoostingClassifier` estimator class can be upgraded to LightGBM by simply replacing it with the `lightgbm.LGBMClassifier` estimator class.
+For example, a Scikit-Learn pipeline that was constructed around the `sklearn.ensemble.GradientBoostingClassifier` model can be upgraded to LightGBM by simply replacing it with the `lightgbm.LGBMClassifier` model.
 
 However, in order to unlock the full potential of third-party libraries, it becomes necessary to learn about their main characteristics and assumptions by systematically going through their documentation and code examples.
 It is often the case that a good portion of key functionality remains unused, because end users simply do not know about it, or cannot find a way to implement it in practice.
@@ -19,9 +19,9 @@ It is often the case that a good portion of key functionality remains unused, be
 This blog post demonstrates how to take full advantage of LightGBM categorical feature support and missing values support.
 
 The exercise starts with defining a generic two-step pipeline that trains a binary classification model for the "audit" dataset.
-In brief, the dataset contains both categorical and continuous features, which are separated from one another and subjected to operational type-dependent data pre-processing using the `sklearn_pandas.DataFrameMapper` transformer class.
-Categorical features are mapped one by one, by first capturing their domain using the `sklearn2pmml.decoration.CategoricalDomain` decorator class and then binarizing and/or integer encoding them using Scikit-Learn's built-in label transformer classes.
-Continuous features are mapped all together, simply by capturing their domain using the `sklearn2pmml.decoration.ContinuousDomain` decorator class.
+In brief, the dataset contains both categorical and continuous features, which are separated from one another and subjected to operational type-dependent data pre-processing using the `sklearn_pandas.DataFrameMapper` meta-transformer.
+Categorical features are mapped one by one, by first capturing their domain using the `sklearn2pmml.decoration.CategoricalDomain` decorator and then binarizing and/or integer encoding them using Scikit-Learn's built-in label transformers.
+Continuous features are mapped all together, simply by capturing their domain using the `sklearn2pmml.decoration.ContinuousDomain` decorator.
 
 ``` python
 from lightgbm import LGBMClassifier
@@ -59,11 +59,11 @@ The main difference between these two usage modes is related to the sourcing of 
 In standalone mode, they are extracted from the LightGBM model object.
 In plugin mode, they are inherited from the host ML framework, and only checked for consistency against the LightGBM model object.
 
-The [`sklearn2pmml`](https://github.com/jpmml/sklearn2pmml) package provides `CategoricalDomain` and `ContinuousDomain` decorator classes specifically for the purpose of ensuring that Scikit-Learn feature definitions are as rich and nuanced as possible.
+The [`sklearn2pmml`](https://github.com/jpmml/sklearn2pmml) package provides `CategoricalDomain` and `ContinuousDomain` decorators specifically for the purpose of ensuring that Scikit-Learn feature definitions are as rich and nuanced as possible.
 
 ### Categorical features
 
-The `LabelBinarizer` transformer class transforms a string column to a list of integer columns, one for each category level. For example, the "Education" column is transformed to sixteen integer columns (with cell values being either 0 or 1).
+The `LabelBinarizer` transformer expands a string column to a list of integer columns, one for each category level. For example, the "Education" column is expanded to sixteen integer columns (with cell values being either 0 or 1).
 
 The LightGBM classifier in its default configuration, just like all Scikit-Learn estimators, treats binary features as regular numeric features.
 Continuous splits are encoded using the `SimplePredicate` element:
@@ -133,7 +133,7 @@ When a categorical feature is manually transformed to a list of binary features,
 
 However, there is a minor inconvenience related to the fact that LightGBM estimators do not accept string columns directly, but expect them to be re-encoded as integer columns. For example, the "Education" column needs to be transformed to a sole integer column (with cell values ranging from 0 to 15).
 
-The `LabelEncoder` transformer class provides this exact functionality:
+The `LabelEncoder` transformer provides this exact functionality:
 
 ``` python
 from sklearn.preprocessing import LabelEncoder
@@ -216,7 +216,7 @@ TypeError: unorderable types: str() < float()
 If data sparsity is not too high, then it can be made whole by imputing missing values based on available evidence.
 For continuous features, the replacement value is typically the mean or median. For categorical features, the replacement value is typically the mode or some predefined constant (eg. "N/A").
 
-The `SimpleImputer` transformer class transforms a sparse dataset to dense dataset:
+The `SimpleImputer` transformer changes a sparse dataset to dense dataset:
 
 ``` python
 from sklearn.impute import SimpleImputer
@@ -237,7 +237,7 @@ For example, both `CategoricalDomain` and `ContinuousDomain` decorators count th
 
 It really is a poor proposition to perform the missing value imputation and risk the data science experiment just to satisfy one component that performs a helper function. Therefore, it needs to go.
 
-The `sklearn2pmml` package provides a `sklearn2pmml.preprocessing.PMMLLabelEncoder` transformer class, which is essentially a missing value-aware replacement for the `LabelEncoder` transformer class.
+The `sklearn2pmml` package provides a `sklearn2pmml.preprocessing.PMMLLabelEncoder` transformer, which is essentially a missing value-aware replacement for the `LabelEncoder` transformer.
 
 ``` python
 from sklearn2pmml.preprocessing import PMMLLabelEncoder

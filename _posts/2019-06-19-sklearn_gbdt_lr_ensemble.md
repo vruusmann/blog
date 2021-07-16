@@ -31,10 +31,10 @@ For example, discovering cliffs and other anomalies in the decision space by obs
 
 Scikit-Learn documentation dedicates a separate page to GBDT plus LR ensemble models: [Feature transformations with ensembles of trees](https://scikit-learn.org/stable/auto_examples/ensemble/plot_feature_transformation.html)
 
-While the concept and its implementation are discussed in great detail, there is no reusable GBDT+LR estimator class available within Scikit-Learn.
+While the concept and its implementation are discussed in great detail, there is no reusable GBDT+LR estimator available within Scikit-Learn.
 Interested parties are either expected to copy-paste the example code, or rely on third-party libraries.
 
-The [`sklearn2pmml`](https://github.com/jpmml/sklearn2pmml) package version 0.47.0 introduced class [`sklearn2pmml.ensemble.GBDTLRClassifier`](https://github.com/jpmml/sklearn2pmml/blob/master/sklearn2pmml/ensemble/__init__.py) (together with `sklearn2pmml.ensemble.GBDTLMRegressor`) to address this deficiency.
+The [`sklearn2pmml`](https://github.com/jpmml/sklearn2pmml) package version 0.47.0 introduced `sklearn2pmml.ensemble.GBDTLRClassifier` and  `sklearn2pmml.ensemble.GBDTLMRegressor` ensemble models to address this deficiency.
 
 ### PMML perspective
 
@@ -104,7 +104,7 @@ sklearn2pmml(pipeline, "GBDT+LR.pmml")
 ```
 
 Conversely, the "bagging" behaviour can be promoted by growing a smaller number of deeper decision trees.
-The `GBDTLRClassifier` class accepts any PMML compatible classifier as the `gbdt` component.
+The `GBDTLRClassifier` ensemble model accepts any PMML compatible classifier as the `gbdt` component.
 For example, switching from `GradientBoostingClassifier` to alternative classifier classes such as `ExtraTreesClassifier` or `RandomForestClassifier` would reduce the risk of overfitting:
 
 ``` python
@@ -114,7 +114,7 @@ pipeline = make_fit_gbdtlr(RandomForestClassifier(n_estimators = 31, max_depth =
 sklearn2pmml(pipeline, "RF+LR.pmml")
 ```
 
-The [XGBoost](https://github.com/dmlc/xgboost) plugin library provides an `xgboost.XGBClassifier` class, which can be used as a drop-in replacement for Scikit-Learn classifier classes:
+The [XGBoost](https://github.com/dmlc/xgboost) plugin library provides an `xgboost.XGBClassifier` model, which can be used as a drop-in replacement for Scikit-Learn classifier classes:
 
 ``` python
 from xgboost import XGBClassifier
@@ -123,7 +123,7 @@ pipeline = make_fit_gbdtlr(XGBClassifier(n_estimators = 299, max_depth = 3), Log
 sklearn2pmml(pipeline, "XGB+LR.pmml")
 ```
 
-The [LightGBM](https://github.com/microsoft/LightGBM) plugin library provides a `lightgbm.LGBMClassifier` class.
+The [LightGBM](https://github.com/microsoft/LightGBM) plugin library provides a `lightgbm.LGBMClassifier` model.
 One of its major selling points is proper support for categorical features.
 If the training dataset contains a significant number of (high-cardinality-) categorical features, then the above `make_fit_gbdtlr` utility function should be tailored to maintain this information.
 
@@ -163,7 +163,7 @@ sklearn2pmml(pipeline, "LGBM+LR.pmml")
 ```
 
 Both XGBoost and LightGBM classifiers support missing values.
-When working with sparse datasets, then it is possible to make `make_fit_gbdtlr` and `make_fit_lgbmlr` utility functions missing value-aware by replacing the default `LabelBinarizer` and `LabelEncoder` transformer classes with `sklearn2pmml.preprocessing.PMMLLabelBinarizer` and `sklearn2pmml.preprocessing.PMMLLabelEncoder` transformer classes, respectively.
+When working with sparse datasets, then it is possible to make `make_fit_gbdtlr` and `make_fit_lgbmlr` utility functions missing value-aware by replacing the default `LabelBinarizer` and `LabelEncoder` transformers with `sklearn2pmml.preprocessing.PMMLLabelBinarizer` and `sklearn2pmml.preprocessing.PMMLLabelEncoder` transformers, respectively.
 
 ### Resources
 

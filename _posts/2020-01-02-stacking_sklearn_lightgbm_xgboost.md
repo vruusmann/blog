@@ -77,8 +77,8 @@ The pipeline needs considerable redesign when dealing with heterogeneous estimat
 
 Stacking LightGBM and XGBoost estimators is challenging due to their different categorical data pre-processing requirements.
 
-LightGBM performs the histogram-based binning of categorical values internally, and therefore expects categorical features to be kept as-is, or at most be encoded into categorical integer features using the `LabelEncoder` transformer class.
-XGBoost does not have such capabilities, and therefore expects categorical features to be binarized using either `LabelBinarizer` or `OneHotEncoder` transformer classes.
+LightGBM performs the histogram-based binning of categorical values internally, and therefore expects categorical features to be kept as-is, or at most be encoded into categorical integer features using the `LabelEncoder` transformer.
+XGBoost does not have such capabilities, and therefore expects categorical features to be binarized using either `LabelBinarizer` or `OneHotEncoder` transformers.
 
 The "homogenisation" of LightGBM and XGBoost estimators is possible by enforcing the binarization of categorical features.
 However, this reduces the predictive performance of LightGBM.
@@ -107,7 +107,7 @@ pipeline = PMMLPipeline([
 ```
 
 If all child pipelines perform common feature engineering work, then it should be extracted into the first step of the pipeline.
-In this exercise, it is limited to capturing domain of features using `CategoricalDomain` and `ContinuousDomain` decorator classes.
+In this exercise, it is limited to capturing domain of features using `CategoricalDomain` and `ContinuousDomain` decorators.
 
 The initial column transformer changes the representation of the dataset from `pandas.DataFrame` to 2-D Numpy array, which is lacking adequate column-level metadata (eg. names, data types) for setting up subsequent column transformers.
 A suitable array descriptor is created manually, by copying the value of the `DataFrame.dtypes` attribute, and changing its index from column names to column positions:

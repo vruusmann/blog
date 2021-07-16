@@ -108,18 +108,18 @@ r2pmml::r2pmml(audit.glm, "RExpAudit.pmml")
 ### Scikit-Learn
 
 Scikit-Learn follows object-oriented programming (OOP) paradigm.
-The [Linear Models](https://scikit-learn.org/stable/modules/classes.html#module-sklearn.linear_model) module provides the `LinearModel` base class, which is subclassed and mixed with `RegressorMixin` and `ClassifierMixin` traits to provide algorithm-specific estimator classes.
-The logistic regression algorithm is available as the [`LogisticRegression`](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html) estimator class.
+The [Linear Models](https://scikit-learn.org/stable/modules/classes.html#module-sklearn.linear_model) module provides the `LinearModel` base class, which is subclassed and mixed with `RegressorMixin` and `ClassifierMixin` traits to provide algorithm-specific model base classes.
+The logistic regression algorithm is available as the [`LogisticRegression`](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html) model.
 
 Scikit-Learn estimators are trained by calling the `fit(X, y, **fit_params)` method.
 However, real-life datasets require serious data pre-processing before they can be passed to this method.
 The main requirement is transforming features from the mixed high-level representation to the unified (floating point) low-level representation so that they would become "understandable" to numerical algorithms.
 
-Scikit-Learn provides a decent selection of transformer classes that help with importing data into the pipeline. Unfortunately, the situation is rather bleak when it comes to manipulating or modifying data inside the pipeline (eg. concatenating two string columns into a new string column).
+Scikit-Learn provides a decent selection of transformers that help with importing data into the pipeline. Unfortunately, the situation is rather bleak when it comes to manipulating or modifying data inside the pipeline (eg. concatenating two string columns into a new string column).
 
 The `sklearn2pmml` package does its best to address this deficiency in a PMML compatible manner.
-The [Decoration](https://github.com/jpmml/sklearn2pmml/tree/master/sklearn2pmml/decoration) and [Preprocessing](https://github.com/jpmml/sklearn2pmml/tree/master/sklearn2pmml/preprocessing) modules provide transformer classes for performing common data science operations.
-They operate on the high-level representation of data, and typically precede any Scikit-Learn transformer classes in the pipeline.
+The [Decoration](https://github.com/jpmml/sklearn2pmml/tree/master/sklearn2pmml/decoration) and [Preprocessing](https://github.com/jpmml/sklearn2pmml/tree/master/sklearn2pmml/preprocessing) modules provide transformers for performing common data science operations.
+They operate on the high-level representation of data, and typically precede any Scikit-Learn transformers in the pipeline.
 
 Transforming the "audit" dataset to a 2-D Numpy array:
 
@@ -161,7 +161,7 @@ There are several options for converting strings to bit vectors:
 | `[LabelEncoder(), OneHotEncoder()]` | < 0.20 | 1 | No | Sparse matrix |
 | `OneHotEncoder()` | >= 0.20 | 1 or more | Yes | Sparse matrix |
 
-The [`OneHotEncoder`](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html) transformer class was heavily refactored in Scikit-Learn version 0.20, giving it the ability to fit and transform multiple columns together, and drop category levels.
+The [`OneHotEncoder`](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html) transformer was heavily refactored in Scikit-Learn version 0.20, giving it the ability to fit and transform multiple columns together, and drop category levels.
 
 These two abilities enable vastly cleaner and conciser workflows.
 
@@ -169,13 +169,13 @@ The interaction between "Gender" and "Marital" string columns can be expressed a
 The list selector syntax (`["Gender", "Marital"]`) yields a two-column string array, which is first one-hot-encoded to an eight-column integer array, and then polynomially combined into a 36-column integer array.
 The first eight elements correspond to raw categories (ie. `Gender=Male, Gender=Female, Marital=Absent, ..`), and the remaining twenty eight ((8 * (8 - 1)) / 2) elements to interactions between them (ie. `Gender=Male * Gender=Female, Gender=Male * Marital=Absent, ..`).
 
-Using the [`PolynomialFeatures`](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html) transformer class for feature interactions does the job, but is far from elegance and efficiency.
+Using the [`PolynomialFeatures`](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html) transformer for feature interactions does the job, but is far from elegance and efficiency.
 The main complaint is that it lacks the concept of feature boundaries ("treat the leading n elements as belonging to feature A, and the following m elements as belonging to feature B"), which could be used to prevent the generation of meaningless or undesirable interaction terms.
 For example, interaction terms which combine different categories of the same feature (eg. `Gender=Male * Gender=Female`) are non-sensical from the real-life perspective, and risk blowing up numerical algorithms due to high collinearity with other terms.
 
 Fighting collinearity is a major issue when training unregularized (logistic-) regression models.
 A common source of highly correlated features is the binarization or one-hot-encoding of string columns.
-The `OneHotEncoder` transformer class fixes this by allowing one category level to be excluded from the one-hot-encoding process.
+The `OneHotEncoder` transformer fixes this by allowing one category level to be excluded from the one-hot-encoding process.
 Most data scientist habitually drop the first category level.
 
 The logistic regression model is associated with transformations by constructing a two-step pipeline.
@@ -200,11 +200,11 @@ sklearn2pmml(pipeline, "SkLearnAudit.pmml")
 ### Apache Spark
 
 Apache Spark allows the end user to choose between programming paradigms.
-The prevailing DataFrame-based machine learning API called Apache Spark ML is built around transformer and estimator classes that are almost identical to their Scikit-Learn namesakes.
+The prevailing DataFrame-based machine learning API called Apache Spark ML is built around transformers and models that are almost identical to their Scikit-Learn namesakes.
 In fact, it is possible to translate pipelines between these two ML frameworks with not much effort.
 
 However, solving data science problems at Apache Spark ML layer involves lot of typing, and sooner or later hits various API limits.
-For example, the label column of classification models must be explicitly converted from the high-level string representation to low-level bit vector representation, and back, using a pair of `StringIndexer(Model)` and `IndexToString` transformer classes.
+For example, the label column of classification models must be explicitly converted from the high-level string representation to low-level bit vector representation, and back, using a pair of `StringIndexer(Model)` and `IndexToString` transformers.
 The initialization of each pipeline stage typically requires writing three to five lines of boilerplate code, which adds to the burden.
 
 It is possible to "compress" rather complex workflows into small and expressive scripts by leveraging different API layers.
