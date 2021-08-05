@@ -4,7 +4,7 @@ title: "JPMML-Evaluator: Tracing and reporting machine learning model prediction
 author: vruusmann
 ---
 
-There are numerous application scenarios which require an ability to "look into" a model to understand how a particular prediction was computed. They range from low-stakes applications such as tracing and debugging misbehaving models, to high-stakes applications such as generating reports for models that are making life-changing decisions.
+There are numerous application scenarios which require an ability to "look into" a model to understand how a particular prediction was computed. They range from low-stakes applications scenarios such as tracing and debugging misbehaving models, to high-stakes ones such as generating reports for models that are making life-changing decisions.
 
 Most ML frameworks completely overlook this need. For example, Scikit-Learn logistic regression models expose `predict(X)` and `predict_proba(X)` methods, which return plain numeric predictions. The only way to understand how a particular number was computed (eg. active terms and their coefficients, the family and parameterization of the link function) is to open the source code of the logistic regression model class in a text editor, and parse/interpret the body of the prediction method line-by-line. However, if the model operates on a transformed feature space, and the ML framework itself uses low-level abstractions for feature representation (eg. string features are transformed to binary vectors), then it is effectively impossible for a casual observer to make any sense of it all.
 
@@ -180,9 +180,9 @@ The newly generated PMML document `XGBoostAudit.pmml` is copied into `XGBoostAud
 According to the PMML specification, the results provided from the model chain are the results of the last active segment. The results from earlier active segments must be explicitly propagated.
 For example, the value of the "report(xgbValue)" output field stays in "booster" scope by default. It needs to be imported from "booster" scope into "sigmoid function" scope using a `MiningField` element, and then re-exported as "ref(report(xgbValue))" using an `OutputField` element.
 
-The [`jpmml_evaluator`](https://github.com/jpmml/jpmml-evaluator-python) package provides a Python wrapper for the JPMML-Evaluator library. It enables quick PMML validation and scoring work, without writing a single line of Java application code.
+The [`jpmml_evaluator`](https://github.com/jpmml/jpmml-evaluator-python) package provides a Python wrapper for the JPMML-Evaluator library. It enables quick PMML validation and evaluation work, without writing a single line of Java application code.
 
-Creating a verified PMML engine, and scoring the first row of the "audit" dataset:
+Creating a verified PMML engine, and evaluating the first row of the "audit" dataset:
 
 ``` python
 from jpmml_evaluator import make_evaluator
@@ -216,7 +216,7 @@ print(results)
 gateway.shutdown()
 ```
 
-The scoring result is a `dict` object with six items:
+The result is a `dict` object with six items:
 
 ``` python
 {

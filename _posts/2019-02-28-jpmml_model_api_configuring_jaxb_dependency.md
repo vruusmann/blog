@@ -139,4 +139,4 @@ After declaring the minimal GlassFish Metro dependency, the project can be built
 
 ### Resources
 
-* Demo application: ["jaxb_demo.zip"]({{ site.baseurl }}/assets/2019-02-28/jaxb_demo.zip)
+* Java application: ["jaxb_demo.zip"]({{ site.baseurl }}/assets/2019-02-28/jaxb_demo.zip)

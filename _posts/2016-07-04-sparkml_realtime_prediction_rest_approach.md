@@ -8,7 +8,7 @@ author: vruusmann
 On one hand, the batch processing is suitable for working with Big Data-scale datasets. Apache Spark splits the task into manageable-size batches and distributes the workfload across a cluster of machines.
 Apache Spark competitors such as R or Python cannot match that, because they typically require the task to fit into the RAM of a single machine.
 
-On the other hand, the batch processing is characterized by high inertia. Apache Spark falls short in application areas where it is necessary to work with small datasets (eg. single data records) in real time.
+On the other hand, the batch processing is characterized by high inertia. Apache Spark falls short in application scenarios where it is necessary to work with small datasets (eg. single data records) in real time.
 Essentially, there is a lower bound (instead of an upper bound) to the effective size of a task.
 
 This blog post details a workflow where Apache Spark ML pipeline models are converted to the Predictive Model Markup Language (PMML) representation, and then deployed using the Openscoring REST web service for easy interfacing with third-party applications.
@@ -48,7 +48,7 @@ The JPMML-SparkML library depends on a newer version of the [JPMML-Model](https:
 
 The [JPMML-SparkML-Bootstrap](https://github.com/jpmml/jpmml-sparkml-bootstrap) project aims to provide a complete example about developing and packaging an JPMML-SparkML powered application.
 
-The `org.jpmml.sparkml.bootstrap.Main` application class demonstrates a two-stage pipeline. The first pipeline stage is a `RFormula` transformer that simply selects columns from a CSV input file. The second pipeline stage is either a `DecisionTreeRegressor` or `DecisionTreeClassifier` predictor that finds the best approximation between the label column and feature columns. The result is written to a PMML output file.
+The `org.jpmml.sparkml.bootstrap.Main` application demonstrates a two-stage pipeline. The first pipeline stage is a `RFormula` transformer that simply selects columns from a CSV input file. The second pipeline stage is either a `DecisionTreeRegressor` or `DecisionTreeClassifier` predictor that finds the best approximation between the label column and feature columns. The result is written to a PMML output file.
 
 The exercise starts with training a classification-type decision tree model for the ["wine quality" dataset](https://archive.ics.uci.edu/ml/datasets/Wine+Quality):
 

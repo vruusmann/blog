@@ -198,7 +198,7 @@ For example, the PMML representation of feature importances for the "DecisionTre
 
 The quick statistics shows that 13 out of 49 features have zero importance, which means that they are redundant from the current model perspective.
 Of the remaining 36 features, the most important one is the "Marital=Married" binary indicator feature that alone does over 20% of work. Interestingly enough, all the other "Marital" category levels contribute very little.
-This suggest that the "Marital" column should be encoded using some binarizing transformer instead ("Marital equals Married" vs "Marital does not equal Married").
+This suggest that the "Marital" column should be encoded using some binarizing transformer instead ("Marital equals Married" vs. "Marital does not equal Married").
 
 On aggregate, the importance of the "Marital" column is only surpassed by the "Income" column.
 Its importance is obtained by summing the "Income" direct feature importance and half of the "Hourly_Income" derived feature importance (`0.14371484745257854 + 1/2 * 0.15704030730211904 = 0.22223500110363806`).

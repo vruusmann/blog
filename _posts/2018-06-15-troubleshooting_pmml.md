@@ -29,7 +29,7 @@ Typically, a PMML document starts with an XML declaration, followed by a `PMML` 
 
 *Tip*: If the content looks messy, consider re-indenting or re-formatting it.
 
-The [JPMML-Model](https://github.com/jpmml/jpmml-model) library provides an example command-line application `org.jpmml.model.CopyExample`, which reads/parses a PMML file into an in-memory class model object, and then formats/writes it to another PMML file:
+The [JPMML-Model](https://github.com/jpmml/jpmml-model) library provides an `org.jpmml.model.CopyExample` command-line application, which reads/parses a PMML file into an in-memory class model object, and then formats/writes it to another PMML file:
 
 ```
 $ java -cp pmml-model-example/target/example-1.4-SNAPSHOT.jar org.jpmml.model.CopyExample --input model.pmml.xml --output /dev/null
@@ -61,7 +61,7 @@ Caused by: org.xml.sax.SAXParseException; lineNumber: 248; columnNumber: 19; The
 
 ### Structural validation as PMML
 
-The JPMML-Model library provides an example command-line application `org.jpmml.model.ValidationExample`, which validates the content of a PMML document against the built-in PMML schema definition (XSD) file. This XSD file is based on the latest PMML schema version (at the time of writing this, 4.3), and includes a limited number JPMML vendor extension elements and attributes. Nevertheless, it is suitable for validating all PMML schema version 3.X and 4.X documents, as the PMML standard is fully backwards- and forwards-compatible in this schema version range.
+The JPMML-Model library provides an `org.jpmml.model.ValidationExample` command-line application, which validates the content of a PMML document against the built-in PMML schema definition (XSD) file. This XSD file is based on the latest PMML schema version (at the time of writing this, 4.3), and includes a limited number JPMML vendor extension elements and attributes. Nevertheless, it is suitable for validating all PMML schema version 3.X and 4.X documents, as the PMML standard is fully backwards- and forwards-compatible in this schema version range.
 
 ```
 $ java -cp pmml-model-example/target/example-1.4-SNAPSHOT.jar org.jpmml.model.ValidationExample --input model.pmml.xml
@@ -202,6 +202,6 @@ value space -->
 </DataField>
 ```
 
-Every PMML engine is free to decide if, when and in what way to fail when asked to use the above field definition. A naive PMML engine might not see any problem(s) with it, and never fail. A more more sophisticated but forgiving PMML engine might successfully score `x1 = 0` and `x1 = 1` data records, and only fail with `x1 = 0.5` data records. However, a strict PMML engine might blacklist this field declaration already when loading the PMML document, and not permit the scoring of any data records.
+Every PMML engine is free to decide if, when and in what way to fail when asked to use the above field definition. A naive PMML engine might not see any problem(s) with it, and never fail. A more more sophisticated but forgiving PMML engine might successfully evaluate `x1 = 0` and `x1 = 1` data records, and only fail with `x1 = 0.5` data records. However, a strict PMML engine might blacklist this field declaration already when loading the PMML document, and not permit the evaluation of any data records.
 
 Field scoping and referencing violations can be fully found via static PMML code analysis. The JPMML-Model library provides a number of Visitor API implementation classes that can traverse the PMML class model object and perform relevant checks.

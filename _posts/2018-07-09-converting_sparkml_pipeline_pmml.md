@@ -150,7 +150,7 @@ The "business logic" of some Apache Spark ML transformer or model can often be c
 The purpose of conversion options is to activate the most optimal representation for the intended application scenario. Granted, the content of PMML documents is well structured and is fairly easy to manipulate using [JPMML-Model](https://github.com/jpmml/jpmml-model) and [JPMML-Converter](https://github.com/jpmml/jpmml-converter) libraries at any later time. However, achieving the desired outcome by toggling high-level controls is much more productive than writing low-level application code.
 
 There is no easy recipe for deciding which conversion options to tweak, and in which way. It could very well be the case that the defaults work fine for everything except for one specific feature/operation/algorithmic detail.
-The recommended way of going about this problematics is generating a grid of PMML documents by systematically varying the values of small number of key conversion options, and capturing and analyzing relevant metrics during scoring.
+The recommended way of going about this problematics is generating a grid of PMML documents by systematically varying the values of small number of key conversion options, and capturing and analyzing relevant metrics during evaluation.
 
 Conversion options are systematized as Java marker interfaces, which inherit from the `org.jpmml.sparkml.HasOptions` base marker interface.
 A similar convention is being enforced across all JPMML conversion libraries. For example, in the [JPMML-SkLearn](https://github.com/jpmml/jpmml-sklearn) library, which deals with the conversion of Scikit-Learn pipelines to the PMML representation, the class hierarchy is rooted at the `org.jpmml.sklearn.HasOptions` base marker interface.

@@ -8,7 +8,7 @@ The [JPMML-Evaluator](https://github.com/jpmml/jpmml-evaluator) library aims to 
 
 However, there can never be too much testing. Application developers are encouraged to create and maintain custom integration test modules that replicate models and datasets from their production environments. Such integration tests lower the risk of change. They make it more secure to update and upgrade the ML framework and the PMML layer on top of it.
 
-This blog post details a batch evaluation method for integration testing purposes. The heavy lifting is handled by the `org.jpmml.evaluator.BatchUtil#difference(Batch, double, double)` method. A test case, which is represented by the `org.jpmml.evaluator.Batch` interface, is a triplet of streaming resources:
+This blog post details a batch evaluation method for integration testing purposes. The heavy-lifting is handled by the `org.jpmml.evaluator.BatchUtil#difference(Batch, double, double)` method. A test case, which is represented by the `org.jpmml.evaluator.Batch` interface, is a triplet of streaming resources:
 
 * PMML.
 * Input CSV. Contains active and group field(s) as specified by the `MiningSchema` element.

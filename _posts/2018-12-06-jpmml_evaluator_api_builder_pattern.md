@@ -90,7 +90,7 @@ LoadingModelEvaluatorBuilder loadingModelEvaluatorBuilder = new LoadingModelEval
   // This can reduce memory consumption up to 25%
   .setLocatable(false)
   // Intern and optimize PMML elements and attributes
-  // This can reduce memory consumption up to 50%, and increase scoring speeds up to several hundred percent
+  // This can reduce memory consumption up to 50%, and increase evaluation speeds up to several hundred percent
   .setVisitors(visitorBattery);
 ```
 
