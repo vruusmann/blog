@@ -2,7 +2,7 @@
 markdown: redcarpet
 redcarpet:
   extensions: ["autolink", "fenced_code_blocks", "no_intra_emphasis", "strikethrough", "superscript", "tables", "with_toc_data"]
-highlighter: rouge
+highlighter: none
 
 gems:
  - jekyll-paginate
