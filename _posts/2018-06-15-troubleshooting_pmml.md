@@ -2,6 +2,7 @@
 layout: post
 title: "Troubleshooting PMML documents"
 author: vruusmann
+keywords: jpmml-model testing
 ---
 
 **CHALLENGE**: you've composed a Predictive Model Markup Language (PMML) document and would like to make sure that it complies with the PMML standard.

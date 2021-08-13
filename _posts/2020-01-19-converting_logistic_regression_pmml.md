@@ -2,6 +2,7 @@
 layout: post
 title: "Converting logistic regression models to PMML documents"
 author: vruusmann
+keywords: r scikit-learn apache-spark pyspark r2pmml sklearn2pmml pyspark2pmml
 ---
 
 Logistic regression is often the go-to algorithm for binary classification problems.

@@ -2,6 +2,7 @@
 layout: post
 title: "Deploying Apache Spark ML pipeline models on Openscoring REST web service"
 author: vruusmann
+keywords: apache-spark pyspark jpmml-sparkml pyspark2pmml openscoring
 --- 
 
 This blog post is a rehash of an earlier blog post about [using Apache Spark ML pipeline models for real-time prediction]({{ site.baseurl }}{% post_url 2016-07-04-sparkml_realtime_prediction_rest_approach %}).

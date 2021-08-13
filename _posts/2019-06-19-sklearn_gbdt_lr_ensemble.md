@@ -2,6 +2,7 @@
 layout: post
 title: "Extending Scikit-Learn with GBDT plus LR ensemble (GBDT+LR) model type"
 author: vruusmann
+keywords: scikit-learn lightgbm xgboost sklearn2pmml data-categorical
 ---
 
 Logistic regression (LR) is often the go-to choice for binary classification.

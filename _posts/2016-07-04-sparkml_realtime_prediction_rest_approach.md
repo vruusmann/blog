@@ -2,6 +2,7 @@
 layout: post
 title: "Using Apache Spark ML pipeline models for real-time prediction: the Openscoring REST web service approach"
 author: vruusmann
+keywords: apache-spark openscoring
 ---
 
 [Apache Spark](https://spark.apache.org/) follows the batch data processing paradigm, which has its strengths and weaknesses.

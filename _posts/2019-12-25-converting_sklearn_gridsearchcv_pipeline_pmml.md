@@ -2,6 +2,7 @@
 layout: post
 title: "Converting Scikit-Learn hyperparameter-tuned pipelines to PMML documents"
 author: vruusmann
+keywords: scikit-learn sklearn2pmml
 ---
 
 The behaviour of Scikit-Learn estimators is controlled using hyperparameters.

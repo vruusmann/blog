@@ -2,6 +2,7 @@
 layout: post
 title: "JPMML-Model: Configuring JAXB dependency for Java SE versions 8, 9, 10 and 11"
 author: vruusmann
+keywords: jpmml-model
 ---
 
 The [JPMML-Model](https://github.com/jpmml/jpmml-model) library provides a Java class model for the Predictive Model Markup Language (PMML) standard.

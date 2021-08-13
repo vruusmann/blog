@@ -2,6 +2,7 @@
 layout: post
 title: "Analyzing Scikit-Learn feature importances via PMML"
 author: vruusmann
+keywords: scikit-learn sklearn2pmml feature-importance
 ---
 
 ### Terminology

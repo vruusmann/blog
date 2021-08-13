@@ -2,6 +2,7 @@
 layout: post
 title: "JPMML-Model: Converting PMML documents between different schema versions"
 author: vruusmann
+keywords: jpmml-model
 ---
 
 The [Data Mining Group](http://www.dmg.org) has been working diligently to ensure backward compatibility between PMML schema versions. The PMML specification uses two-level versioning system with the general formula of `<major version>.<minor version>`. The major version number is tied to the overall structure of the PMML document (e.g. data flows, data pre- and post-processing). The minor version number is tied to specific features (e.g. model types). The addition of new features is straightforward. The removal of features is a two-step process, where the feature is first marked as deprecated and then removed once the grace period is over.

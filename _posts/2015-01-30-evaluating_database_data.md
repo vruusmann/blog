@@ -2,6 +2,7 @@
 layout: post
 title: "Applying machine learning models to database data: the REST web service approach"
 author: vruusmann
+keywords: openscoring
 ---
 
 There are three major approaches to applying machine learning models to database data:

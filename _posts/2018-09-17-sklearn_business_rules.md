@@ -2,6 +2,7 @@
 layout: post
 title: "Extending Scikit-Learn with business rules (BR) model type"
 author: vruusmann
+keywords: scikit-learn sklearn2pmml business-rules
 ---
 
 ### Machine Learning vs. Business Rules

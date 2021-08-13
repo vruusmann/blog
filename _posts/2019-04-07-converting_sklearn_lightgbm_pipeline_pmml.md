@@ -2,6 +2,7 @@
 layout: post
 title: "Converting Scikit-Learn based LightGBM pipelines to PMML documents"
 author: vruusmann
+keywords: scikit-learn lightgbm sklearn2pmml data-categorical data-missing
 ---
 
 [LightGBM](https://github.com/Microsoft/LightGBM) is a serious contender for the top spot among gradient boosted trees (GBT) algorithms.

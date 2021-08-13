@@ -2,6 +2,7 @@
 layout: post
 title: "Extending Scikit-Learn with date and datetime features"
 author: vruusmann
+keywords: scikit-learn sklearn2pmml feature-domain data-temporal
 ---
 
 Scikit-Learn algorithms operate on numerical data.

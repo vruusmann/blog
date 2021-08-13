@@ -2,6 +2,7 @@
 layout: post
 title: "Deploying R language models on Apache Spark ML"
 author: vruusmann
+keywords: r apache-spark r2pmml jpmml-evaluator
 ---
 
 The [R platform](https://www.r-project.org/) provides a wider and deeper selection of algorithms than any other platform. The trouble is that all these algorithms are tightly coupled to the R language runtime and package system, which makes their reuse on other platforms and application environments fairly difficult.

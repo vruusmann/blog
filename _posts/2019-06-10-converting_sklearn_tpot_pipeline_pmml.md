@@ -2,6 +2,7 @@
 layout: post
 title: "Converting Scikit-Learn based TPOT automated machine learning (AutoML) pipelines to PMML documents"
 author: vruusmann
+keywords: scikit-learn tpot sklearn2pmml data-categorical
 ---
 
 [TPOT](http://epistasislab.github.io/tpot/) is a tool that builds classification and regression models using genetic programming.

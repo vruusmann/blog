@@ -2,6 +2,7 @@
 layout: post
 title: "Deploying LightGBM models on Java/JVM platform"
 author: vruusmann
+keywords: scikit-learn lightgbm sklearn2pmml jpmml-evaluator jpmml-transpiler builder-pattern
 ---
 
 [LightGBM](https://github.com/Microsoft/LightGBM) is a gradient boosting framework that is written in the C++ language.

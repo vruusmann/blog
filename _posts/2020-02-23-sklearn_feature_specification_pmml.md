@@ -2,6 +2,7 @@
 layout: post
 title: "Extending Scikit-Learn with feature specifications"
 author: vruusmann
+keywords: scikit-learn sklearn2pmml feature-domain data-categorical data-temporal data-missing
 ---
 
 Predictive analytics applications must pay attention to "model-data fit", which means that a model can only be used if it is known to be relevant and applicable.

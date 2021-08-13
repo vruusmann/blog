@@ -2,6 +2,7 @@
 layout: post
 title: "Converting Apache Spark ML pipeline models to PMML documents"
 author: vruusmann
+keywords: apache-spark pyspark jpmml-sparkml pyspark2pmml sparklyr sparklyr2pmml
 ---
 
 The [JPMML-SparkML](https://github.com/jpmml/jpmml-sparkml) library converts Apache Spark ML pipeline models to the standardized Predictive Model Markup Language (PMML) representation.

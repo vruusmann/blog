@@ -2,6 +2,7 @@
 layout: post
 title: "Converting Scikit-Learn based Imbalanced-Learn (imblearn) pipelines to PMML documents"
 author: vruusmann
+keywords: scikit-learn imbalanced-learn sklearn2pmml
 ---
 
 [Imbalanced-Learn](https://github.com/scikit-learn-contrib/imbalanced-learn/) is a Scikit-Learn extension package for re-sampling datasets.

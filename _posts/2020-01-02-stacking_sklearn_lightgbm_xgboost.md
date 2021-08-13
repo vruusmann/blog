@@ -2,6 +2,7 @@
 layout: post
 title: "Stacking Scikit-Learn, LightGBM and XGBoost models"
 author: vruusmann
+keywords: scikit-learn lightgbm xgboost sklearn2pmml data-categorical data-missing
 ---
 
 Latest Scikit-Learn releases have made significant advances in the area of ensemble methods.

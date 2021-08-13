@@ -2,6 +2,7 @@
 layout: post
 title: "JPMML-Evaluator: Tracing and reporting machine learning model predictions"
 author: vruusmann
+keywords: jpmml-model jpmml-evaluator jpmml-evaluator-python mathml builder-pattern testing reporting
 ---
 
 There are numerous application scenarios which require an ability to "look into" a model to understand how a particular prediction was computed. They range from low-stakes applications scenarios such as tracing and debugging misbehaving models, to high-stakes ones such as generating reports for models that are making life-changing decisions.

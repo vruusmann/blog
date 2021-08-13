@@ -2,6 +2,7 @@
 layout: post
 title: "Extending Scikit-Learn with outlier detector transformer type"
 author: vruusmann
+keywords: scikit-learn scikit-lego sklearn2pmml
 ---
 
 Outlier detection is a subfield of unsupervised learning, where the objective is to assign **anomaly score** to data records based on their feature values alone.

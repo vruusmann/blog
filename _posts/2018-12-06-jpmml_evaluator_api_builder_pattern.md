@@ -2,6 +2,7 @@
 layout: post
 title: "JPMML-Evaluator: Upgrading from the Factory pattern to the Builder pattern"
 author: vruusmann
+keywords: jpmml-evaluator builder-pattern
 ---
 
 Software grows and evolves over time. Even if the core concepts (types, relationships between them) stay the same, they acquire new properties and behaviour.
