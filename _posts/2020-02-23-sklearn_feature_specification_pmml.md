@@ -210,7 +210,7 @@ Restricing the range of valid values:
 ``` python
 mapper = DataFrameMapper([
   (["Income"], ContinuousDomain(outlier_treatment = "as_extreme_values", low_value = 2000, high_value = 400000)),
-  (["Income", "Hours"], MultiDomain([None, ContinuousDomain(outlier_treatment = "as_missing_values", low_value = 0, high_value = 168, missing_value_treatment = "return_invalid", dtype = float)]), ..])
+  (["Income", "Hours"], MultiDomain([None, ContinuousDomain(outlier_treatment = "as_missing_values", low_value = 0, high_value = 168, missing_value_treatment = "return_invalid", dtype = float)]), ...])
 ])
 ```
 

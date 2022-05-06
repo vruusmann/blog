@@ -74,7 +74,7 @@ TypeError: All intermediate steps should be transformers and implement fit and t
 Imbalanced-Learn samplers are completely separate from Scikit-Learn transformers.
 They inherit from the `imblearn.base.SamplerMixing` base class, and their API is centered around the `fit_resample(X, y)` method that operates both on feature and label data.
 
-The `imblearn` package provides the `imblearn.pipeline.Pipeline` class, which extends the `sklearn.pipeline.Pipeline` class with support for sampler steps.
+The `imblearn` package provides a `imblearn.pipeline.Pipeline` class, which extends the `sklearn.pipeline.Pipeline` class with support for sampler steps.
 
 Switching pipeline implementations:
 
@@ -111,7 +111,7 @@ The [`sklearn2pmml`](https://github.com/jpmml/sklearn2pmml) package provides an 
 
 This utility function refuses to accept Imbalanced-Learn pipeline objects as the first argument.
 The associated type error suggests using the `sklearn2pmml.make_pmml_pipeline(obj)` utility function for transforming custom objects to a PMML pipeline object.
-However, it is better to ignore this advice, and construct and fit a `sklearn2pmml.pipeline.PMMLPipeline` object explicitly:
+However, it is better to ignore this advice, and construct and fit a `PMMLPipeline` object explicitly:
 
 ``` python
 from sklearn2pmml.pipeline import PMMLPipeline

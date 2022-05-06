@@ -25,7 +25,7 @@ For more sophisticated application scenarios, the fitted pipeline can be accesse
 Fitted [TPOT estimators cannot be pickled](https://github.com/EpistasisLab/tpot/issues/520) by design.
 This poses a serious problem for the `sklearn2pmml` package, which operates on Pickle files rather than on in-memory Python objects.
 
-For example, attempting to fit and convert an estimator-only `sklearn2pmml.pipeline.PMMLPipeline`:
+For example, attempting to fit and convert an estimator-only `PMMLPipeline` object:
 
 ``` python
 from sklearn.datasets import load_iris

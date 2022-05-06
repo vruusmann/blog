@@ -24,7 +24,7 @@ Summary of the workflow:
 ### R
 
 R follows functional programming paradigm.
-The built-in `stats` package provides the [`glm()`](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/glm) function for training generalized linear models.
+The built-in `stats` package provides a [`glm()`](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/glm) function for training generalized linear models.
 The logistic regression mode is activated by setting the `family` argument to binomial value (either as a string literal or a [`family`](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/family) object).
 
 If the goal is to perform feature engineering in a PMML compatible manner, then the `glm()` function must be called using "formula interface".
@@ -109,7 +109,7 @@ r2pmml::r2pmml(audit.glm, "RExpAudit.pmml")
 ### Scikit-Learn
 
 Scikit-Learn follows object-oriented programming (OOP) paradigm.
-The [Linear Models](https://scikit-learn.org/stable/modules/classes.html#module-sklearn.linear_model) module provides the `LinearModel` base class, which is subclassed and mixed with `RegressorMixin` and `ClassifierMixin` traits to provide algorithm-specific model base classes.
+The [Linear Models](https://scikit-learn.org/stable/modules/classes.html#module-sklearn.linear_model) module provides a `LinearModel` base class, which is subclassed and mixed with `RegressorMixin` and `ClassifierMixin` traits to provide algorithm-specific model base classes.
 The logistic regression algorithm is available as the [`LogisticRegression`](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html) model.
 
 Scikit-Learn estimators are trained by calling the `fit(X, y, **fit_params)` method.

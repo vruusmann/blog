@@ -72,8 +72,8 @@ import pandas
 df = pandas.read_csv(..)
 
 # The names of categorical and continuous feature columns
-cat_columns = [..]
-cont_columns = [..]
+cat_columns = [...]
+cont_columns = [...]
 
 # The name of the label column
 label_column = ..

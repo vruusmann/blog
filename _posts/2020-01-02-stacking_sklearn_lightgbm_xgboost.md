@@ -170,7 +170,7 @@ xgboost_pipeline = Pipeline([
 
 The Scikit-Learn child pipeline has exactly the same data pre-processing requirements as the XGBoost one (ie. continuous features should be kept as-is, whereas categorical features should be binarized).
 Currently, the corresponding column transformer needs to be set up manually.
-In future Scikit-Learn releases, when the fit methods of `HistGradientBoostingClassifier` and `HistGradientBoostingRegressor` classes add support for sparse datasets, then it should be possible to reuse the `make_xgboost_column_transformer` utility method here.
+In future Scikit-Learn releases, when the fit methods of `HistGradientBoostingClassifier` and `HistGradientBoostingRegressor` classes add support for sparse datasets, then it should be possible to reuse the `make_xgboost_column_transformer` utility function here.
 
 ``` python
 from sklearn.experimental import enable_hist_gradient_boosting # noqa
