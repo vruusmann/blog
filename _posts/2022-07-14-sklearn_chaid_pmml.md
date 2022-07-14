@@ -2,7 +2,7 @@
 layout: post
 title: "Extending Scikit-Learn with CHAID model type"
 author: vruusmann
-keywords: CHAID scikit-learn sklearn2pmml
+keywords: CHAID jpmml-evaluator scikit-learn sklearn2pmml data-categorical data-missing
 ---
 
 Scikit-Learn uses the Classification and Regression Trees (CART) algorithm for growing its decision trees.
@@ -264,8 +264,6 @@ df_pred = evaluator.evaluateAll(df)
 # Save results
 df_pred.to_csv("output.csv", sep = "\t", index = False)
 ```
-
-### Resources
 
 ### Resources
 
