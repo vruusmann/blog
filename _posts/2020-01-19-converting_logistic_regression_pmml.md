@@ -168,11 +168,11 @@ These two abilities enable vastly cleaner and conciser workflows.
 
 The interaction between "Gender" and "Marital" string columns can be expressed as a one-liner.
 The list selector syntax (`["Gender", "Marital"]`) yields a two-column string array, which is first one-hot-encoded to an eight-column integer array, and then polynomially combined into a 36-column integer array.
-The first eight elements correspond to raw categories (ie. `Gender=Male, Gender=Female, Marital=Absent, ..`), and the remaining twenty eight ((8 * (8 - 1)) / 2) elements to interactions between them (ie. `Gender=Male * Gender=Female, Gender=Male * Marital=Absent, ..`).
+The first eight elements correspond to raw category levels (ie. `Gender=Male, Gender=Female, Marital=Absent, ..`), and the remaining twenty eight ((8 * (8 - 1)) / 2) elements to interactions between them (ie. `Gender=Male * Gender=Female, Gender=Male * Marital=Absent, ..`).
 
 Using the [`PolynomialFeatures`](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html) transformer for feature interactions does the job, but is far from elegance and efficiency.
 The main complaint is that it lacks the concept of feature boundaries ("treat the leading n elements as belonging to feature A, and the following m elements as belonging to feature B"), which could be used to prevent the generation of meaningless or undesirable interaction terms.
-For example, interaction terms which combine different categories of the same feature (eg. `Gender=Male * Gender=Female`) are non-sensical from the real-life perspective, and risk blowing up numerical algorithms due to high collinearity with other terms.
+For example, interaction terms which combine different category levels of the same feature (eg. `Gender=Male * Gender=Female`) are non-sensical from the real-life perspective, and risk blowing up numerical algorithms due to high collinearity with other terms.
 
 Fighting collinearity is a major issue when training unregularized (logistic-) regression models.
 A common source of highly correlated features is the binarization or one-hot-encoding of string columns.

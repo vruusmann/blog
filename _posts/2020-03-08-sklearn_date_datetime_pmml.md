@@ -7,7 +7,7 @@ keywords: scikit-learn sklearn2pmml feature-domain data-temporal
 
 Scikit-Learn algorithms operate on numerical data.
 If the dataset contains complex features, then they need to be explicitly encoded and/or transformed from their native high-level representation to a suitable low-level representation.
-For example, a string column must be expanded into a list of binary indicator columns using the `LabelBinarizer` or `OneHotEncoder` transformers.
+For example, a string column must be expanded into a list of binary indicator features using `LabelBinarizer` or `OneHotEncoder` transformers.
 
 Scikit-Learn can be extended with custom features by building extension layers on top of the numeric base layer.
 
@@ -79,7 +79,7 @@ The sample dataset is a list of crewed lunar missions under the [Apollo program]
 In years 1968 thorugh 1972 there were nine flights.
 The first two were lunar orbiting missions, and the remaining seven were lunar landing missions.
 
-```python
+``` python
 from pandas import DataFrame
 
 df = DataFrame([
@@ -100,7 +100,7 @@ print(df)
 In Python language speak, a datetime with time zone information is regarded as "(time zone-) offset-aware", whereas a datetime without time zone information is called a "(time zone-) offset-naive".
 Python datetime functions typically raise an error when offset-aware and offset-naive datetimes are interacted:
 
-```python
+``` python
 from datetime import datetime, timezone
 
 # Offset-aware begin date
@@ -115,7 +115,7 @@ duration = end - begin
 
 The aim of data pre-procesing is to convert offset-aware UTC datetimes to offset-naive PMML-compatible local datetimes:
 
-```python
+``` python
 import pandas
 
 def awarestr_to_naivestr(x, tzinfo):
@@ -174,7 +174,7 @@ Further transformations are possible using the good old `ExpressionTransformer` 
 
 For example, calculating the duration of a mission in seconds:
 
-```python
+``` python
 from sklearn_pandas import DataFrameMapper
 from sklearn2pmml.decoration import DateTimeDomain
 from sklearn2pmml.preprocessing import ExpressionTransformer, SecondsSinceYearTransformer
@@ -192,7 +192,7 @@ If some functionality is needed often, then it should be extracted into a separa
 
 For example, calculating the hour of day (24-hour clock) by dividing the number of seconds since midnight by 3600 seconds/hour:
 
-```python
+``` python
 from sklearn2pmml.decoration import Alias
 from sklearn2pmml.preprocessing import SecondsSinceMidnightTransformer
 

@@ -19,9 +19,9 @@ The old API was designed after Apache Spark MLlib's [`org.apache.spark.mllib.pmm
 The `ConverterUtil#toPMML(StructType, PipelineModel)` utility method was simply doing its best to emulates the non-existing `org.apache.spark.ml.PipelineModel#toPMML(StructType)` method.
 
 The new API is designed after the [builder pattern](https://en.wikipedia.org/wiki/Builder_pattern).
-The primary (ie. essential) state of the `org.jpmml.sparkml.PMMLBuilder` class includes the data schema and the fitted pipeline. The initial values are supplied via the the two-argument `PMMLBuilder(StructType, PipelineModel)` constructor, and can be updated any time via the `#setSchema(StructType)` and `#setPipelineModel(PipelineModel)` mutator methods.
+The primary (ie. essential) state of the `org.jpmml.sparkml.PMMLBuilder` class includes the dataset schema and the fitted pipeline. The initial values are supplied via the the two-argument `PMMLBuilder(StructType, PipelineModel)` constructor, and can be updated any time via the `#setSchema(StructType)` and `#setPipelineModel(PipelineModel)` mutator methods.
 
-Data schema mutation may involve renaming columns or clarifying their data types.
+Schema mutations may involve renaming columns or clarifying their data types.
 Apache Spark ML pays little attention to the data type of categorical features, because after string indexing, vector indexing, vector slicing and dicing, they all end up as `double` arrays anyway.
 In contrast, JPMML-SparkML carefully collects and maintains (meta-)information about each and every feature, with the aim of using it to generate more precise and nuanced PMML documents. For example, JPMML-SparkML (just like all other JPMML conversion libraries) eagerly takes note if the data type of a column is indicated as `boolean`, and generates simplified, binary logic PMML language constructs wherever possible.
 

@@ -121,7 +121,7 @@ The objective is measuring the pure prediction time.
 
 The model and the input data matrix are loaded outside of the main time measurement loop.
 
-In Python, the data is loaded into a `DataFrame` using the `pandas.read_csv(path)` utility function, which automatically takes care of column data type detection and conversion.
+In Python, the data is loaded into a `DataFrame` object using the `pandas.read_csv(path)` utility function, which automatically takes care of column data type detection and conversion.
 In Java, the data is loaded manually into a list of maps `java.util.List<java.util.Map<String, ?>>`; map keys are strings, map values are Java primitive values (pre-parsed from the raw string value).
 
 For batch testing purposes it is necessary to draw new custom size datasets off the base dataset.

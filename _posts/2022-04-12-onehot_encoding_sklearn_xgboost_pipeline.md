@@ -9,7 +9,7 @@ Creating a Scikit-Learn pipeline that feeds categorical data into XGBoost estima
 
 On one hand, Scikit-Learn aims to be the simplest and most generic ML framework that can integrate reasonably well with any Python AI/ML library.
 This simplicity has been achieved via major trade-offs.
-For example, Scikit-Learn is currently not very comfortable dealing with rich data schemas.
+For example, Scikit-Learn is currently not very comfortable dealing with rich dataset schemas.
 The majority of its algorithms operate on dense numeric arrays.
 There are efforts being made towards retrofitting existing transformers to pass through missing and non-numeric values as-is, but the overall experience is still far from coherent and consistent.
 
@@ -48,7 +48,7 @@ When the Python Learning API layer passes data to the XGBoost API layer, then Py
 
 Typical data flow:
 
-```python
+``` python
 from xgboost import DMatrix
 
 import xgboost
@@ -129,7 +129,7 @@ The best reference is canonical OHE results stored in a dense array.
 
 For example, the predictions of an XGBoost estimator must come out identical (ie. numerically equivalent) when first applied to a custom-encoded sparse dataset, and then to its "densified" copy:
 
-```python
+``` python
 import numpy
 
 transformer = make_custom_sparse_transformer()
@@ -156,7 +156,7 @@ Optionally, `OneHotEncoder` could be configured to change the array data type to
 
 Suggested transformer:
 
-```python
+``` python
 from sklearn.preprocessing import OneHotEncoder
 
 def make_dense_legacy_transformer(cat_cols, cont_cols):
@@ -190,7 +190,7 @@ The resulting sparse matrix contains only `1`- and `NaN`-valued elements (and no
 
 **Another common mistake** is producing a dense `Xt` dataset, and then converting it to a sparse `dmat` dataset by specifying `missing = 0` either in the `xgboost.DMatrix` constructor or any of `XGBModel.fit(X, y)` methods:
 
-```python
+``` python
 transformer = make_dense_legacy_transformer()
 
 Xt = transformer.fit_transform(X)
@@ -209,7 +209,7 @@ The [`sklearn2pmml`](https://github.com/jpmml/sklearn2pmml) package provides a `
 
 Suggested transformer:
 
-```python
+``` python
 from sklearn2pmml.preprocessing import PMMLLabelBinarizer
 
 def make_sparse_legacy_transformer(cat_cols, cont_cols):
@@ -240,7 +240,7 @@ Doing things closer to the core opens up new and vastly superior capabilities su
 
 Typical data flow:
 
-```python
+``` python
 from xgboost import DMatrix
 
 df = pandas.read_csv(...)
@@ -248,7 +248,7 @@ df = pandas.read_csv(...)
 X = df[[feature_col1, feature_col2, .., feature_coln]]
 y = df[label_col]
 
-# Cast categorical columns into "category" data type
+# Cast categorical features into "category" data type
 for cat_col in cat_cols:
   X[cat_col] = X[cat_col].astype("category")
 

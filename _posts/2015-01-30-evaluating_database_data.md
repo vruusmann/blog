@@ -21,7 +21,7 @@ The exercise starts with installing and running the Openscoring web service at l
 
 Every deployed model should be verified by accessing its summary REST API endpoint. For example, the summary of the newly deployed `DecisionTreeIris` model can be downloaded as a JSON object by performing an HTTP GET request on [http://localhost:8080/openscoring/model/DecisionTreeIris](http://localhost:8080/openscoring/model/DecisionTreeIris).
 
-The `schema` attribute of this summary object contains the description of the data schema. The `activeFields` and `groupFields` attributes of the schema object represent model arguments, whereas the `targetFields` and `outputFields` attributes represent model results. It is easy to see that the `DecisionTreeIris` model expects four arguments "Sepal\_Length", "Sepal\_Width", "Petal\_Length" and "Petal\_Width", and produces six results "Species", "Predicted\_Species", "Probability\_setosa", "Probability\_versicolor", "Probability\_virginica" and "Node\_Id".
+The `schema` attribute of this summary object contains the description of the model schema. The `activeFields` and `groupFields` attributes of the schema object represent model arguments, whereas the `targetFields` and `outputFields` attributes represent model results. It is easy to see that the `DecisionTreeIris` model expects four arguments "Sepal\_Length", "Sepal\_Width", "Petal\_Length" and "Petal\_Width", and produces six results "Species", "Predicted\_Species", "Probability\_setosa", "Probability\_versicolor", "Probability\_virginica" and "Node\_Id".
 
 The external execution workflow contains three steps:
 

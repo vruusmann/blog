@@ -6,7 +6,7 @@ keywords: scikit-learn sklearn2pmml
 ---
 
 The centerpiece of ML pipelines is the model.
-Steps that precede the model are called "feature pre-processing" aka "feature engineering" steps. Steps that follow the model are called "prediction post-processing" aka "decision engineering" steps.
+Steps that precede the model are called "data pre-processing" aka "feature engineering" steps. Steps that follow the model are called "prediction post-processing" aka "decision engineering" steps.
 
 Overall, the feature engineering part is more appreciated and valued than the decision engineering part.
 Feature transformations allow the data to be (re)presented in more nuanced and relevant ways, thereby leading to better models.
@@ -35,7 +35,7 @@ The idea is to attach a number of child transformers to the parent pipeline, one
 A transformed predict method extends the pipeline towards a particular objective.
 Its output is a 2-D Numpy array, where the leftmost column(s) correspond to the primary result, and all the subsequent columns to secondary results:
 
-```python
+``` python
 import numpy
 
 def predict_transforme(X):
@@ -45,7 +45,7 @@ def predict_transforme(X):
 ```
 
 Child transformers cannot see the incoming `X` dataset.
-A data matrix may expand or contract during feature pre-processing in unforeseen ways, so it would be very difficult to match a specific feature column or condition during prediction post-processing.
+A data matrix may expand or contract during data pre-processing in unforeseen ways, so it would be very difficult to match a specific feature column or condition during prediction post-processing.
 If a business decision is a function of both model input and output, then it still needs to be coded manually.
 
 There is no limit to child transformer's complexity, except that it cannot encapsulate a full-blown model.
@@ -59,7 +59,7 @@ Such internal encodings should be unwound before reaching higher application lev
 
 Post-processing class labels:
 
-```python
+``` python
 from sklearn2pmml.decoration import Alias
 from sklearn2pmml.postprocessing import BusinessDecisionTransformer
 from sklearn2pmml.preprocessing import ExpressionTransformer
@@ -82,7 +82,7 @@ It articulates the business problem, and enumerates the full range of business d
 
 Post-processing probability distributions:
 
-```python
+``` python
 from sklearn2pmml.decoration import Alias
 from sklearn2pmml.postprocessing import BusinessDecisionTransformer
 from sklearn2pmml.preprocessing import CutTransformer, ExpressionTransformer
@@ -119,7 +119,7 @@ This does not pose any problems, because all the relevant `PMMLPipeline` attribu
 
 Post-processing leaf indices:
 
-```python
+``` python
 from sklearn2pmml import sklearn2pmml
 from sklearn2pmml.decoration import Alias
 from sklearn2pmml.preprocessing import LookupTransformer
@@ -149,7 +149,7 @@ sklearn2pmml(pipeline, "DecisionTreeAudit.pmml")
 
 The input to the `apply_transformer` is a column vector for decision tree models, and a 2-D Numpy array for decision tree ensemble models.
 
-Scikit-Learn framework identifies decision tree nodes by 1-based integer index, which can be encoded into PMML documents using the generic entity identifiers mechanism.
+Scikit-Learn identifies decision tree nodes by 1-based integer index, which can be encoded into PMML documents using the generic entity identifiers mechanism.
 
 By default, the `sklearn2pmml` package does not collect and encode node identifiers, because that would prevent it from compacting and flattening the tree data structure.
 The default behaviour is suppressed by deactivating `compact` and `flat` conversion options, and activating the `winner_id` conversion option. The `numeric` conversion option controls the encoding of categorical splits, and can toggled freely.

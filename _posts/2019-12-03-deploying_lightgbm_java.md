@@ -145,7 +145,7 @@ Evaluator evaluator = new ServiceLoadingModelEvaluatorBuilder()
   .build();
 ```
 
-Querying and displaying the data schema of the model:
+Querying and displaying the model schema:
 
 ``` java
 System.out.println("Input (aka feature) fields: " + evaluator.getInputFields());
